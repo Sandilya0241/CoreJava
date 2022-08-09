@@ -1,0 +1,71 @@
+LinkedHashMap
+==============================================================
+
+It is the child class of HashMap.
+It is exactly same as HashMap (including methods and constructors) except the following differences:
+
+
+HashMap											LinkedHashMap
+======================================|=================================================
+The underlying data structure is      |	The underlying data structure is combination of     
+Hashtable                             | Hashtable and LinkedList (Hybrid data structure).
+======================================|=================================================
+Insertion order is not preserved and  | Insertion order is preserved. 
+it is based on Hashcode of Keys       |
+======================================|=================================================
+Introduced in 1.2 version             | Introduced in 1.4 version             
+
+
+Program HashMap:
+====================================
+		package com.learnjava.collections;
+		
+		import java.util.HashMap;
+		
+		public class HashMapDemo1 {
+			public static void main(String[] args) {
+				HashMap m = new HashMap();
+				m.put("Chiranjeevi", 700);
+				m.put("Balaiah", 800);
+				m.put("Nagarjuna", 500);
+				m.put("Venkatesh", 200);
+				System.out.println(m);
+				
+			}
+		}
+
+O/P:
+======================================
+{Chiranjeevi=700, Balaiah=800, Venkatesh=200, Nagarjuna=500}
+
+In the above HashMap program, if we replace HashMap with LinkedHashMap then output is:
+
+
+Program :
+=======================================
+package com.learnjava.collections;
+
+import java.util.LinkedHashMap;
+
+public class HashMapDemo1 {
+	public static void main(String[] args) {
+		LinkedHashMap m = new LinkedHashMap();
+		m.put("Chiranjeevi", 700);
+		m.put("Balaiah", 800);
+		m.put("Nagarjuna", 500);
+		m.put("Venkatesh", 200);
+		System.out.println(m);
+		
+	}
+}
+
+O/P:
+=========================================
+{Chiranjeevi=700, Balaiah=800, Nagarjuna=500, Venkatesh=200}
+
+ie., insertion order is preserved.
+
+Note:
+-----------------------------------------------------------
+LinkedHashSet and LinkedHashMap are commonly used for developing Cache based applications.
+

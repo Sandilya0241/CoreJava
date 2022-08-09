@@ -1,0 +1,445 @@
+
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+																	STATIC CONTROL FLOW
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+
+
+Whenever we are executing a Java class, the following sequence of steps will be executed as the part of static control flow:
+
+	I.		Identification of static members from top to bottom. [1-6]
+	II.		Execution of static variable assignments and static blocks from top to bottom. [7-12]
+	III.	Execution of main method. [13-15]
+	
+	
+	Ex:	
+	
+		class Base {
+		                __________________________________     
+		 ______________|___                               |                                       @ 1 => i = 0 [RIWO]
+		|              |   |                              |                                   
+   1 <--|	static int | i | = 10;                        |===========> 7                         @ 6 => j = 0 [RIWO]
+		|______________|___|                              | 
+		               |__________________________________|                                       @ 7 => i = 10 [R & W]
+		 ___________                                           
+		|           |                                                                             @ 12 => j = 20 [R & W]
+   2 <--|	static  |
+		|___________|		
+			{	___________________________________________
+			   |                                           |
+			   | m1();                                     |==========> 8 
+			   |___________________________________________|
+			    ___________________________________________
+			   |                                           |
+			   | System.out.println("First Static Block"); |==========> 10
+			   |___________________________________________|
+			}
+		 ____________________________________________	
+		|	                                         |
+   3 <--|	public static void main(String[] args)   |
+		|____________________________________________|
+			{	___________________________________________
+			   |                                           |
+			   | m1();                                     |-=-=-=-=-=> 13 
+			   |___________________________________________|
+			    ___________________________________________
+			   |                                           |
+			   | System.out.println("Main Method");        |-=-=-=-=-=> 15
+			   |___________________________________________|
+ 			}
+         ____________________________
+        |                            |
+   4 <--|	public static void m1()  |
+   		|____________________________|
+   			{   ___________________________________________
+			   |                                           |
+			   | System.out.println(j);                    |-=-=-=-=-=> 9,14
+			   |___________________________________________|
+			}
+		 __________	
+		|	       |
+   5 <--|	static |
+        |__________| 
+			{   ___________________________________________
+			   |                                           |
+			   | System.out.println("Second Static Block");|==========> 11
+			   |___________________________________________|
+			}
+			            ___________________________________  
+		 ______________|_________	                       |
+		|	           |         |                         |  
+   6 <--|	static int | j = 20; |                         |==========> 12 
+		|______________|_________|                         |
+		               |___________________________________|
+		}
+		
+
+	Java program output:
+		0
+		First Static Block
+		Second Static BLock
+		20
+		Main Method
+		
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+										RIWO => Read Indirectly, Write Only
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Inside static block, if we are trying to read a variable, that read operation is called "Direct Read". 
+If we are calling a method from static block and within that method if we are trying to read a variable, that read operation is called "Indirect Read".
+
+Ex:
+	class Test {
+		static int i = 10;
+		static {
+			m1();
+			System.out.println(i);	==> Direct Read.
+		}
+		public static void m1() {
+			System.out.println(i);  ==> Indirect Read.
+		}
+	}
+	
+If a variable is just Identified by the JVM and original value not assigned yet, then the variable is said to be in "Read Indirectly Write Only" (RIWO) state. 
+If a variable is in "Read Indirectly Write Only" (RIWO) state, then we can't perform direct read. But we can perform Indirect read.
+If we trying to read directly, then we will get compile-time error saying 
+	CE : "Illegal forward reference"
+	
+
+	
+Examples:
+===================================================
+
+	Example 1:
+		package com.learnjava.oopsconcepts;
+
+		public class OOPSConceptsLesson12 {
+			static int i = 10;
+			static {
+				System.out.println(i);
+			}
+		}
+		
+		O/P:	10
+		        NoSuchMethodError : Main
+		        
+	Example 2:
+		package com.learnjava.oopsconcepts;
+
+		public class OOPSConceptsLesson13 {
+			
+			static {
+				System.out.println(i);
+			}
+			static int i = 10;
+		}
+		
+		CE : illegal forward reference
+		
+	Example 3:
+		package com.learnjava.oopsconcepts;
+
+		public class OOPSConceptsLesson14 {
+			
+			static {
+				m1();
+			}
+			public static void m1() {
+				System.out.println(i);
+			}
+			static int i = 10;
+		}
+		
+		O/P : 
+			0
+			NoSuchMethodError : Main
+			
+			
+			
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+																	STATIC BLOCK
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+
+Static blocks will be executed at the time of class loading. Hence, at the time of class loading, if we want perform any activity we have to define that inside "Static Block".
+
+
+
+1)	At the time of Java class loading, the corresponding native libraries should be loaded. Hence, we have to define this activity inside "Static Block".
+	EX:
+		class Test {
+			static {
+				System.loadLibrary("Native library path");
+			}
+		}
+		
+		Inside Java.Object class, there is a "Static Block" which registers Natives.
+		
+
+
+2)	After loading every Database driver class, we have to register "Driver Class" with "Driver Manager". But inside Database Driver class, there is a static block to perform this activity.
+	And we are not responsible to register explicitly.
+	
+	EX:
+		class DBDriver {
+			static {
+				"Register this driver with Driver Manager."
+			}
+		}
+
+Note: Within a class we can declare any number of "Static Blocks". But all these "Static Blocks" will be executed from top to bottom.
+
+Q.)	Without writing main method, is it possible to print some statements to the console?
+A.) Yes, by using "Static Block".
+
+	package com.learnjava.oopsconcepts;
+
+	public class OOPSConceptsLesson15 {
+		static {
+			System.out.println("Hello I can print ....");
+			System.exit(0);
+		}
+	}
+	
+Q.) Without writing main method and "Static Block", is it possible to print some statements to the console?
+A.) Yes, there are multiple ways.
+	
+	Example 1:
+	===============================================
+	class Test1 {
+		static int x = m1();
+		public static int m1() {
+			System.out.println("First way of printing without main method and Static Block");
+			System.exit(0);
+			return 10;
+		}
+	}
+	
+	Example 2:
+	===============================================
+	class Test2 {
+		static Test2 t = new Test2();
+		{
+			System.out.println("Second way of printing without main method and Static Block");
+			System.exit(0);
+		}
+	}
+	
+	Example 3:
+	===============================================
+	class Test3 {
+		static Test3 t = new Test3();
+		Test3()
+		{
+			System.out.println("Third way of printing without main method and Static Block");
+			System.exit(0);
+		}
+	}
+	
+	Note: From 1.7 Version onwards, main method is mandatory to start a program execution. 
+	Hence, from 1.7 version onwards, without writing main method, it is impossible to some statements to the console.
+	
+	
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+														STATIC CONTROL FLOW IN PARENT TO CHILD RELATIONSHIP
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+
+Whenever we are executing child class the following sequence of events will be executed automatically as the part of static control flow:
+	I.		Identification of Static members from Parent to Child. [1-11]
+	II.		Execution of static variable assignments and Static Blocks from Parent to Child. [12-22]
+	III.	Execution of only Child class Main method. [23-25]
+Ex:	
+	
+		class Base {
+		                ____________________________________________    
+		 ______________|___                                         |                                       @ 1 => i = 0 [RIWO]
+		|              |   |                              		    |                                   
+   1 <--|	static int | i | = 10;                        		    |===========> 12                        @ 5 => j = 0 [RIWO]
+		|______________|___|                                        | 
+		               |____________________________________________|                                       @ 6 => x = 0 [RIWO]
+		 ___________                                           
+		|           |                                                                                       @ 11 => y = 0 [RIWO]
+   2 <--|	static  |
+		|___________|		                                                                                @ 12 => i = 10 [R & W]
+			{	____________________________________________________
+			   |                                                    |                                       @ 16 => j = 20 [R & W]
+			   | m1();                                              |==========> 13                       
+			   |____________________________________________________|                                       @ 17 => x = 100 [R & W]
+			    ____________________________________________________
+			   |                                                    |                                       @ 22 => y = 200 [R & W]
+			   | System.out.println("Base Static Block");           |==========> 15
+			   |____________________________________________________|
+			}
+		 ____________________________________________	
+		|	                                         |
+   3 <--|	public static void main(String[] args)   |
+		|____________________________________________|
+			{	_____________________________________________________
+			   |                                                     |
+			   | m1();                                               | 
+			   |_____________________________________________________|
+			    _____________________________________________________
+			   |                                                     |
+			   | System.out.println("Base Main Method");             |
+			   |_____________________________________________________|
+ 			}
+         ____________________________
+        |                            |
+   4 <--|	public static void m1()  |
+   		|____________________________|
+   			{   _____________________________________________________
+			   |                                                     |
+			   | System.out.println(j);                              |==========> 14
+			   |_____________________________________________________|
+			}
+			            _____________________________________________  
+		 ______________|_________	                                 |
+		|	           |         |                                   |  
+   5 <--|	static int | j = 20; |                                   |==========> 16 
+		|______________|_________|                                   |
+		               |_____________________________________________|
+		}
+		
+
+		class Derived extends Base {
+		                _____________________________________________     
+		 ______________|___                               		     |                                        
+		|              |   |                                         |                                   
+   6 <--|	static int | x | = 100;                                  |===========> 17                         
+		|______________|___|                                         | 
+		               |_____________________________________________|                                        
+		 ___________                                           
+		|           |                                                                                         
+   7 <--|	static  |
+		|___________|		
+			{	_____________________________________________________
+			   |                                                     |
+			   | m2();                                               |==========> 18 
+			   |_____________________________________________________|
+			    _____________________________________________________
+			   |                                           	         |
+			   | System.out.println("Derived First Static Block");   |==========> 20
+			   |_____________________________________________________|
+			}
+		 ____________________________________________	
+		|	                                         |
+   8 <--|	public static void main(String[] args)   |
+		|____________________________________________|
+			{	_____________________________________________________
+			   |                                                     |
+			   | m1();                                               |-=-=-=-=-=> 23 
+			   |_____________________________________________________|
+			    _____________________________________________________
+			   |                                                     |
+			   | System.out.println("Derived Main Method");          |-=-=-=-=-=> 25
+			   |_____________________________________________________|
+ 			}
+         ____________________________
+        |                            |
+   9 <--|	public static void m2()  |
+   		|____________________________|
+   			{   _____________________________________________________
+			   |                                                     |
+			   | System.out.println(y);                              |-=-=-=-=-=> 19,24
+			   |_____________________________________________________|
+			}
+		 __________	
+		|	       |
+  10 <--|	static |
+        |__________| 
+			{   _____________________________________________________
+			   |                                                     |
+			   | System.out.println("Derived Second Static Block");  |==========> 21
+			   |_____________________________________________________|
+			}
+			            _____________________________________________  
+		 ______________|_________	                                 |
+		|	           |         |                                   |  
+  11 <--|	static int | y = 200;|                                   |==========> 22 
+		|______________|_________|                                   |
+		               |_____________________________________________|
+		}
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
+	Actual Program:
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		package com.learnjava.oopsconcepts;
+	
+		class Base {
+			static int i = 10;
+			static {
+				m1();
+				System.out.println("Base Static Block");
+			}
+			public static void main(String[] args) {
+				m1();
+				System.out.println("Base Main Method");
+			}
+			public static void m1() {
+				System.out.println(j);
+			}
+			static int j = 20;
+		}
+		
+		class Derived extends Base {
+			static int x = 100;
+			static {
+				m2();
+				System.out.println("Derived First Static Block");
+			}
+			public static void main(String[] args) {
+				m2();
+				System.out.println("Derived Main Method");
+			}
+			public static void m2() {
+				System.out.println(y);
+			}
+			static {
+				System.out.println("Derived Second Static Block");
+			}
+			static int y = 200;
+		}
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
+	Compilation:
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		javac -d . Base.java
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
+	Execution of Derived Class and it's output:
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		java com.learnjava.oopsconcepts.Derived
+		O/P:
+			0
+			Base Static Block
+			Derived First Static Block
+			Derived Second Static Block
+			200
+			Derived Main Method
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
+	Execution of Base Class and it's output:
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		java com.learnjava.oopsconcepts.Base
+		O/P:
+			0
+			Base Static Block
+			20
+			Base Main Method	
+			
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Notes:
+	Whenever we are loading Child class automatically Parent class will be loaded. But whenever we are loading Parent class, Child class won't be loaded.
+	Because, Parent class members are available to Child class by default, whereas Child class members won't be available to the Parent.

@@ -1,0 +1,171 @@
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+															HAS-A RELATIONSHIP
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+
+I.		Has-A relationship is also is known as Composition/ Aggregation.
+II.		There is no specific keyword to implement "Has-A" relation. But most of the times we are depending on "new" keyword.
+III.	The main advantage of "Has-A" relationship is re-usability of the code.
+
+Ex: 
+
+	class Engine {
+	
+	}
+	class Car {
+		Engine e = new Engine();
+	}
+	
+	___________________________________
+   |                              	   |
+   |	Car "Has-A" Engine reference.  |
+   |___________________________________|
+   
+Difference between Composition and Aggregation:
+===============================================
+
+
+Composition :
+======================
+Without existing Container object, if there is no chance of existing Contained objects, then Container and COntained objects are strongly associated. 
+And this strong association is nothing but Composition.
+
+University consists of several departments. Without existing university, there is chance of existing department. Hence, University and department are strongly associated.
+And this strong association is nothing but Composition.
+	___________________________________	
+   | __________      __________        |---------> Container Object
+   ||	       |    |          |       |
+   ||CSE DEPT. |    |MECH DEPT.|       |
+   ||__________|    |__________|       |
+   | __________      __________        |   
+   ||          |    |          |       |  
+   ||EEE DEPT. |    |ECE DEPT. |-------+----------> Contained Object 
+   ||__________|    |__________|       |
+   |___________________________________|
+			University   
+
+   
+Aggregation:
+=======================
+Without existing container object, if there is a chance of existing Contained object, then Contained and Container objects are weakly associated.
+And this weak association is nothing but Aggregation. 
+
+Department consists of several professors. Without existing department, there may be a chance of existing professor objects. 
+Hence, Department and Professor objects are weakly associated and this weak association is nothing but Aggregation.
+
+	_____________
+   |             |
+   |	P-1------+-----------------	Professor-1 Object (Container Object)
+   |	         |
+   |    P-2------+----------------- Professor-2 Object (Container Object)
+   |             |
+   |	...      | 
+   |             |
+   |	P-N------+----------------- Professor-N Object (Container Object)
+   |_____________|
+   	Department  |
+	            +------------------> Container Object
+
+
+In Composition, container object holds directly contained objects whereas in Aggregation, container object holds just references of contained objects.
+
+
+
+			
+Note:
+===========================
+I.		In Composition, Objects are strongly associated whereas in Aggregation, objects are weakly associated.
+
+
+
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+															IS-A Verses HAS-A RELATIONSHIP
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+
+IS-A relationship:
+=========================
+If we want total functionality of a class, automatically then we should go for IS-A relationship.
+class Person {
+
+}
+
+class Student extends Person{
+
+}
+
+HAS-A relationship:
+=========================
+If we want part of the functionality, then we should go for HAS-A relationship.
+
+class Test {
+	...
+	100 methods
+}
+
+class Demo {
+	Test t = new Test();
+	t.m1();
+	t.m7();
+}
+
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+															METHOD SIGNATURE
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+I.		In Java, method signature consists of "Method Names" followed by "Argument Types".
+			Ex:
+				public static int m1(int i, float f);	=> Method Signature [m1(int, float)]
+		
+II.		Return type is not part "Method signature" in Java.
+
+III.	Compiler will use "Method Signature" to resolve method calls.
+
+		
+		__class Test____
+	   |----------------|	
+	   |                |
+	   |	m1(int)     |
+	   |________________| 
+	   |                |
+	   |	m2(String)  |
+	   |________________|
+	   	Method Table
+	   	
+	class Test {
+		public void m1(int i) {
+		}
+		public void m2(String s) {
+		}  	 		
+	}
+	
+	class TestExec {
+		public static void main () {
+			Test t = new Test();
+			t.m1(10);
+			t.m2("Happy");
+			t.m3(10.5);		==> CE: Cannot find symbol. Symbol : method m3(double). Location: class Test.	
+		}
+	}
+	
+
+	
+Within a class, two methods with the same signature not allowed.
+	Ex:
+		class Test {
+			public void m1(int i) {
+			
+			}
+			public int m1(int x) {	==> CE: m1(int) is already defined in Test.
+				return 0;
+			}
+		}

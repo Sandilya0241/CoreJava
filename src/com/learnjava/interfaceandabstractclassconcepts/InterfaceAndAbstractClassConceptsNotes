@@ -1,0 +1,269 @@
+//InterfaceAndAbstractClassConceptsLesson01
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+												NEW Vs CONSTRUCTOR
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+The main objective of "new" operator is to create an object. 
+The main purpose of "constructor" is to initialize object.
+
+First object will be created by using "new" operator and then initialization will be performed by "constructor".
+
+Ex:
+	class Student {
+		String name;
+		int rollNum;
+		Student(String name, int rollNum) {
+			this.name = name;
+			this.rollNum = rollNum;
+		}
+	}
+	
+	public class Test{
+		public static void main(String[] args) {
+			Student s = new Student("Sandy", 101);
+		}                |    |
+	}                    |    | 
+                         |    |
+	           (Creation)|    |(Initialization)
+	      Responsible to |    | Responsible to initialize object
+	      create object  |    |  
+	                     |    | 
+	                     |    |
+	                     V    |
+	     |--------------------V----------|
+	s -->|name : null ==> name = "Sandy" |
+	     |rollNum : 0 ==> rollNum = 101  |
+	     |-------------------------------| 
+	     
+	     
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+												CHILD OBJECT Vs PARENT CONSTRUCTOR
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Whenever creating child class object, automatically parent constructor will be executed to perform initialization for the instance variables, which are inheriting 
+from parent.
+
+class Person {
+	String name;
+	int age;
+	Person (String name, int age) {
+		this.name = name;
+		this.age = age;
+	}
+}
+
+class Student extends Person {
+	int rollNum;
+	int marks;
+	
+	Student(String name, int age, int rollNum, int marks) {
+		Super(name, age);
+		this.rollNum = rollNum;
+		this.marks = marks;
+	}
+}
+
+class Test {
+	public static void main(String[] args) {
+		Student s = new Student("Sandy", 32, 101, 100);
+	}
+}
+
+
+       _________________
+s ===>| name : "Sandy"--|--|
+      |	                |  |===> this initialization performed by Parent constructor
+      | age : 48      --|--|
+      |                 |    
+      | rollNum : 101 --|--| 
+      |                 |  |===> this initialization performed by Child constructor.
+      | marks : 100   --|--|
+      |_________________|
+      
+      
+Note: 
+In the above program, both parent and child constructors executed for child object initialization only.
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Whenever we creating child class object parent constructor will be executed, but parent object won't be created.
+
+class P {
+	P() {
+		System.out.println(this.hashCode());
+	}
+}
+
+class C {
+	C() {
+		System.out.println(this.hashCode());
+	}
+}
+
+class Test {
+	public static void main(String[] args) {
+		C c = new C();
+		System.out.println(c.hashCode());
+	}
+}
+
+In the above example, we just created child class object, but both parent and child constructors executed for that created child class object.
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+												NEED OF ABSTRACT CLASS CONSTRUCTOR
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Anyway we cannot create object for Abstract class either directly or indirectly, but abstract class can contain constructor, what is the need?
+
+A.)	The main objective of abstract class constructor is to perform initialization for the instance variables which are being inherited from abstract class to 
+	child class. Whenever we are creating child class object, automatically abstract class constructor will be executed to perform initialization for the instance 
+	variables which are being inherited from abstract class (code re-usability).
+	
+	
+	Approach 1 (without abstract class constructor) :	More code redundancy
+	=================================================
+	
+	abstract class Person {
+		String name;
+		int age;
+		...
+		(100 properties)
+	}
+	
+	class Student extends Person {
+		int rollNo;
+		Student(String name, int age, ... 101 properties) {
+			this.name = name;
+			this.age = age;
+			... 100 properties
+			
+			this.rollNo = rollNo;
+		}
+		public static void main(String[] args) {
+			Student s = new Student(.... 101 properties);
+		}
+	}
+	
+	class Teacher extends Person {
+		String subject;
+		Teacher(String name, int age, ... 101 properties) {
+			this.name = name;
+			this.age = age;
+			... 100 properties
+			
+			this.subject = subject;
+		}
+		public static void main(String[] args) {
+			Teacher t = new Teacher(.... 101 properties);
+		}
+	}	
+	
+	
+	Approach 2 (with abstract class constructor) : Abstract class constructor will work for every child object initialization.
+	=================================================
+	
+	abstract class Person {
+		String name;
+		int age;
+		...
+		(100 properties)
+		Person(String name, int age... 100 properties) {
+			this.name = name;
+			this.age = age;
+			... 100 properties
+		}
+	}
+	
+	class Student extends Person {
+		int rollNo;
+		Student(String name, int age, ... 101 properties) {
+			Super(100 properties);			
+			this.rollNo = rollNo;
+		}
+		public static void main(String[] args) {
+			Student s = new Student(.... 101 properties);
+		}
+	}
+	
+	class Teacher extends Person {
+		String subject;
+		Teacher(String name, int age, ... 101 properties) {
+			Super(100 properties);
+			this.subject = subject;
+		}
+		public static void main(String[] args) {
+			Teacher t = new Teacher(.... 101 properties);
+		}
+	}
+	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Q.)	Anyway we can't create object for abstract class and interface, but abstract class can contain construct but interface doesn't?
+A.)	The main purpose of constructor is to perform initialization of an object i.e., to perform initialization for instance variables. Abstract class can contain
+	instance variables which are required for child class object. To perform initialization for these instance variables, constructor concept is required for
+	abstract classes.
+	
+	Every variable present inside interface is always "public static final" whether we are declaring explicitly or not. Hence, there is no chance of existing instance
+	variables inside Interface. Because of this, constructor concept not required for Interfaces
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
+
+InterfaceLesson01Cls.java
+===================================================================
+package com.learnjava.interfacelessons;
+
+abstract public class InterfaceLesson01Cls{
+	InterfaceLesson01Cls(){
+		System.out.println("ABSTRACT CLASS CONSTRUCTOR");
+	}
+}
+
+InterfaceLesson02Cls.java:
+===================================================================
+package com.learnjava.interfacelessons;
+import com.learnjava.interfacelessons.InterfaceLesson01Cls;
+public class InterfaceLesson02Cls extends InterfaceLesson01Cls{
+	public static void main(String[] args) {
+		InterfaceLesson02Cls obj = new InterfaceLesson02Cls();
+	}
+}
+
+O/P : ABSTRACT CLASS CONSTRUCTOR
+	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Which of the following are valid?
+
+I.		The purpose of constructor is to Create an object.																							[Invalid]
+II.		The purpose of constructor is to initialize an object but not to create object.                                                             [Valid]
+III.	Once constructor completes then only object creation completes.                                                                             [Invalid] 
+IV.		First object will be created and then constructor will be executed.                                                                         [Valid]
+V.		The purpose of new keyword is to create object and the purpose of constructor is to initialize that object.                                 [Valid]
+VI.		We can't create object for abstract class directly but indirectly we can create.                                                            [Invalid]
+VII.	Whenever we are creating child class object automatically parent class object will be created internally.                                   [Invalid]
+VIII.	Whenever we are creating child class object automatically abstract class constructor will be executed.                                      [Valid]
+IX.		Whenever we are creating child class object automatically parent class object will be created.                                              [Invalid]
+X.		Whenever we are creating child class object automatically parent constructor will be executed but parent object won't be created.           [Valid]
+XI.		Either directly or indirectly we can't create object for abstract class and hence constructor concept is not applicable for abstract class. [Invalid]
+XII.	Interface can contain constructor.                                                                                                          [Invalid]

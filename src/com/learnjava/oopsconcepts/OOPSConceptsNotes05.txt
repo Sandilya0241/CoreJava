@@ -1,0 +1,713 @@
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+															OVER RIDING
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+
+Whatever methods Parent has, by default available to the child, thru inheritance. If child class not satisfied with parent class implementation, then child is allowed to redefine that method based on it's requirement.
+This process is called Overriding.
+
+The parent class method which is Overridden is called Overridden method.
+The Child class method which is overriding is called Overriding method.
+
+Ex:	
+	class P {
+		public void property() {
+			System.out.println("Ca$h+land+Gold");
+		}
+		public void marriage() {			|------------> Overridden method
+			System.out.println("ABC");      |------
+		}                                   |     |
+	}                                             | 
+	class C extends P {                           |	Overriding
+		                                          |
+		public void marriage() {            |     | 
+			System.out.println("DEF");      |<-----
+		}                                   |-------------> Overriding method
+	}
+	
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+
+package com.learnjava.oopsconcepts;
+
+public class OOPSConceptsLesson03 {
+	public static void main(String[] args) {
+		Parent p = new Parent();
+		p.marriage();			==> Parent marriage method
+		
+		Child c = new Child();
+		c.marriage();   		==> Child marriage method
+		
+		Parent p1 = new Child();
+		p1.marriage();  		==> Child marriage method
+	}
+}
+
+class Parent {
+	
+	public void property() {
+		System.out.println("Gold + Cash + Land");
+	}
+	public void marriage() {
+		System.out.println("Parent marriage method");
+	}
+}
+
+class Child extends Parent {
+	
+	public void marriage() {
+		System.out.println("Child marriage method");
+	}
+}
+
+
+In Overriding, method resolution always takes care by JVM based on Run-time object and hence, Overriding is also considered as Runtime Polymorphism/ Dynamic Polymorphism/ Late Binding.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Rules for Overriding:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+I.		In Overriding method names and Argument types must be matched. I.e., Method signatures must be same.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+II.		In Overriding return types must be same but this rule is applicable until 1.4 version only. From 1.5 Version onwards, we can take Co-variant return types.
+		According to this child class method return type need not be same as parent method return type. It's child type also allowed.
+		
+		class P {
+
+			public Object m1() {			// This code is invalid way of Overriding implementation till 1.4 V
+				return null;				// But from 1.5 V onwards this is Valid.
+			}
+		}
+		
+		class C extends P {
+			public String m1() {
+				return null;
+			}
+		}
+								
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!								
+								
+III.	Co-variant return type concept is applicable only for Object types but not for Primitive types.								
+								
+								Valid				Valid               Invalid		   Invalid
+                                                |                 |               |	
+    	Parent class return }                   |                 |               |  
+		type                } : Object			|   Number        |  	String    |		double
+                                  A             |     A           |       |       |       A
+								  |             |     |           |       |       |       | 
+		Child class return  }     |             |     |           |       V       |       |
+		type                } : Object,         |   Number,       |     Object    |		 int
+								String,         |   Integer,      |               |
+								StringBuffer,   |   ...           |               |
+								...             |                 |               |
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+IV.		Parent class private methods not available to the Child and hence, Overriding concept not applicable for private methods. Based on our requirement we can define exactly same private method in child class. It is valid but not Overriding.
+
+		class P {                __________
+			private void m1() {			   |__________	  
+			}                    __________|          |
+		}                                             |
+		                                              |	It is valid but not Overriding.
+		class C extends P {      __________           |
+			private void m1() {            |__________|
+			}                    __________|
+		}
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+V.		We can't Override parent final methods in Child classes. If we are trying to Override, we will get Compile-time error.
+
+		Ex:	
+			class P {
+				public final void m1() {
+										//CE: m1() in C cannot override m1 in P. Overridden method is final.
+				}
+			}
+			
+			class C {
+				public void m1() {
+				 
+				}
+			}
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!			
+VI.			Parent class abstract methods we should override in child class to provide implementation.
+
+			Ex:	
+				abstract class P {
+					public abstract void m1();
+				}
+				class C extends P {
+					public void m1() {
+					
+					}
+				}
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+VII.		We can Override Non-abstract method as Abstract.
+
+			Ex:
+				package com.learnjava.oopsconcepts;
+				public class OOPSConceptsLesson04 {
+					public static void main(String[] args) {
+					}
+				}
+				class Parent1 {
+					public void m1() {
+					}
+				}				
+				abstract class Child1 extends Parent1 {
+					abstract public void m1();
+				}
+				
+				
+			The main advantage of this approach is that we can stop the availability of Parent method implementation to the next level child classes.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!			
+VIII.	In Overriding the following modifiers won't keep any restrictions:
+
+	I.		synchronized
+	II.		native
+	III.	strictfp
+	
+   	 _______________________________________________________________________________________________________________________________________________________________________	
+  	|               |           |         |         |             |             |                |                  |            |            |              |              |
+  	|Invalid/Valid  |  Invalid  | Invalid | Valid   | Valid       | Valid       | Valid          | Valid            | valid      | Valid      | Valid        | Valid        |
+  	|_______________|___________|_________|_________|_____________|_____________|________________|__________________|____________|____________|______________|______________|	
+  	|               | 	      	|         |         |             |             |                |                  |            |            |              |              |
+  	| Parent method |	final 	| final   |non-final| abstract    | non-abstract|synchronized    | non-synchronized | native     | non-native | strictfp     | non-strictfp |
+  	|_______________|___________|_________|_________|_____________|_____________|________________|__________________|____________|____________|______________|______________|               
+  	|               |           |         |         |             |             |                |                  |            |            |              |              |
+  	| Child method  | non-final | final   |final    | non-abstract| abstract    |non-synchronized| synchronized     | non-native | native     | non-strictfp | strictfp     |
+  	|_______________|___________|_________|_________|_____________|_____________|________________|__________________|____________|____________|______________|______________|
+  
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+IX.  While overriding, we can't reduce scope of access modifiers. But we can increase the scope.
+		
+		class Parent2 {	
+			public void m1() {
+			}
+		}
+		class Child2 extends Parent2{	
+			void m1() {	// CE : m1() in Child2 cannot override m1() in Parent2; attempting to assign weaker access privileges; Was public
+			}
+		}
+  
+  	 __________________________________________________________________________________________________________	
+  	|               | 	     |                  |                           |                                  |
+  	| Parent method | public | protected        | <default>                 | private                          |
+  	|_______________|________|__________________|___________________________|__________________________________|                
+  	|               |        |                  |                           |                                  |
+  	| Child method  | public | protected/public |<default>/protected/public | Overriding concept not applicable|  
+  	|_______________|________|__________________|___________________________|__________________________________|
+  
+	  
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+  
+X.	If child class method throws any checked exception compulsory parent class method should throw, the same checked exception or it's parent. Otherwise, we will get compile-time error. But there are no restrictions for unchecked exceptions.
+	import java.io.*;
+	class P {
+		public void m1() throws IOException {
+		}
+	}
+	class C extends P {
+		public void m1() throws EOFException, InterruptedException{	// CE: m1() in C cannot override m1() in P;
+		}                                                           // Overridden method does not throw java.lang.InterruptedException. 
+	}
+	
+	Examples:
+	
+	
+	class P3 {
+		public void m1() throws Exception {
+		}
+		
+		public void m2() {
+		}
+		
+		public void m3() throws Exception{
+		}
+		
+		public void m4() throws IOException{
+		}
+		
+		public void m5() throws IOException{
+		}
+		
+		public void m6() throws IOException{
+		}
+		
+		public void m7() throws IOException{
+		}
+	}
+	
+	class C3 extends P3{
+		public void m1() {
+		}
+		
+		public void m2() throws Exception {		// CE: m1() in C cannot override m1() in P; Overridden method does not throw java.lang.InterruptedException.
+		}	
+		
+		public void m3() throws IOException{
+		}
+		
+		public void m4() throws Exception{		// CE: m1() in C cannot override m1() in P; Overridden method does not throw java.lang.InterruptedException.
+		}
+		
+		public void m5() throws EOFException, FileNotFoundException{
+		}
+		
+		public void m6() throws EOFException,InterruptedException{	// CE: m1() in C cannot override m1() in P; Overridden method does not throw java.lang.InterruptedException.
+		}
+		
+		public void m7() throws NullPointerException,ArithmeticException,ClassCastException{
+		}
+	}
+	
+	Explanation:	Our overriding should not affect outside person.
+	
+	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+STATIC Rules for Overriding:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+I.		We can't override a static method as non-static. Otherwise, we will get compile-time error.
+
+		Ex:	
+			class Parent4 {
+				public static void m1() {
+				}
+			}			
+			class Child4 extends Parent4 {
+				public void m1() {			//CE: m1() in Child4 cannot override m1() in Parent4; Overridden method is static.					
+				}
+			}
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+II.		Similarly, we cannot override a non-static method as static.
+		Ex:	
+			class Parent4 {
+				public void m1() {
+				}
+			}			
+			class Child4 extends Parent4 {
+				public static void m1() {	 //CE: m1() in Child4 cannot override m1() in Parent4; Overriding method is static.					
+				}
+			}
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+III.	If both parent and child class methods are static, then we won't get any compile-time error. It seems, overriding concept applicable for static methods. 
+		But it is not overriding and it is method hiding.
+		Ex:	
+			class Parent4 {
+				public static void m1() {    |_________
+				}                            |         |  
+			}			                               |--------- It is method hiding but not overriding.
+			class Child4 extends Parent4 {             |
+				public static void m1() {	 |_________|					
+				}                            |
+			}
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+															METHOD HIDING VS OVERRIDING
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+All rules of method hiding are exactly same as overriding except the following differences:
+_______________________________________________________________
+	Method hiding	           |	Overriding
+_______________________________|_______________________________
+Both parent and child classes  | Both parent and child classes 
+should be static               | should be non-static
+-------------------------------|-------------------------------
+compiler is responsible for    | JVM is responsible for method
+method resolution based on     | resolution based on run-time
+reference type	               | object
+-------------------------------|-------------------------------
+Also known as                  | Also known as                  
+Compile-time polymorphism,     | Run-time polymorphism,     
+Static polymorphism,           | Dynamic polymorphism,           
+Early binding                  | Late binding                  
+
+
+		package com.learnjava.oopsconcepts;
+		
+		public class OOPSConceptsLesson06 {
+			public static void main(String[] args) {
+				Parent4 p = new Parent4();
+				p.m1();
+				
+				Child4 c = new Child4();
+				c.m1();
+				
+				Parent4 p1 = new Child4();
+				p1.m1();
+				
+				p.m2();
+				c.m2();
+				p1.m2();
+			}
+		}
+		
+		class Parent4 {
+			public void m1() {
+				System.out.println("Parent m1 method");
+			}
+			public static void m2() {
+				System.out.println("Parent m2 method");
+			}
+		}
+		
+		class Child4 extends Parent4 {
+			public void m1() {
+				System.out.println("Child m1 method");
+			}
+			public static void m2() {
+				System.out.println("Child m2 method");
+			}
+		}
+		
+		
+If both parent and child class methods are non-static, then it will become overriding
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+															OVERRIDING WITH VAR-ARG METHODS
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+We can Override Var-arg method with another Var-arg method only. If we are trying to Override with normal method, then it will become Overloading but not Overriding.
+	EX:	
+		package com.learnjava.oopsconcepts;
+
+		public class OOPSConceptsLesson07 {
+			public static void main(String[] args) {
+				Parent6 p = new Parent6();
+				p.m1(10);
+				Child6 c = new Child6();
+				c.m1(10);		
+				Parent6 p1 = new Child6();
+				p1.m1(10);
+			}
+		}	
+		class Parent6 {													
+			public void m1(int... i) {						 |________			
+				System.out.println("Parent method");         |        |
+			}                                                         |
+		}                                                             |-------> It is Overloading but not Overriding.
+		class Child6 extends Parent6{                                 |
+			public void m1(int i) {                          |________|
+				System.out.println("Child method");          |
+			}
+		}
+		
+		O/P:
+		Parent method
+		Child method
+		Parent method
+
+In the above program, if we replace child method with Var-arg method, then it will become Overriding. IN this case the output is:
+
+		package com.learnjava.oopsconcepts;
+
+		public class OOPSConceptsLesson07 {
+			public static void main(String[] args) {
+				Parent6 p = new Parent6();
+				p.m1(10);
+				Child6 c = new Child6();
+				c.m1(10);		
+				Parent6 p1 = new Child6();
+				p1.m1(10);
+			}
+		}	
+		class Parent6 {													
+			public void m1(int... i) {						 |________			
+				System.out.println("Parent method");         |        |
+			}                                                         |
+		}                                                             |-------> It is Overloading but not Overriding.
+		class Child6 extends Parent6{                                 |
+			public void m1(int... i) {                          |________|
+				System.out.println("Child method");          |
+			}
+		}
+		
+		O/P:
+		Parent method
+		Child method
+		Child method
+		
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+															OVERRIDING WITH RESPECT TO VARIABLES
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Variable resolution always takes care by compiler based on reference type irrespective of whether the variable is static or non-static (Overriding concept applicable only for methods but not for variable).
+
+
+Ex:	
+		package com.learnjava.oopsconcepts;
+		
+		public class OOPSConceptsLesson08 {
+		
+			public static void main(String[] args) {
+				Parent7 p = new Parent7();
+				Child7 c = new Child7();
+				Parent7 p1 = new Child7();
+				
+				System.out.println("NON-STATIC - NON-STATIC COMBINATION");
+				System.out.println(p.w);
+				System.out.println(c.w);
+				System.out.println(p1.w);
+				
+				System.out.println("STATIC - NON-STATIC COMBINATION");
+				System.out.println(p.x);
+				System.out.println(c.x);
+				System.out.println(p1.x);
+				
+				System.out.println("NON-STATIC - STATIC COMBINATION");
+				System.out.println(p.y);
+				System.out.println(c.y);
+				System.out.println(p1.y);
+				
+				System.out.println("STATIC - STATIC COMBINATION");
+				System.out.println(p.z);
+				System.out.println(c.z);
+				System.out.println(p1.z);
+			}
+		}
+		
+		class Parent7 {
+			int w = 888;
+			static int x = 888;
+			int y = 888;
+			static int z = 888;
+		}
+		class Child7 extends Parent7 {
+			int w = 999;
+			int x = 999;
+			static int y = 999;
+			static int z = 999;
+		}
+
+	
+	Output:
+		NON-STATIC - NON-STATIC COMBINATION
+		888
+		999
+		888
+		STATIC - NON-STATIC COMBINATION
+		888
+		999
+		888
+		NON-STATIC - STATIC COMBINATION
+		888
+		999
+		888
+		STATIC - STATIC COMBINATION
+		888
+		999
+		888
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+															DIFFERENCES BETWEEN OVERRIDING AND OVERRIDING
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+____________________________________________________________________________________________________________________________________________________________________________________________________
+                             |                                                                             |                                                                                        |
+	Property                 |				OVERLOADING													   |				OVERRIDING		                                                        |
+_____________________________|_____________________________________________________________________________|________________________________________________________________________________________| 
+                             |                                                                             |                                                                                        |     
+ method names				 |	Must be same.                                                              |	Must be same.  	                                                                    | 
+_____________________________|_____________________________________________________________________________|________________________________________________________________________________________|
+                             |                                                                             |                                                                                        |                                                            
+ argument types              |	Must be different (atleast order)                                          | 	Must be same (including order).                                                     |
+_____________________________|_____________________________________________________________________________|________________________________________________________________________________________|
+                             |                                                                             |                                                                                        |
+ method signatures           |	Must be different.                                                         |	Must be same.                                                                       |
+_____________________________|_____________________________________________________________________________|________________________________________________________________________________________|
+                             |                                                                             |                                                                                        |
+ Return types                |	No restrictions                                                            |	Must be same until 1.4 version. But from 1.5 version onwards Co-variant return types|
+ 							 |																			   |	are allowed.                                                                        |
+_____________________________|_____________________________________________________________________________|________________________________________________________________________________________|
+                             |                                                                             |                                                                                        |
+ private, static and final   |	can be overloaded                                                          |	cannot be overridden                                                                |
+ methods                     |                                                                             |                                                                                        |
+_____________________________|_____________________________________________________________________________|________________________________________________________________________________________| 
+                             |                                                                             |                                                                                        |
+ access modifiers            |	No restrictions															   |	We cannot reduce scope of access modifier but we can increase the scope.	        |
+_____________________________|_____________________________________________________________________________|________________________________________________________________________________________|
+                             |                                                                             |                                                                                        |
+ throws clause				 |	No restrictions															   |	If child class method throws any checked exception, compulsory parent class method  |
+                             |																			   |	should throw the same checked exception or it's parent. But no restrictions for     |
+                             |                                                                             |	unchecked exceptions                                                                | 
+_____________________________|_____________________________________________________________________________|________________________________________________________________________________________| 
+                             |                                                                             |                                                                                        | 
+ method resolution           |	Always takes care by compiler based on reference type                      |	Always takes care by JVM based on runtime object.                                   |
+_____________________________|_____________________________________________________________________________|________________________________________________________________________________________|
+                             |                                                                             |                                                                                        | 
+ It is also known as		 |	Compile-time polymorphism/ Static polymorphism/ Early binding			   |	Run-time polymorphism/ Dynamic polymorphism/ Late binding	                        |
+_____________________________|_____________________________________________________________________________|________________________________________________________________________________________|
+
+
+Conclusion:
+In Overloading we have to check only method names (must be same) and argument type (must be different). We are not required to check remaining like return type, access modifiers e.t.c.,
+But in Overriding, everything we have to check like method names, argument types, return types, access modifiers, throws clause e.t.c.,
+
+
+
+Q.)	Consider below method in Parent class:
+		public void m1(int x) throws IOException{
+			...
+		}
+		
+A.)	In the child class, which of the following methods we can take:
+		I.		public void m1(int i) {...}						==>	Valid by Overriding concept.
+		II.		public static void m1(long l) {...}				==>	Valid by Overloading concept.
+		III.	public static void m1(int i) {...}				==>	Invalid by Overriding concept.
+		IV.		public void m1(int i) throws Exception{...}		==>	Invalid by Overriding concept.
+		V.		public static abstract void m1(double d) {...}	==>	CE: illegal combination of modifiers.
+		
+		
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+															POLYMORPHISM
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
+One name but multiple forms is the concept of Polymorphism.
+	I.	Method name is the same but we can apply for different type of arguments (Overloading)
+			Ex: abs(int)
+				abs(float)
+				abs(float).
+	II.	Method signature is the same but in parent class one type of implementation and in .the child class another type of implementation(Overriding)
+			Ex: 
+				class P {
+					public void m1(){
+						System.out.println("Parent");
+					}
+				}
+				class C extends P {
+					public void m1(){
+						System.out.println("Child");
+					}
+				}
+	III. Usage of parent reference to hold child object is the concept of Polymorphism.
+		
+		Ex:		List l	= new ArrayList();
+						= new LinkedList();
+						= new Vector();
+						= new Stack();
+						 
+				Collection(I)
+				|
+				|
+				List(I)
+				|__________________________________ 
+				|               |                  |
+				ArrayList(C)    LinkedList(C)      Vector
+			                                       |
+			                                       Stack
+			                                       
+	Parent class reference can be used to hold Child object but by using that reference we can call only the methods available in Parent class. And we cannot call Child specific methods
+	
+				class P {
+					public void m1(){
+						System.out.println("Parent");
+					}
+				}
+				class C extends P {
+					public void m2(){
+						System.out.println("Child");
+					}
+				}
+				
+				class Test {
+					public static void main(String[] args) {
+						P p = new P();
+						p.m1();
+						p.m2();	//CE: Cannot find symbol; Symbol : method m2(); location: class P;
+					}
+				}
+	But by using Child reference, we can call Parent and Child class methods.
+				class Test {
+					public static void main(String[] args) {
+						C c = new C();
+						c.m1();
+						c.m2();	
+					}
+				}
+
+
+When we should go for Parent reference to hold Child Object?
+
+If we don't know the exact run-time type of Object, then we should go for Parent reference.
+	Ex:	The first element present in ArrayList can be any type. It may be Student object or Customer object or String object or StringBuffer object. Hence return type of get method is Object which can hold any object.
+	
+	Object o = l.get(0);
+	
+	________________________________________________________________________________________________________________________
+   |                                                    |                                                                   |   
+   |	C c = new C(); 									|	P p = new C();                                                  |
+   |	Ex: ArrayList AL = new ArrayList(); 			|	Ex: List L = new ArrayList();                                   |
+   |____________________________________________________|___________________________________________________________________|
+   |                                                    |                                                                   |
+   |  We can use this approach if we know exact run-time|  We can use this approach, if we don't know exact run-time type of|
+   |  type of Object.	                                |  Object.                                                          |
+   |____________________________________________________|___________________________________________________________________|
+   |                                                    |                                                                   |
+   |  By using Child reference, we can call both Parent |  By using Parent reference, we can call only methods available in |
+   |  and Child class methods (This is the advantage    |  Parent class and we can't call Child specific methods (This is   |
+   |  of this approach).                                |  the disadvantage of this approach).                              |
+   |____________________________________________________|___________________________________________________________________|
+   |                                                    |                                                                   |
+   |  We can use Child reference to hold only particular|  We can use Parent reference to hold any Child class object (This |
+   |  Child class object (This is the disadvantage of   |  is the advantage of this approach).                              | 
+   |  this approach).                                   |                                                                   |
+   |____________________________________________________|___________________________________________________________________|
+   
+   
+   
+   
+                                		                     ________________
+   															|                |
+   															| Encapsulation  |
+   															|________________|
+                                                            		|
+                                                            		|
+                                                        		Security
+                                                            		|
+                                                            		|
+                           ________________                 ________|_________                       _________________
+   						  |                |               |                  |                     |                 |
+   						  | Polymorphism   |--Flexibility--|		OOPS      |------Re-usability---| Inheritance     |
+   						  |________________|               |__________________|                     |_________________|
+   						  
+													Above are 3 pillars of OOPS
+
+											Polymorphism
+												|
+												|
+						________________________|_______________________
+					   |                                                |
+					   |                                                |
+				Static polymorphism/                            Dynamic polymorphism/
+				Compile-time polymorphism/                      Rumtime polymorphism/
+				Early binding                                   Late binding
+				       |                                                |
+				_______|_______                                         |
+			   |			   |		                           Overriding.
+           Overloading		Method hiding

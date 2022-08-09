@@ -1,0 +1,45 @@
+Comparable Vs Comparator:
+=====================================================================================================================================
+
+For predefined comparable classes, Default Natural Sorting Order is already available. If we are not satisfied with that Default Natural Sorting Order, then we can define our own sorting by using Comparator.
+
+For predefined Non-comparable classes (like StingBuffer), Default Natural Sorting Order not already available. We can define our own sorting by using Comparator.
+
+For our own classes like Employee, the person who is developing the class is responsible to define Default Natural Sorting Order by implementing Comparable interface.
+The person who is using our class, if he is not satisfied with Default Natural Sorting Order, then implementor can define one's own sorting by using Comparator.
+
+
+Predefined Comparable classes	Predefined Non-Comparable classes		Our own classes 
+	Ex:	String						Ex:	StringBuffer						Ex: Employee
+		|									|                                   |___________________________________
+		|                                   |                                   |                                   |
+		V                                   V                        The person who developed              The person who is using
+	Comparator                          Comparator                         Employee class                       Employee class
+	                                                                            |                                   | 
+	                                                                            |                                   V 
+	                                                                            V                               Comparator
+	                                                                         Comparable							Customized sorting
+	                                                                      Default Natural Sorting Order
+	                                                                      
+=====================================================================================
+=====================================================================================|
+								Conclusion                                			 |
+=======================================|=============================================|
+		Comparable                     |	Comparator								 |      
+=======================================|=============================================|
+ It is meant for Default Natural       | It is meant for Customized sorting order    |
+ Sorting Order                         |                                             |
+=======================================|=============================================|
+ Present in java.lang package          | Present in java.util package                |	                                                                      
+=======================================|=============================================|
+ It defines only one method:           | It defines 2 methods:                       | 
+ public int compareTo(Object obj1) 	   | public int compare(Object obj1, Object obj2)|
+                                       | public boolean equals(Object obj1)          |
+=======================================|=============================================|
+ String and All wrapper classes        | The only implemented classes of Comparator  |
+ implement Comparable Interface        | are :                                       |
+ 									   | Collator                                    | 
+ 									   | RuleBasedCollator                           |
+=======================================|=============================================|
+
+

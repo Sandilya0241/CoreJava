@@ -1,0 +1,47 @@
+LinkedList :
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+1. The underlying data structure is Double Linked List.
+2. Insertion order is preserved.
+3. Duplicate objects are allowed.
+4. Heterogeneous objects are allowed.
+5. Null insertion is possible.
+6. LinkedList implements Serializable, Cloneable Interfaces but not RandomAccess Interfaces.
+7. LinkedList is best choice if our frequent operation is Insertion/ Deletion in the middle.
+8. LinkedList is worst choice if our frequent operation is retrieval in the middle.
+
+Constructors:
+
+LinkedList ll = new LinkedList();
+
+Creates an empty LinkedList object.
+
+LinkedList ll = new LinkedList(Collection c);
+
+Creates an equivalent LinkedList object for the given Collection.
+
+LinkedList class specific methods:
+Usually we can use LinkedList to develop Stacks and Queues. To provide support for this requirement LinkedList class defines, the following specific methods:
+
+		void addFirst (Object o);
+		void addLast (Object o);
+		Object getFirst ();
+		Object getLast ();
+		Object removeFirst ();
+		Object removeLast ();
+		
+		
+Differences between ArrayList and LinkedList
+
+ArrayList                                                                                                 |LinkedList
+==========================================================================================================================================================================================================================
+1. ArrayList is the best choice if our frequent operation is retrieval operation                          |1. LinkedList is the best choice if our frequent operation is insertion/ deletion in the middle
+2. ArrayList is the worst choice if our frequent operation is insertion/ deletion in the middle. Because  |2. LinkedList is the worst choice if our frequent operation is retrieval operation
+   internally several shift operations are performed                                                      |  
+3. In ArrayList, elements will be stored in consecutive memory locations and hence retrieval operation    |3. In LinkedList, elements will not be stored in consecutive memory locations and hence retrieval operation
+   becomes easy.                                                                                          |   becomes complex.
+   
+   
+
+   
+   

@@ -1,0 +1,100 @@
+Tree Map:
+==========================================================================
+The underlying datastructure RED-BLACK tree.
+Insertion order is not preserved and it is based on some sorting order of Keys.
+Duplicate Keys are not allowed, but Values can be duplicated.
+If we are depending on DEFAULT NATURAL SORTING ORDER, then Keys should be Homogeneous and Comparable. Otherwise, we will get runtime exception saying ClassCastException.
+If we are defining our own sorting by Comparator, then Keys need not Homogeneous and Comparable. We can use Heterogeneous and Non-comparable objects.
+When we are depending on DEFAULT NATURAL SORTING ORDER or Customized sorting order, there aren't any restrictions for Values. We can use Heterogeneous and Non-comparable objects.
+
+Null Acceptance:
+==========================================================================
+1. For non-empty TreeMap, if we are trying to insert an Entry with null Key, then we will get runtime exception saying "NullPointerException".
+2. For empty TreeMap, as the first Entry with null key is allowed. But after inserting the Entry, if we are trying to insert any other Entry, then we will get runtime exception saying "NullPointerException"
+
+Note: The above null acceptance rule applicable until 1.6 v only. From 1.7v onwards, null is not allowed for Key. But for values, we can use null any number of times. 
+	There is no restriction whether it is 1.6v or 1.7v.
+	
+Constructors:
+===========================================================================
+		TreeMap tm = new TreeMap();
+		For Default Natural Sorting Order.
+		
+		TreeMap ts = new TreeMap (Comparator c);
+		For Customized Sorting Order.
+		
+		TreeMap ts = new TreeMap (Map m	);
+		TreeMap ts = new TreeMap (SortedMap s);
+
+		
+		
+TreeMap demo program for Default Natural Sorting Order:
+============================================================================
+		package com.learnjava.collections;
+		
+		import java.util.TreeMap;
+		
+		public class TreeMapDemo {
+			public static void main(String[] args) {
+				TreeMap t = new TreeMap();
+				t.put(100, "ZZZ");
+				t.put(103, "YYY");
+				t.put(101, "XXX");
+				t.put(104, 106);
+		//		t.put("FFFF", "XXX");	// Line A
+				t.put(null, "XXX");		// Line B
+				System.out.println(t);
+			}
+		}
+		
+		/*	Output
+		 * 	{100=ZZZ, 101=XXX, 103=YYY, 104=106}
+		 * 	
+		 * 
+		 * 	But if Line A is uncommented, output is
+		 *  Exception in thread "main" java.lang.ClassCastException: class java.lang.Integer cannot be cast to class java.lang.String (java.lang.Integer and java.lang.String are in module java.base of loader 'bootstrap')
+		        at java.base/java.lang.String.compareTo(String.java:134)
+		        at java.base/java.util.TreeMap.put(TreeMap.java:566)
+		        at com.learnjava.collections.TreeMapDemo.main(TreeMapDemo.java:12)
+		 *
+		 *
+		 *	But if Line B is uncommented, output is
+		 *	Exception in thread "main" java.lang.NullPointerException
+		        at java.base/java.util.TreeMap.put(TreeMap.java:561)
+		        at com.learnjava.collections.TreeMapDemo.main(TreeMapDemo.java:13)	
+		 */
+		 
+		 
+TreeMap demo program for Customized Sorting Order:
+============================================================================
+
+		package com.learnjava.collections;
+		
+		import java.util.Comparator;
+		import java.util.TreeMap;
+		
+		public class TreeMapDemo2 {
+			public static void main(String[] args) {
+				TreeMap t = new TreeMap(new MyComparator8());
+				t.put("ZZZ", 10);
+				t.put("AAA", 20);
+				t.put("XXX", 30);
+				t.put("LLL", 40);
+				System.out.println(t);
+			}
+		}
+		
+		class MyComparator8 implements Comparator {
+			public int compare(Object o1, Object o2) {
+				String s1 = o1.toString();
+				String s2 = o2.toString();
+				return s2.compareTo(s1);
+			}
+		}
+		
+		
+		/*	Output
+		 * 	{ZZZ=10, XXX=30, LLL=40, AAA=20}
+		
+		 */
+		

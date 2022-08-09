@@ -1,0 +1,52 @@
+HashMap
+==============================================================
+
+The underlying data structure is Hash table.
+Insertion order is not preserved and it is based Hashcode of keys.
+Duplicate keys are not allowed but values can be duplicated.
+Heterogeneous objects are allowed for both Key and Value. 
+Null is allowed for Key(only once).
+Null is allowed for values (any number of times).
+HashMap implements Serializable and Cloneable interfaces but not RandomAccess interface.
+HashMap is the best choice, if our frequent operation is Search.
+
+
+
+HashMap m = new HashMap();
+Creates an empty HashMap object, with default initial capacity 16 and default fill ratio 0.75.
+
+HashMap m = new HaspMap(int initial_capacity);
+Creates an empty HashMap object, with specified initial capacity and default fill ratio(0.75)
+
+HaspMap m = new HashMap(int initial_capacity, float fill_ration);
+
+HaspMap m = new HashMap(Map m);
+
+=================================================================================================================
+						Differences between HashMap and HashTable
+			HashMap                                                HashTable                             												
+===========================================================|=====================================================
+Every method present in HashMap is Non-synchronized        | Every method present in HashTable is Synchronized 
+===========================================================|=====================================================
+At a time, multiple threads are allowed to operate on      | At a time, only one thread is allowed to operate on
+HashMap object. So, it is not Thread safe                  | HashTable object. So, it is Thread safe.
+===========================================================|=====================================================
+Relatively performance is High because threads are not     | Relatively performance is Low because threads are 
+required to wait to operate on HashMap object              | required to wait to operate on HashTable object
+===========================================================|=====================================================
+Null is allowed for both Key and Value.                    | Null is not allowed for Keys and Values. Otherwise
+                                                           | we will get NullPointerExeception.
+===========================================================|=====================================================
+Introduced in 1.2 V and it is not Legacy                   | Introduced in 1.0 V and it is Legacy
+===========================================================|=====================================================
+
+
+How to get Synchronized version of HashMap object?
+By default HashMap is Non-synchronized. But we can get Synchronized version of HashMap, by using SynchronizedMap() method of Collections class.
+
+	HashMap m = new HashMap();
+	Map m1 = Collections.SynchronizedMap(m);
+	    |                                |
+	    V                                V
+	Synchronized Version            Non-synchronized Version 
+	HashMap                         HashMap      

@@ -1,0 +1,420 @@
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+																			throw and throws
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+																			throw
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
+
+
+
+            _            _  
+   +-------|_|  ------  |_|---------+
+ __|_     Exception                _|__ 
+|    |    object                  |    |
+|____|                            |____|
+Programmer                        JVM   
+                                    
+
+
+Sometimes we can create exception object explicitly we can hand-over to the JVM manually. For this we have to use, throw keyword.
+		
+													_______________________________________________________________
+												   |                                                               |	 
+                                                   |		throw    new ArithmeticException ("/ by zero");        |
+                                                   |       |_____|   |____________________________________|        |
+                                                   |__________|____________________|_______________________________|
+                                                              |                    |
+                                                              |                    |
+                                                 Hand-over our created             |
+                                                 exception object to the          Creation of ArithmeticException
+                                                 JVM manually                     object explicitly
+    
+    Hence the main objective of "throw" keyword is to hand-over our created exception object to JVM manually.
+    Ex:
+    			Implicit calling:                                						|           Explicit calling:
+    	======================================================== 						|	=========================================================
+    	package com.learnjava.exceptionlessons;                  						|   package com.learnjava.exceptionlessons;
+		public class ExceptionClass105 {						 						|	public class ExceptionClass105 {
+			public static void main(String[] args) {                                    |   	public static void main(String[] args) {	
+				m1();											                        |			m1();
+			}                                                                           |       }
+			public static void m1() {                                                   |       public static void m1() {
+				System.out.println(10/0);						                        |			throw new ArithmeticException("/ by zero");
+			}                                                                           |   	}
+		}                                                        						|   } 
+		                                                                                |
+		CE:                                                                             |    	CE:   
+		Exception in thread "main" java.lang.ArithmeticException: / by zero             |    	Exception in thread "main" java.lang.ArithmeticException: / by zero                 
+	at com.learnjava.exceptionlessons.ExceptionClass105.m1(ExceptionClass105.java:8)	|	at com.learnjava.exceptionlessons.ExceptionClass105.m1(ExceptionClass105.java:8)
+	at com.learnjava.exceptionlessons.ExceptionClass105.main(ExceptionClass105.java:5)	|	at com.learnjava.exceptionlessons.ExceptionClass105.main(ExceptionClass105.java:5)
+	                                                                                    |  
+	------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------                                     
+	In this case, main method is responsible to create exception object and hand-over   | 	In this case, programmer creating exception object explicitly and hand-over to JVM
+	to the JVM                                                                          |	manually
+	
+
+
+Note:	
+	Best use of throw keyword is for user-defined exceptions or customized exceptions.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+																					Case 1:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	"throw e", if "e" refers null, then we will get NullPointerException.
+	
+
+Ex:
+    			Implicit calling:                                						|           Explicit calling:
+    	======================================================== 						|	=========================================================
+    	package com.learnjava.exceptionlessons;                  						|   package com.learnjava.exceptionlessons;
+		public class ExceptionClass105 {						 						|	public class ExceptionClass105 {
+			static ArithmeticException e = new ArithmeticException();                   |		static ArithmeticException e;
+		 	public static void main(String[] args) {                                    |   	public static void main(String[] args) {	
+				throw e;											                    |			throw e;
+			}                                                                           |       }
+		}                                                        						|   } 
+		                                                                                |
+		RE:	ArithmeticException                                                         |    	RE:   NullPointerException
+		
+	
+	
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+																					Case 2:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+After throw statement, we are not allowed to write any statement directly. Otherwise, we will get compile-time error saying
+			"Unreachable statement"
+			
+Ex:
+    			Implicit calling:                                						|           Explicit calling:
+    	======================================================== 						|	=========================================================
+    	package com.learnjava.exceptionlessons;                  						|   package com.learnjava.exceptionlessons;
+		public class ExceptionClass105 {						 						|	public class ExceptionClass105 {
+			public static void main(String[] args) {                                    |   	public static void main(String[] args) {	
+				System.out.println(10/0);											    |			throw new ArithmeticException('/ by zero');
+				System.out.println("Hello");                                            |           System.out.println("Hello");
+			}                                                                           |       }			| |
+		}                                                        						|   }               | |
+		                                                                                |                    V
+		RE:	ArithmeticException                                                         |    	RE:   Unreachable statement
+		
+
+		
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+																					Case 3:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We can use throw keyword only for "Throwable" type. If we are trying to use for normal java objects, we will get compile-time error, saying:
+	"incompatible type
+	found : ABC
+	required : java.lang.Throwable"
+	
+Ex:
+    			Implicit calling:                                								|           Explicit calling:
+    	======================================================== 								|	=========================================================
+    	package com.learnjava.exceptionlessons;                  								|   package com.learnjava.exceptionlessons;
+		public class ExceptionClass107 extends RuntimeException{								|	public class ExceptionClass108 {
+			public static void main(String[] args) {                                    		|   	public static void main(String[] args) {	
+				throw new ExceptionClass107();													|			throw new ExceptionClass108();
+			}                                                                           		|       }			
+		}                                                        								|   }               
+																								|                    
+		RE:	Exception in thread "main" com.learnjava.exceptionlessons.ExceptionClass107        	|    	CE:   ExceptionClass108.java:5: error: incompatible types: ExceptionClass108 cannot be converted to Throwable
+			at com.learnjava.exceptionlessons.ExceptionClass107.main(ExceptionClass107.java:5)	|				throw new ExceptionClass108();
+	
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+																			throws
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
+
+In our program, if there is a possibility of occurring checked exception, then compulsory we should handle that checked exception. Otherwise, we will get compile-time error saying:
+		"unreported exception xxx; must be caught or declared to be thrown"
+
+Ex:1		
+package com.learnjava.exceptionlessons;
+import java.io.*;
+public class ExceptionClass101 {
+	public static void main(String[] args) {
+		PrintWriter pw = new PrintWriter("abc.txt");
+		pw.println("Hello");
+	}
+}
+
+CE:	unreported exception java.io.FileNotFoundException; must be caught or declared to be thrown
+
+Ex:2
+package com.learnjava.exceptionlessons;
+
+public class ExceptionClass109 {
+	public static void main(String[] args) {
+		Thread.sleep(10000);
+	}
+}
+ExceptionClass109.java:5: error: unreported exception InterruptedException; must be caught or declared to be thrown
+                Thread.sleep(10000);
+                
+                
+We can handle this compile-time error by using below mentioned ways:
+1.)	by using try-catch
+	
+public class ExceptionClass109 {
+	public static void main(String[] args) {
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException ie) {
+			
+		}
+}
+		
+2.) by using throws keyword:
+===================================
+	we can use throws keyword, to delegate responsibility of exception handling to the caller(it may be another method or JVM) then caller method is responsible to handle that exception.
+
+	Ex:
+	public class ExceptionClass109 {
+		public static void main(String[] args) throws InterruptedException{
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException ie) {
+				
+			}
+	}
+	
+Note:
+	throws keyword required only for checked exceptions and usage of throws keyword for unchecked exceptions is of no use or will not have any impact.
+	throws keyword required to convince compiler and usage of throws keyword doesn't prevent abnormal termination of the program.
+	
+	
+	package com.learnjava.exceptionlessons;
+
+	public class ExceptionClass110 {
+		public static void main(String[] args)  throws InterruptedException{
+			doStuff();                          |__________________________|------ ExceptionClass110.java:5: error: unreported exception InterruptedException; must be caught or declared to be thrown
+		}                                                                          doStuff();   
+		public static void doStuff()  throws InterruptedException{
+			doMoreStuff();            |__________________________|----------- ExceptionClass110.java:8: error: unreported exception InterruptedException; must be caught or declared to be thrown
+		}                                                                     doMoreStuff(); 
+		public static void doMoreStuff() throws InterruptedException{
+			Thread.sleep(10000);         |__________________________|  
+		}                                             |
+	}                                                 +----------------------- ExceptionClass110.java:11: error: unreported exception InterruptedException; must be caught or declared to be thrown
+	                                                                           Thread.sleep(10000); 
+	                                                                           
+
+	In the above program, if we remove atleast one throws statement, then the code won't compile.
+	
+	
+	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+																			throws
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
+
+
+	_____________			|--------We can use to delegate responsibility of exception handling to the caller (It may be a method or JVM)
+	| 			|           |
+	|	throws	|-----------|--------It is required only for checked exceptions and usage of throws keyword for unchecked exceptions is not having any impact
+	|	keyword	|			|
+	|___________|			|--------It is only to convince compiler and usage of throws doesn't prevent abnormal termination of program
+	
+	
+
+Note:
+	It is recommended to use try-catch over throws keyword.
+	
+	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+															Case 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	
+We can use throws keyword for methods and constructors but not for classes.
+
+class Test throws Exception		// Invalid 
+{
+	Test() throws Exception		// Valid
+	{
+	}
+	public void m1() throws Exception	// Valid 
+	{
+	}
+}
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+															Case 2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+
+We can use throws keyword only for Throwable types. If we are trying to use for normal Java classes, then we will get compile-time error saying
+	"incompatible type
+	found : Test
+	required : java.lang.Throwable"
+
+class Test {
+	public void m1() throws Test {
+	}
+}
+
+CE : "incompatible type
+	found : Test
+	required : java.lang.Throwable"
+ 
+
+class Test {
+	public void m1() throws Test {
+	}
+}
+
+//Valid
+	
+	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+															Case 3
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+					Checked													|				Unchecked	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+package com.learnjava.exceptionlessons;										|	package com.learnjava.exceptionlessons;
+public class ExceptionClass112 {                                            |	public class ExceptionClass113 {
+	public static void main(String[] args) {                                |		public static void main(String[] args) {
+		throw new Exception();                                              |			throw new Error();
+	}                                                                       |		}
+}                                                                           |	}
+																			|
+ExceptionClass112.java:5: error: unreported exception Exception;            |	Exception in thread "main" java.lang.Error
+							must be caught or declared to be thrown         |        at com.learnjava.exceptionlessons.ExceptionClass113.main(ExceptionClass113.java:5)
+							throw new Exception();                          |
+																			|
+																			
+
+																			
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+															Case 3
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+Within the try block, if there is no chance of raising an exception, then we can't write catch block for that exception. 
+Otherwise, we will get compile-time error saying
+	"Exception xyz is never thrown in body of corresponding try statement"
+	
+But this rule is applicable only for "Fully checked exceptions".
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ExceptionClass114.java:	*****Unchecked exception*****
+========================================================
+
+package com.learnjava.exceptionlessons;
+public class ExceptionClass114 {
+	public static void main(String[] args) {
+		try {
+			System.out.println("Hello");
+		} catch (ArithmeticException e) {
+		}
+	}
+}
+
+Compiling and O/P:
+========================================================
+javac -d . ExceptionClass114.java
+java com.learnjava.exceptionlessons.ExceptionClass114
+	Hello
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ExceptionClass115.java: *****Partially checked exception*****
+========================================================
+
+package com.learnjava.exceptionlessons;
+public class ExceptionClass115 {
+	public static void main(String[] args) {
+		try {
+			System.out.println("Hello");
+		} catch (Exception e) {
+		}
+	}
+}
+
+Compiling and O/P:
+========================================================
+javac -d . ExceptionClass115.java
+java com.learnjava.exceptionlessons.ExceptionClass115
+	Hello
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ExceptionClass116.java: *****Fully checked exception*****
+========================================================
+package com.learnjava.exceptionlessons;
+public class ExceptionClass116 {
+	public static void main(String[] args) {
+		try {
+			System.out.println("Hello");
+		} catch (java.io.IOException e) {
+		}
+	}
+}
+
+Compiling and O/P:
+========================================================
+javac -d . ExceptionClass116.java
+ExceptionClass116.java:6: error: exception IOException is never thrown in body of corresponding try statement
+                } catch (java.io.IOException e) {
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ExceptionClass117.java: *****Fully checked exception*****
+========================================================
+package com.learnjava.exceptionlessons;
+public class ExceptionClass117 {
+	public static void main(String[] args) {
+		try {
+			System.out.println("Hello");
+		} catch (InterruptedException e) {
+		}
+	}
+}
+
+Compiling and O/P:
+========================================================
+ExceptionClass117.java:6: error: exception InterruptedException is never thrown in body of corresponding try statement
+                } catch (InterruptedException e) {
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ExceptionClass118.java: *****Unchecked exception*****
+========================================================
+package com.learnjava.exceptionlessons;
+public class ExceptionClass118 {
+	public static void main(String[] args) {
+		try {
+				System.out.println("Hello");
+		} catch (Error e) {
+		}
+	}
+}
+
+Compiling and O/P:
+========================================================
+javac -d . ExceptionClass118.java
+java com.learnjava.exceptionlessons.ExceptionClass118
+	Hello
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

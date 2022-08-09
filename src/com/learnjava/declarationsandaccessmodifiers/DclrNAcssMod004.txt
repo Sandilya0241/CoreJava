@@ -1,0 +1,325 @@
+
+Whenever we are writing our own classes, we have to provide some information about our class to the JVM like
+1. Whether this class can be accessible from anywhere or not.
+2. Whether object creation is possible or not.
+3. Whether child class creation is possible or not.
+
+We can specify this information by using appropriate modifier.
+
+The only applicable modifiers for top level classes are :
+
+1. public
+2. <default>
+3. final
+4. abstract
+5. strictfp
+
+But for inner classes applicable modifiers are :
+
+1. public
+2. <default>
+3. final
+4. abstract
+5. strictfp
+6. private
+7. protected
+8. static
+
+
+Access Specifiers Vs Access Modifiers:
+=========================================
+
+Public, Private, Protected and Default are considered as Specifiers. Except these remaining are considered as Modifiers. But, this stands good with old languages like C++ but not with JAVA.
+
+In JAVA, all are considered as Modifiers only. There is nothing like Access Specifiers in JAVA.
+
+
+Public Classes:
+============================================
+
+If a class declared as public, then we can access that class from anywhere.
+
+Ex: 
+
+classA.java
+-------------------
+
+package com.learnjava.declarationsandaccessmodifiers.pack1;
+class classA {
+//public class classA {
+	public void m1() {
+		System.out.println("Hello Caller");
+	}
+}
+
+classB.java
+-------------------
+package com.learnjava.declarationsandaccessmodifiers.pack2;
+
+import com.learnjava.declarationsandaccessmodifiers.pack1.classA;
+
+public class classB {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		classA a = new classA();
+		a.m1();
+	}
+
+}
+
+above program errors out as the class 'classA' is not public not able to access in 'classB'
+
+Default classes
+===================================================
+If a class declared as 'default', then we can access that class only within the current package i.e., from outside package, we can't access. 
+Hence, default access is also known as Package level access.
+
+
+Final Modifier
+===================================================
+
+Final is the modifier applicable for Classes, Methods and Variables.
+
+Final method:
+======================
+
+Whatever methods Parent has are available to the by default through Inheritance. If the child, not satisfied with Parent method implementation, then child is allowed to redefine that method 
+based on its requirement. This process is called Overriding.
+
+If the parent class method is declared as 'final' then we can't Override that method in the child class because it's implementation is 'final'.
+Ex:
+
+package com.learnjava.declarationsandaccessmodifiers;
+
+public class DclrNAcssMod005 {
+	public class classParent {
+		public void property () {
+			System.out.println("Ca$h+Gold+Land");
+		}
+		public final void marriage () {
+			System.out.println("ABC");
+		}
+	}
+	
+	public class classChild extends classParent{
+		
+		public void marriage () { //Cannot override the final method from DclrNAcssMod005.classParent
+			System.out.println("KAREENA");
+		}
+	}
+}
+
+
+If a class declared as final, we can't extend functionality of that class i.e., we can't create child class for that class i.e., 
+
+Inheritance is not possible for final classes.
+
+Note: 
+
+Every method present inside final class is always final by default. But, every variable present inside final class need not be final.
+
+The main advantage of final key word is we can achieve security and we can provide unique implementation. 
+But, the main disadvantage of final key word is we are missing key benefits of OOPS.
+	: Inheritance (final classes)
+	: Polymorphism (final methods).
+	
+Hence if there is no specific requirement then, it is not recommended to use final keyword.
+
+
+
+
+abstract modifier
+=========================================================
+Abstract is the modifier appllicable for classes and methods but not for variables
+
+Abstract method:
+=======================
+Even though we don't know about the implementation still we can declare a method with abstract modifier i.e., for abstract methods only declaration is available but not implementation. 
+Hence, abstract method declaration should end with ';'.
+
+ex: public abstract void m1(); ==> correct
+    public abstract void m1{} ==> incorrect
+    
+    child class is responsible to provide implementation for parent class abstract methods
+    
+    
+ex:
+package com.learnjava.declarationsandaccessmodifiers;
+
+abstract class DclrNAcssMod006 {
+	public abstract int getNoOfWheels();
+}
+package com.learnjava.declarationsandaccessmodifiers;
+
+public class DclrNAcssMod007 extends DclrNAcssMod006{
+
+	@Override
+	public int getNoOfWheels() {
+		// TODO Auto-generated method stub
+		return 7;
+	}
+
+}
+
+By declaring abstract method in the parent class, we can provide guidelines to the child classes, such that which methods are to be implemented by child class compulsorily.
+
+Abstract method never talks about implementation. If any modifier talks about implementation, then it forms illegal combination with abstract modifier.
+The following are various illegal combination of modifiers for methods with respect to abstract.
+
+abstract --- final
+         |-- native
+         |-- synchronized
+         |-- static
+         |-- private
+         |-- strictfp
+         
+ex: abstract final void getMyName();
+    //The abstract method getMyName in type DclrNAcssMod007 can only be defined by an abstract class
+
+abstract class:
+==========================================
+
+For any java, if we are not allowed to create an object (because of partial implementation), such type of class we have to declare with abstract modifier.
+i.e., for abstract classes instantiation is not possible.
+
+
+abstract class Test {
+	public static void main() {
+		Test t = new Test();	// Test is abstract; Cannot be instantiated
+	}
+}
+
+
+
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+		abstract class vs abstract method
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+1. If a class contains, atleast one abstract method then compulsorily we should declare class as abstract. Otherwise, we will get compile-time error.
+
+Reason: If a class contains, atleast one abstract method, then implementation is not complete. Hence, it is not recommended to create an object. To restrict object instantiation, compulsorily 
+we should declare class as abstract.
+
+2. Even though class doesn't contain any abstract method, still we can declare class as abstract, if we don't want instantiation. i.e., abstract class can contain zero number of abstract methods also.
+
+Ex: 
+
+	1. httpservlet class is abstract but it doesn't contain any abstract methods.
+	2. Every adapter class is recommended to declare as abstract, but it doesn't contain any abstract method.
+	
+
+	
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+check the syntaxes:
+Ex 1:
+class P {
+	public void m1();
+}
+
+CE : missing method body or declare abstract.
+
+Ex 2: 
+class P {
+	public abstract void m1{}
+}
+
+CE : abstract methods cannot have a body.
+
+Ex 3:
+class P {
+	public abstract void m1();
+}
+
+P is not abstract and doesn't override abstract method m1 in P.
+
+Ex 4:
+If we are extending abstract class then for each and every abstract method of parent class we should provide implementation. Otherwise we have to declare child class as abstract.
+In this case next level child class is responsible for providing implementation.
+
+class P {
+	public abstract void m1();
+	public abstract void m2();
+}
+class C extends P {
+	public void m1(){}
+}
+
+CE : C is not abstract amd doesn't override abstract method m2 in P.
+
+
+
+
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+									FINAL VS ABSTRACT
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+1. abstract methods compusorily we should override in child classes to provde implementation, where as we can't override final methods. Hence final abstract combination is illeagal combination for methods
+2. For final classes we can't create child classes where as for abstract classes we should create child classes to provide implementation. Hence, final abstract combination is illeagal for classes
+
+
+3. Abstract class can contain final method Where as final class can't contain abstract method. 
+
+final method inside abstract class: (Valid case)
+
+abstract class Test {
+	public final void m1(){
+	}
+}
+
+abstract method inside final class class: (Invalid case)
+
+final class Test {
+	public abstract void m1();	
+}
+
+It is highly recommended to use abstract modifier because it promotes several OOP features:
+Inheritance
+Polymorphism
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

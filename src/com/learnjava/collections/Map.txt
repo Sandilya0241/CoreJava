@@ -1,0 +1,79 @@
+
+
+Map (I) [1.2 V]                                                                                  								Dictionary (AC) [1.0 V] {Legacy classes}
+ |___________________________________________________________________________________________________ __________________________	|
+ |                                   |                            |                                  |             				|	|
+HashMap (C) [1.2 V]                  |                            |                                  |             				|	| 
+ |                                  WeakHashMap (C) [1.2 V]      IdentityHashMap (C) [1.4 V]    SortedMap (I) [1.2 V]		Hashtable (C) [1.0 V] {Legacy classes}
+ |                                                                                                   |                              |
+ |                                                                                              NavigableMap (I) [1.6 V]            |
+LinkedHashMap (C) [1.4 V]                                                                        	 |						Properties (C) [1.0 V] {Legacy classes}
+                                                                                                     |
+                                                                                                TreeMap (C) [1.2 V]
+                                                                                                     
+
+
+Map is NOT child interface of collection.
+If we want to represent a group of objects as Key-Value pairs, then we should we go for Map.
+
+Key | Value
+====|========
+101 | Sandy
+====|========
+102 | Sandy1
+====|========
+103 | Sandy2
+====|========
+104 | Sandy3
+
+Both Keys and Values are objects only. 
+Duplicate Keys are not allowed but values can be duplicated.
+Each Key-Value pair is called Entry.
+Hence, Map is considered as a collection of Entry objects.
+
+============================================================================================================================================================================================================================
+Map Interface Methods:
+============================================================================================================================================================================================================================
+
+		Object put(Object Key, Object Value);
+
+To add one Key-Value pair to the Map.
+If the Key is already present, the old value will be replaced with new value and returns Old value.
+
+m.put(101, "Sandy1"); //returns null
+m.put(102, "Sandy2"); //returns null
+m.put(101, "Sandy2"); //returns "Sandy1"
+***********************************************************************************
+***********************************************************************************
+***********************************************************************************
+Object put(Object Key, Object Value);
+void putAll(Map m);
+Object get(Object Key);
+	returns the value associated with specified Key
+Object remove(Object Key);
+	removes the Entry associated with specified Key
+boolean containsKey(Object Key);
+boolean containsValue(Object Value);
+boolean isEmpty();
+int size();
+void clear();
+***********************************************************************************
+***********************************************************************************
+***********************************************************************************
+
+
+============================================================================================================================================================================================================================
+Entry Interface:
+============================================================================================================================================================================================================================
+A Map is a group of Key-Value pairs and each Key-Value pair is called an Entry. Hence, Map is considered as a collection of Entry objects.
+Without existing Map object, there is no chance of existing Entry object. Hence, Entry interface is defined inside Map interface.
+
+interface Map {
+	interface Entry {
+		Object getKey();
+		Object getValue();
+		Object setValue(Object newValue);
+	}    |
+}        |
+         V
+       Old value. 

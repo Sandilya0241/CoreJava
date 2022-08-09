@@ -1,0 +1,143 @@
+============================================================================================================================================================================================================
+============================================================================================================================================================================================================
+														1.6V Enhancements in Collections Framework - NavigableSet And NavigableMap
+============================================================================================================================================================================================================
+============================================================================================================================================================================================================
+
+============================================================================================================================================================================================================
+																		NavigableSet
+============================================================================================================================================================================================================
+
+As a part of 1.6 version, the following two concepts were introduced in Collection framework:
+I.	NavigableSet
+II.	NavigableMap
+
+
+NavigableSet:
+=========================
+It is the child interface of SortedSet and it defines several methods for navigation purposes.
+
+Collection(I)
+	|
+  Set 1.2 V
+    |
+    |
+  SortedSet (1.2 V)
+	|
+	|
+NavigableSet (I)] {1.6V}
+    |
+    |
+  TreeSet  [1.2 v]
+ 
+ 
+ NavigableSet defines the following methods:
+ 	floor(e) : it returns highest element which is <= e.
+ 	lower(e) : it returns highest element which is < e.
+ 	ceiling(e) : it returns lowest element which is >= e.
+ 	higher(e) : it returns lowest element which is > e.
+ 	pollFirst() : remove and return first element.
+ 	pollLast() : remove and return last element.
+ 	descendingSet() : it returns NavigableSet in reverse order.
+ 	
+Ex:
+		package com.learnjava.collections;
+		import java.util.TreeSet;
+		public class NavigatableSetDemo {
+			public static void main(String[] args) {
+				TreeSet<Integer> t = new TreeSet<Integer>();
+				t.add(1000);
+				t.add(2000);
+				t.add(3000);
+				t.add(4000);
+				t.add(5000);
+				System.out.println(t);
+				System.out.println(t.ceiling(2000));
+				System.out.println(t.higher(2000));
+				System.out.println(t.floor(3000));
+				System.out.println(t.lower(3000));
+				System.out.println(t.pollFirst());
+				System.out.println(t.pollLast());
+				System.out.println(t.descendingSet());
+				System.out.println(t);
+			}
+		}
+	O/P:
+		[1000, 2000, 3000, 4000, 5000]
+		2000
+		3000
+		3000
+		2000
+		1000
+		5000
+		[4000, 3000, 2000]
+		[2000, 3000, 4000]	
+		
+
+
+NavigableMap:
+=========================
+NavigableMap is the child interface of SortedMap.
+It defines several methods for Navigation purposes.
+
+
+	Map(I) 1.2 V
+	|
+    |
+  SortedMap (1.2 V)
+	|
+	|
+NavigableSet (I)] {1.6V}
+    |
+    |
+  TreeMap  [1.2 v]
+ 
+
+NavigableMap defines the following methods:
+	floorKey(e) : it returns highest element which is <= e.
+ 	lowerKey(e) : it returns highest element which is < e.
+ 	ceilingKey(e) : it returns lowest element which is >= e.
+ 	higherKey(e) : it returns lowest element which is > e.
+ 	pollFirstEntry() : remove and return first element.
+ 	pollLastEntry() : remove and return last element.
+ 	descendingMap() : it returns NavigableMap in reverse order.
+ 
+ 		Ex:
+ 			package com.learnjava.collections;
+			import java.util.TreeMap;
+			public class NavigatableMapDemo {
+				public static void main(String[] args) {
+					TreeMap<String, String> t = new TreeMap<String, String>();
+					t.put("b","banana");
+					t.put("c","cat");
+					t.put("a","apple");
+					t.put("d","dog");
+					t.put("g","gun");
+					System.out.println(t);
+					System.out.println(t.ceilingKey("c"));
+					System.out.println(t.higherKey("e"));
+					System.out.println(t.floorKey("e"));
+					System.out.println(t.lowerKey("e"));
+					System.out.println(t.pollFirstEntry());
+					System.out.println(t.pollLastEntry());
+					System.out.println(t.descendingMap());
+					System.out.println(t);
+				}
+			}
+			
+			/*
+			 *	Output :
+			 *	{a=apple, b=banana, c=cat, d=dog, g=gun}
+				c
+				g
+				d
+				d
+				a=apple
+				g=gun
+				{d=dog, c=cat, b=banana}
+				{b=banana, c=cat, d=dog}
+			 
+			 * 
+			 */
+			 
+			 

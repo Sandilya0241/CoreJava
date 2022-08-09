@@ -1,0 +1,37 @@
+Stack:
+============================
+
+1. It is the child class of Vector.
+2. It is a specially designed class for Last-In First-Out order (LIFO).
+
+Constructors :
+=============================
+
+1. Stack s = new Stack();
+
+Methods :
+=============================
+Object push(Object o);	==> To insert an object into the Stack.
+Object pop(); ==> To remove and return top of the Stack.
+Object peek(); ==> TO return top of the Stack without removal.
+boolean empty(); ==> returns true if the Stack is empty.
+int search(Object o); ==> returns Offset if the element is available otherwise returns -1
+
+Example Program:
+=================================
+
+Stack s = new Stack();
+s.push("A");
+s.push("B");
+s.push("C");
+System.out.println(s); ==> [A, B, C]
+System.out.println(s.search("A")); ==> 3
+System.out.println(s.search("Z")); ==> -1
+
+Offset |   | Index
+-------|---|---------
+   1   | C | 2
+-------|---|---------
+   2   | B | 1  
+-------|---|---------
+___3___|_A_|_0_______

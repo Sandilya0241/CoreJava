@@ -1,0 +1,249 @@
+strictfp (STRICT FLOATING POINT) :
+================================================
+
+I. Introduced in 1.2V.
+II. We can declare strictfp for classes and methods but not for variables.
+III. Usually the result of floating point arithmetic varys from platform to platform. 
+	If we want platform independent results for floating point arithmetic, then we should go for strictfp modifier.
+	
+
+strictfp method:
+================================================
+
+I. If a method declared as strictfp, all floating point calculations in that method has to follow, IEEE 754 standard so that we will get platform independent results.
+II. abstract modifier never talks about whereas strictfp method always talks about implementation. So, "abstract strictfp" combination is illegal for methods.
+
+strictfp class:
+================================================
+
+If a class declared as strictfp then, every floating point calculation present in every concrete method has to follow IEEE 754 standard so that we will get platform independent results.
+We can declare "abstract strictfp" combination for classes (i.e., abstract strictfp combination) is legal for classes but illegal for methods.
+
+//Valid
+abstract strictfp class Test {
+
+}
+
+//Invalid
+abstract strictfp void m1(); // illegal combination of modifiers.
+
+
+==========================================================================================================================================================================================
+==========================================================================================================================================================================================
+==========================================================================================================================================================================================
+==========================================================================================================================================================================================
+Member Modifiers: (method or variable level modifiers)
+==========================================================================================================================================================================================
+==========================================================================================================================================================================================
+
+
+==================================================================
+I. public members:
+==================================================================
+If a member declared as public then we can access that member from any where but corresponding class should be visible i.e., before checking member visibility we have to check class visibility.
+
+
+package pack1;
+class A {
+	public void m1() {
+		System.out.println("m1 Method");
+	}
+}
+
+package pack2;
+import pack1.A;
+class B {
+	public static void main() {
+		A a = new A();
+		a.m1();
+	}
+}
+
+CE : pack1.A is not public in pack1; cannot be accessed from outside.
+
+
+In the above example, even though m1 method is public we cannot access from outside package. Because corresponding class A is not public. i.e., if both class and method are public, then only we can access the method from outside package.
+
+
+==================================================================
+II. default members:
+==================================================================
+
+If a member declared as default then,  we can access that member only with in the current package. From outside of the package we can't access. Hence, default access is also known as Package-level access.
+
+==================================================================
+III. private members:
+==================================================================
+I. If a member is private then, we can access that member only within the class. i.e., from outside of the class we cannot access.
+II. Abstract methods should available to the child classes to provide implementation whereas private methods are not available to the child classes to provide implementation. Hence, "private abstract" combination is illegal for methods.
+
+
+==================================================================
+IV. protected members: (the most misunderstood modifier in java)
+==================================================================
+
+If a member declared as protected then, we can access that member anywhere within that current package but only in child classes of outside package.
+protected = default + kids (child classes).
+*****************************************************************************************************************************************************************************************
+*****************************************************************************************************************************************************************************************
+*****************************************************************************************************************************************************************************************
+*****************************************************************************************************************************************************************************************
+*****************************************************************************************************************************************************************************************
+*****************************************************************************************************************************************************************************************
+We can access protected members within the current package anywhere either by using Parent reference or by using Child reference. 
+But we can access protected members outside package, only in child cases and we should use child reference only. 
+I.e., Parent reference cannot be used to access protected members from outside package
+
+$$$$$$$$$$$$$$$$$  pack1.ClassProtectedExampleA $$$$$$$$$$$$$$$$$ 
+package com.learnjava.declarationsandaccessmodifiers.pack1;
+
+public class ClassProtectedExampleA {
+	protected void m1() {
+		System.out.println("The most misunderstood modifier");
+	}
+}
+
+class ChildClassProtectedExampleA extends ClassProtectedExampleA {
+	public static void main(String[] args) {
+		ClassProtectedExampleA a = new ClassProtectedExampleA();
+		a.m1();
+		
+		ChildClassProtectedExampleA b = new ChildClassProtectedExampleA();
+		b.m1();
+		
+		ClassProtectedExampleA c = new ChildClassProtectedExampleA();
+		c.m1();
+	}
+}
+
+
+$$$$$$$$$$$$$$$$$  pack2.ClassProtectedExampleB $$$$$$$$$$$$$$$$$
+package com.learnjava.declarationsandaccessmodifiers.pack2;
+
+import com.learnjava.declarationsandaccessmodifiers.pack1.ClassProtectedExampleA;
+
+public class ClassProtectedExampleB extends ClassProtectedExampleA{
+	
+	public static void main(String[] args) {
+		ClassProtectedExampleA a = new ClassProtectedExampleA();
+		//m1() has protected access in pack1.ClassProtectedExampleA
+//		a.m1();  //The method m1() from the type ClassProtectedExampleA is not visible
+		
+		ClassProtectedExampleB b = new ClassProtectedExampleB();
+		b.m1();
+		
+		ClassProtectedExampleA c = new ClassProtectedExampleB();
+		//c.m1();
+		
+	}
+}
+
+
+We can access protected members from outside package only in child classes and we should use that child class reference only.
+For example : from D class if we want to access, we should use D class reference only.
+
+$$$$$$$$$$$$$$$$$  pack1.ClassProtectedExampleA $$$$$$$$$$$$$$$$$
+package com.learnjava.declarationsandaccessmodifiers.pack1;
+
+public class ClassProtectedExampleA {
+	protected void m1() {
+		System.out.println("The most misunderstood modifier");
+	}
+}
+
+class ChildClassProtectedExampleA extends ClassProtectedExampleA {
+	public static void main(String[] args) {
+		ClassProtectedExampleA a = new ClassProtectedExampleA();
+		a.m1();
+		
+		ChildClassProtectedExampleA b = new ChildClassProtectedExampleA();
+		b.m1();
+		
+		ClassProtectedExampleA c = new ChildClassProtectedExampleA();
+		c.m1();
+	}
+}
+
+$$$$$$$$$$$$$$$$$  pack2.ClassProtectedExampleD $$$$$$$$$$$$$$$$$
+package com.learnjava.declarationsandaccessmodifiers.pack2;
+import com.learnjava.declarationsandaccessmodifiers.pack1.ClassProtectedExampleA;
+
+class ClassProtectedExampleC extends ClassProtectedExampleA {
+	
+}
+
+public class ClassProtectedExampleD extends ClassProtectedExampleC{
+
+	public static void main(String[] args) {
+		
+		ClassProtectedExampleA a = new ClassProtectedExampleA();
+		//m1() has protected access in pack1.ClassProtectedExampleA
+		//The method m1() from the type ClassProtectedExampleA is not visible
+		//a.m1();
+		
+		ClassProtectedExampleC c = new ClassProtectedExampleC();
+		//m1() has protected access in pack1.ClassProtectedExampleA
+		//The method m1() from the type ClassProtectedExampleA is not visible
+		//c.m1();
+		
+		ClassProtectedExampleD d = new ClassProtectedExampleD();
+		d.m1();
+		
+		ClassProtectedExampleA a1 = new ClassProtectedExampleC();
+		//m1() has protected access in pack1.ClassProtectedExampleA
+		//The method m1() from the type ClassProtectedExampleA is not visible
+		//a1.m1();
+		
+		ClassProtectedExampleA a2 = new ClassProtectedExampleD();
+		//m1() has protected access in pack1.ClassProtectedExampleA
+		//The method m1() from the type ClassProtectedExampleA is not visible
+		//a1.m1();
+		
+		ClassProtectedExampleC c1 = new ClassProtectedExampleD();
+		//m1() has protected access in pack1.ClassProtectedExampleA
+		//The method m1() from the type ClassProtectedExampleA is not visible
+		//c1.m1()
+	}
+
+}
+
+*****************************************************************************************************************************************************************************************
+*****************************************************************************************************************************************************************************************
+*****************************************************************************************************************************************************************************************
+*****************************************************************************************************************************************************************************************
+*****************************************************************************************************************************************************************************************
+*****************************************************************************************************************************************************************************************
+*****************************************************************************************************************************************************************************************
+
+
+_________________________________________________________________________
+Visibility			|	Private	|	default	|	Protected	 | Public	|
+____________________|___________|___________|________________|__________|
+With in the same    |	YES		|	YES		|	YES			 |	YES		| 
+class               |           |			|				 |			|
+====================|===========|===========|================|==========|
+From child class of |	NO		|	YES		|	YES			 |	YES		|
+same package        | 			|			|				 |			|
+====================|===========|===========|================|==========|
+From non-child class|	NO		|	YES		|	YES			 |	YES		| 
+of same package		|			|			|				 |			|
+====================|===========|===========|================|==========|
+From child class of |	NO		|	NO		|	YES			 |	YES		|
+outside package     | 			|			|should use child|			|
+					|			|			|reference only  |			|
+====================|===========|===========|================|==========|
+From non-child class|	NO		|	NO		|	NO			 |	YES		| 
+of outside package	|			|			|				 |			|
+____________________|___________|___________|________________|__________|
+
+
+The most restricted access modifier is "private".
+The most accessible access modifier is "public".
+
+private < default < protected < public
+
+Recommended modifier for data member (variable) is "private". But recommended modifier for methods is public.
+
+
+
+

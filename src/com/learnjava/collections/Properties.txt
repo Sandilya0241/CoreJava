@@ -1,0 +1,46 @@
+===================================================================================================================================================================================================
+===================================================================================================================================================================================================
+																					PROPERTIES
+===================================================================================================================================================================================================
+===================================================================================================================================================================================================
+In our program, if anything which changes frequently (like username, password, mailId, mobile number etc.,) are not recommended to hardcode inside java program.
+Because, if there is any change, to reflect that change, we have to recompile, rebuild and redeploy application are required.
+Even sometime server restart also required.
+
+Which creates a big business impact to the client.
+
+We can overcome this problem by using Properties file. Such type of variable things, we have to config in prop file.
+From that prop file, we have to read into Java program and we can use those properties. The main advantage of this approach is if these is a change, in properties file, to reflect that change, just re-deployment is enough.
+
+We can use Java properties object to hold properties, which are coming from Properties file.
+
+In normal Map (HashMap, Hashtable) key and Value can be any type. But in the case of properties, Key-Value should be String type.
+
+
+===================================================================================================================================================================================================
+																					Constructors
+===================================================================================================================================================================================================
+
+Properties p = new Properties();
+
+===================================================================================================================================================================================================
+																					Methods
+===================================================================================================================================================================================================
+1. String getProperty(String propertyName);						// to get value associated with the specified  property. If the specified property is not available, then this method returns null.
+
+2. String setProperty(String propertyName, String propertyValue);  // to set a new property. If specified property is already available, then old value will be replaced with new value and returns old value
+         |                                          |              
+         V                                          V
+     Return old                                  New value to
+     value                                       Set
+
+3. Enumeration propertyNames();									// Returns all property names present in properties object.
+
+4. void load(InputStream is);
+	to load properties from properties file into java properties object.
+
+5. void load(OutputStream os, String comment);
+	to store properties from java properties object into properties file.
+
+
+

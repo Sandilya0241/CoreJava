@@ -1,0 +1,311 @@
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+																	CONSTRUCTORS
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+
+Once we create an object compulsory we should perform initialization. Then only the object is in a position to respond properly.
+
+Whenever we are creating an object, some piece of the code will be executed automatically to perform initialization of the object. This piece of the code is nothing but Constructor.
+Hence, the main purpose of constructor is to perform initialization of an object.
+
+Ex:	
+	class Student {
+		String name;
+		int rollNo;
+		Student(name, rollNo) {
+			this.name = name;
+			this.rollNo = rollNo;
+		}
+		public static void main(String[] args) {
+			Student s1 = new Student("sandy", 101);
+			Student s2 = new Student("vamsy", 102);
+			...
+			
+		}
+	}
+	
+The main purpose of COnstructor is to perform initialization of an object but not to create object.
+
+==============================================================================================================================================================================
+														DIFFERENCE BETWEEN CONSTRUCTOR AND INSTANCE BLOCK
+==============================================================================================================================================================================
+
+The main purpose of "Constructor" is to perform Initialization of an object.
+But other than initialization, if we want to perform any activity for every object creation, then we should go for "Instance Block". (like updating one entry in Database for every object creation or incrementing count value for every object creation et cetra).
+
+Both Constructor and Instance Block have their own different purposes and replacing one with other concept may not work always.
+Both Constructor and Instance Block will be executed for every object creation but Instance Block first followed Constructor.
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Demo program to print number of objects created for a class:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Below program gives a wrong value as constructor call could increment static object value count. 
+package com.learnjava.oopsconcepts;
+
+public class Test30 {
+	static int countOfObjects = 0;
+	{
+//		countOfObjects++;
+	}
+	Test30() {
+		this(10);
+		countOfObjects++;
+	}
+	Test30 (int i) {
+		countOfObjects++;
+	}
+	
+	Test30(double d) {
+		countOfObjects++;
+	}
+	public static void main(String[] args) {
+		Test30 t1 = new Test30();
+		Test30 t2 = new Test30(10);
+		Test30 t3 = new Test30(10.5);
+		System.out.println("Number of Objects created : " + countOfObjects);
+	}
+
+}
+
+O/P:
+Number of Objects created : 4
+
+Instead of above logic, below logic would give more accurate results.
+
+package com.learnjava.oopsconcepts;
+
+public class Test30 {
+	static int countOfObjects = 0;
+	{
+		countOfObjects++;
+	}
+	Test30() {
+		this(10);
+	}
+	Test30 (int i) {
+	}
+	
+	Test30(double d) {
+	}
+	public static void main(String[] args) {
+		Test30 t1 = new Test30();
+		Test30 t2 = new Test30(10);
+		Test30 t3 = new Test30(10.5);
+		System.out.println("Number of Objects created : " + countOfObjects);
+	}
+
+}
+O/P:
+Number of Objects created : 3
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+																				RULES OF WRITING CONSTRUCTORS
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+I.		Name of the class and Name of the Constructor must be matched:
+
+II.		Return type concept not applicable for Constructor, even void also.
+
+III.	By mistake, if we are trying to declare return type for the constructor, then we won't get any compile-time error. Because compiler treats it as a method.
+		Hence, it is legal (but stupid) to have a method whose name is exactly same as class name.
+		Ex:	
+			package com.learnjava.oopsconcepts;
+
+			class OOPSConceptsLesson17 {
+				void OOPSConceptsLesson17() {	// Normal method
+					System.out.println("It's a method but not a Constructor");
+				}
+				public static void main(String[] args) {
+					OOPSConceptsLesson17 o = new OOPSConceptsLesson17();
+					o.OOPSConceptsLesson17();	// function call
+					Test40 t = new Test40();
+				}
+			}			
+			class Test40 {	
+				Test40() {	// Constructor
+					System.out.println("Test Constructor");
+				}
+			}
+			
+			O/P:
+				It's a method but not a Constructor
+				Test Constructor
+
+IV.		The only applicable modifiers for Constructors are public, protected, private and <default>. If we are trying to use any other modifier, we will get compile-time error.
+
+		Ex:
+			class Test {
+				static Test() {	// CE : Modifier static not allowed here.
+				}
+			}
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+																				DEFAULT CONSTRUCTOR
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+I.		Compiler is responsible generating default Constructor (but not JVM).
+II.		If we are not writing any Constructor, then only compiler will generate default Constructor i.e., if we are writing at least one Constructor, then compiler won't generate default Constructor.
+		Hence, every class in Java can contain Constructor. It may be default COnstructor generated by compiler or customized Constructor explicitly provided by programmer. But not both simultaneously.
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Prototype of default Constructor
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+I.		It is always no argument Constructor.
+II.		The access modifier of default Constructor is exactly same as access modifier of class. (this rule is applicable only for public and default)
+III.	It contains only one line. i.e., no argument call to super class Constructor.
+		 ______________
+		|	           |
+		|	super();   |
+		|______________|
+
+		
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+					PROGRAMMER'S CODE AND COMPILER GENERATED CODE                                                      | 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Programmer's Code                       |	Compiler generated code                                                    |
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+										|	class Test {                                                               |
+		class Test {					|		__________________                                                     |  
+										|	   |                  |	                                                   |
+										|	   |Test() {          |                                                    |
+		}								|	   |	super();      |===> Compiler generated code
+										|	   |                  |                                                    |
+									    |	   |__________________|			
+										|	}
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+										|	public class Test {
+										|	______________________
+										|  |                      |
+		public class Test {				|  |	public Test() {   |
+		}								|  |		super();      | ==> Compiler generated code
+										|  |	}                 |
+										|  |______________________|	
+										|	}										
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+										|	class Test {
+										|	______________________
+										|  |                      |
+		class Test {					|  |	Test() {   		  |
+			void Test() {				|  |		super();      | ==> Compiler generated code
+			}							|  |	}                 |
+		}								|  |______________________|	
+										|		void Test() {										
+										|		}
+										|	}
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+										|	class Test {
+										|		Test() {
+										|   ______________________
+		class Test {					|  |                      |
+			Test() {					|  |		super();      | ==> Compiler generated code
+			}							|  |______________________|
+		}								|  		}
+										|	}											
+										|	
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+										|	
+										|	
+										|   
+		class Test {					|  	class Test {
+			Test() {					|   	Test() {
+				super();				|			super();
+			}							|  		}
+		}								|	}											
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	class Test {                        |	class Test {
+		Test() {                        |		Test() { 
+			this(10);                   |       	this(10);
+		}                               |       }
+		Test(int i) {                   |       Test(int i) {
+										|		 _______________________________
+		}                               |       |                               | 
+	}                                   |     	|	super();                    | ==> Compiler generated code
+	                                    |       |_______________________________|
+	                                    |      }
+	                                    |  }
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++			
+
+
+The first line inside every Constructor should be either super() or this(). If we are not writing anything, then compiler will always place super()
+
+
+
+Case I:
+========================================================================================================
+
+We can write super() or this() only in first line of Constructor. If we are trying to write anywhere else, we will get compile-time error.
+
+	Ex:
+		class Test {
+			Test() {
+				System.out.println("Constructor");
+				super();								///CE: call to super() must be first line in constructor.
+			}
+		}
+		
+		
+
+Case II:
+========================================================================================================
+Within the constructor, we can write either super() or this() but not both simultaneously.
+	Ex:
+		class Test {
+			Test() {
+				super();
+				this();		//CE: call to this must be first statement in constructor
+			}
+		}
+		
+Case III:
+========================================================================================================
+We can use super() or this() only inside constructor. If we trying to use outside of constructor, we will get compile-time error. 
+i.e., we can call a constructor directly from another constructor only.
+	Ex:
+		class Test {
+			public void m1() {
+				super();					//CE: call to super must be first statement in constructor
+				System.out.println("Hello");
+			}
+		}
+		
+
+		
+		
+		
+		_______________________________
+	   |                               |===========>	We can use only in Constructors	
+	   |	super() 	Or			   |===========>	We can use only in First line.
+	   |	this()					   |===========>	We can use only one but not both simultaneously.
+	   |_______________________________|	
+	   
+	   
+	   
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+					SUPER() OR THIS() 						Vs 		SUPER OR THIS                                      | 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	These are  Constructor calls to call super() class      |  	These are keywords to refer super class and current    |
+	and current class constructs                            |  	class instance members                                 |
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	We can use only in Constructor at first line.           |	we can use anywhere except static area.                |
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	We can use only once in Constructor                     |   We can use any number of times.                        |
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Ex:	
+	class Test {
+		public static void main(String[] args) {
+			System.out.println(super.hashCode());	//	non-static variable super cannot be referenced from a static context.
+		}
+	}
+	}	

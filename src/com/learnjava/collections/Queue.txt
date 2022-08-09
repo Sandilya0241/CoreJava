@@ -1,0 +1,56 @@
+Queue:
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+1.5 version enhancements (Queue interface):
+======================================================================================================================================================================================================
+
+
+		Collection (I)
+			|----------------------------------------- 
+		   List                  |                    |
+		 ___|___	|------------+-1.5 Ver-------- Queue (I)
+		|   |	|	|			 |			   _______|____________
+		|   |  LinkedList     SET (I)         |                    |
+		|   |					             PriorityQueue         |
+   ArrayList|                                                 Blocking Queue    
+            |                                                      |------ Priority Blpcking queue.
+          Vector                                   				   |------- Linked Bloking Ququ						
+            |
+            |
+           Stack  
+           
+
+It is the child interface of the Collection.
+If we want to represent a group of individual objects prior to processing, then we should go for Queue.
+Ex:
+Before sending SMS, all recipients mobile numbers we have to store in some data structure. In which order we added mobile numbers, in the same order only message should be delivered.
+For this, First-In, First-Out requirement, Queue is the best choice.
+
+Usually Queue follows, First-In, First-Out order. But based on our requirement we can implement our own priority order also (Priority Queue).
+
+From 1.5 version onwards, Linked List class also implements, Queue interface.
+
+LinkedList based implementation of Queue always follows First-In, First-Out order.
+
+======================================================================================================================================================================================================
+======================================================================================================================================================================================================
+																			Queue interface specific methods
+======================================================================================================================================================================================================
+======================================================================================================================================================================================================
+
+boolean offer(Object);
+	To add an object into the queue.
+
+Object Peek()
+	To return head element of the queue. If queue is empty then this method return null.
+	
+Object element()
+	To return head element of the queue. If queue is empty then this method return runtime exception : NoSuchElementException.
+	
+Object poll()
+	To remove and return head element of the queue. If queue is empty then this method return null.
+	
+Object remove()
+	To remove and return head element of the queue. If queue is empty then this method return runtime exception : NoSuchElementException.
+	
+

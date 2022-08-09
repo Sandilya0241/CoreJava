@@ -1,0 +1,549 @@
+
+
+Lambda Expressions ==> Useful in enabling functional programming.
+	
+	
+JAVA 8
+	1.	Lambda Expressions
+	2.	Functional Interface
+	3.	Default Methods and Static methods
+	4.	Predefined Functional Interfaces
+		==>	Predicate
+		==>	Function
+		==>	Consumer
+		==>	Supplier
+	5.	Double colon operator (::)
+		==>	Method reference
+		==>	Constructor reference
+	6.	Streams.
+	7.	Date and Time API
+	8.	Optional Class
+	9.	Nashorn JavaScript Engine.	
+	
+
+Lambda Expressions:
+===========================================================
+
+Normal way:
+=====================
+public void m1() {
+	System.out.println("Hello world");
+}
+
+Lamdba expressions way of writing:
+===================================
+
+() -> { System.out.println("Hello world"); }
+
+or for single line body methods, we can write define function the below way also:
+
+() -> System.out.println("Hello world");
+
+
+Ex:
+
+public void m1(int a, int b) {
+	System.out.println(a+b);
+}
+
+
+(a, b) -> System.out.println(a+b);
+
+
+Ex2:
+
+public int squareIt(int n) {
+	return n * n;
+}
+
+(a) -> a * a;
+
+return keyword should be used in body with {}.
+If it is single line function body, then need not to write return keyword.
+
+If only one input parameter is available, then parenthesis is not required.
+
+a->a*a;
+
+Finally
+===============
+
+public int squareIt(int n) {
+	return n * n;
+}
+
+==
+
+n->n*n;
+
+
+Ex3:
+
+public int stringLen(String s) {
+	return s.length();
+}
+
+==
+
+s->s.length();
+
+
+To Call Lambda expression:-
+==================================================================
+
+Functional Interface:
+An interface that contains a single abstract method (SAM) is called Functional Interface.
+Ex:
+Runnable => run()
+Comparable => compareTo()
+Comparator => compare()
+ActionListner => actionPerformed()
+Callable => call()
+
+To invoke lambda expression, we need Functional Interface.
+
+
+
+
+Functional Interface:
+================================================================
+
+Functional INterface should have exactly one and only one Abstract method. And it can have any number of static and default methods.
+
+
+If parent interface is Functional interface, child is automatically Functional interface provided child class is not defining any other abstract methods.
+
+@FunctionalInterface is optional. If the interface is having exactly one abstract method, it acts as Functional Interface. 
+@FunctionalInterface help us identifying any issue there with defined functional interface.
+
+
+
+Lambda Expressions with Functional Interface:
+================================================================
+
+
+
+Anonymous Inner Classes != Lambda Expression.
+========================================================
+
+If anonymous inner class implements an interface that consists of a Single Abstract Method, then only we can replace that anonymous inner class with lambda expressions.
+
+
+
+
+Anonymous Inner Classes 				|	 Lambda Expression.
+========================================|=====================================================
+                                        |
+Anonymous Inner class can extend a      |
+normal class.                           |
+                                        |	
+Anonymous Inner class can extend an     |	Lambda expression can implement which contains 
+abstract class.                         |	a single abstract method (FI).
+                                        |
+Anonymous Inner class can implement an  |
+interface which contains any number of  |
+abstract methods.                       |
+                                        | 
+
+Anonymous Inner Classes != Lambda Expression
+Anonymous Inner Classes > Lambda Expression
+
+
+========================================================================================================================================================================================
+========================================================================================================================================================================================
+========================================================================================================================================================================================
+========================================================================================================================================================================================
+
+Default Methods:
+=====================
+
+until 1.7 version:
+---------------------
+Every method present inside interface is always "public abstract".
+
+void m1();
+=
+public void m1();
+=
+abstract void m1();
+=
+public abstract void m1();
+
+Related methods:
+---------------------
+1.8 V : default and static methods.
+1.9 V : private methods.
+
+
+
+Methods inside interface:
+-------------------------------
+
+public static final.
+
+
+
+
+
+Default methods === Virtual Extension methods === Defender methods:
+============================================================================
+Without effecting implementation classes, if we want to add new method to the Interface, then we can use "Default Methods"
+
+
+
+
+A default method cannot override a method from java.lang.Object 
+
+package com.learnjava.java8features;
+
+public interface Interface8Demo2 {
+	default void m1() {	
+		System.out.println("Default Method");
+	}
+	
+	default int hashCode() {
+		return 10;
+	}
+}
+
+class Interface8Demo2Impl1 implements Interface8Demo2{
+	public void m1() {
+	}
+	public void m2() {
+	}
+}
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Class Vs Interface
+
+Compared to Class, Interface is lighter.
+
+From 1.8 version, Interface can contain main method:
+
+For general utility methods, we can use static methods in Interface.
+
+
+
+Default Methods: Without effecting implementation classes if we want to add new methods to the interface (extending interface functionality) ==> Default Methods.
+
+To define general utility methods inside interface with static
+
+sum(int a, int b) {
+	SOP(a+b);
+}
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Predefined Functional Interfaces:
+======================================
+
+Predicate
+Function
+Consumer
+Supplier
+
+-------------------------
+
+Two argument predefined  functional interfaces:
+-------------------------------------------------------
+
+BiPredicate
+BiFunction
+BiConsumer
+
+primitive Functional Interfaces:
+=======================================================
+
+IntPredicate
+IntFunction
+IntConsumer
+...
+
+java.util.function package
+
+
+
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	Predicate Functional Interface
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+public abstract boolean test(T t);
+
+interface Predicate<T> {
+	public boolean test(T t);
+}
+
+Ex:
+	import java.util.function.*;
+	class Test {
+		public static void main() {
+			Predicate<Employee> p = e -> e.salary > 10000 && e.isHavingGF == true;
+			System.out.println(p.test(e));
+		}
+	}
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	Function Functional Interface
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+It used to return data after processing input.
+
+Function Chaining:
+
+f1.andThen(f2).apply(i); ===> First apply f1 and then f2.
+
+f1.compose(f2).apply(i); ===> First f2 and then f2.
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	Consumer Functional Interface
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+interface Consumer<T> {
+	public void accept(T t);
+}
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	Supplier Functional Interface
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+interface Supplier<R> {
+	public R get();
+}
+
+Functional Interfaces:
+==============================================
+
+Take some input and perform some conditional check and returns boolean value ==> Predicate.
+Predicate<T> ---> check condition ---> return boolean
+
+
+Take some input and perform some operation and returns the result which need not be a boolean type.
+Function<Value, R> ---> Process information ---> return R Type data
+
+
+Accept some input and perform required operation and not required anything.
+Consumer<V> ---> Consumes V type data ---> return void
+
+
+Just supply my required objects and it won't take any input
+Supplier<R> ---> supply required objects ---> return void
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Predicate --> test() --> return boolean.
+Function --> apply() --> return Any data type.
+Consumer --> accept() --> return void.
+Supplier --> get() --> return Any data type.
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+If I have to take two number in input and check their sum is even or not? For this above FI are not useful. Then we can go with two argument FI.
+
+
+BiPredicate:
+=====================================
+
+interface BiPredicate<T1, T2> {
+	public boolean test(T1 t1, T2 t2);
+	// Remaining default methods : ,and(), .or(), .negate().
+}
+
+
+
+BiFunction:
+=====================================
+
+interface BiPredicate<T, U, R> {
+	public R apply(T t, U u);
+	// Remaining default methods : ,andThen()
+}
+
+BiConsumer:
+=====================================
+
+interface BiConsumer<T, U> {
+	public void apply(T t, U u);
+	// Remaining default methods : ,andThen()
+}
+
+
+
+Functional Interfaces for Primitive types: Performance impact due to AutoBoxing and AutoUnboxing. (int -> Integer -> int)
+==========================================================================================================================================================================
+
+IntPredicate : Can take int type as input 
+LongPredicate : Can take long type as input 
+DoublePredicate : Can take double type as input and return type can be anything.
+
+
+DoubleToIntFunction --> input type : double
+						return type : int
+						
+		Function: int applyAsInt(double value);
+		
+DoubleToLongFunction  --> input type : double
+						return type : long
+						
+		Function: int applyAsLong(double value);
+		
+
+IntToDoubleFunction  --> input type : int
+						return type : double
+						
+		Function: int applyAsDouble(int value);
+
+IntToLongFunction  --> input type : int
+						return type : long
+						
+		Function: int applyAsLong(int value);
+
+
+==========================================================================================================================================================================
+
+ToIntFunction --> return type is int
+				  input can be anything
+				  int applyAsInt(T Val);
+
+				  
+ToLongFunction --> return type is long
+				  input can be anything
+				  long applyAsLong(T Val);
+				  
+ToDoubleFunction --> return type is double
+				  input can be anything
+				  double applyAsDouble(T Val);
+				  
+ToIntBiFunction --> return type is int
+				  inputs can be anything
+				  int applyAsInt(T t, U u);
+				  
+ToLongBiFunction --> return type is long
+				  input can be anything
+				  long applyAsLong(T t, U u);
+				  
+ToDoubleBiFunction --> return type is double
+				  inputs can be anything
+				  double applyAsDouble(T t, U u);
+
+==========================================================================================================================================================================
+
+IntConsumer --> void accept (int val);
+				performs this operation on the given arguments.
+				
+LongConsumer --> void accept (long val);
+				performs this operation on the given arguments.
+				
+DoubleConsumer --> void accept (double val);
+				performs this operation on the given arguments.
+
+ObjIntConsumer --> void accept (T t, int val);
+				performs this operation on the given arguments.
+				
+ObjLongConsumer --> void accept (T t, long val);
+				performs this operation on the given arguments.
+				
+ObjDoubleConsumer --> void accept (T t, double val);
+				performs this operation on the given arguments.
+				
+==========================================================================================================================================================================
+
+BooleanSupplier --> boolean getAsBoolean();
+				
+LongSupplier --> boolean getAsLong();
+				
+DoubleSupplier --> boolean getAsDouble();
+				
+IntSupplier --> boolean getAsInt();
+
+==========================================================================================================================================================================
+
+UnaryOperator<T> --> static UnaryOperator<T>();
+						If input and output are the same type then we should go for UnaryOperator.
+						It is the child of Function<T, T>.
+						
+						
+IntUnaryOperator --> public int applyAsInt(int op);
+LongUnaryOperator --> public long applyAsLong(long op);
+DoubleUnaryOperator --> public double applyAsDouble(double op);
+
+==========================================================================================================================================================================
+
+BinaryOperator --> It is child of BiFunction<T, T, T>.
+
+IntBinaryOperator
+LongBinaryOperator
+DoubleBinaryOperator
+
+
+
+==========================================================================================================================================================================
+
+Method or Constructor Reference:
+====================================
+
+Streams:
+===========================y
+===========================================================================================
+
+Collections : Collections are to represent a group of object as a single entity.
+Stream : If we want to process objects from collections, we have to use streams.
+
+How to get Stream?
+Stream s = <collection>.stream();
+
+Stream is an interface present inside java.util.stream
+
+filter(Predicate) ==> To filter data from collections.
+map(Function) ==> To do some operation on collections.
+
+
+Filter ---
+
+Input - 10 elements
+Output - <= 10
+
+
+Map ---
+
+Input - 10 elements
+Output - 10 elements
+
+
+
+stream()
+filter()
+map()
+collect()
+count()
+
+for customized sorting, we have to go to comparator.
+
+Default Natural Sorting Order (Ascending Order) is implemented by using Comparable interface (CompareTo()).
+
+Comparator -> 
+
+min (Comparator)
+max (Comparator)
+
+toArray()=====> To convert stream of objects into an array.
+

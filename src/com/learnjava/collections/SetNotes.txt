@@ -1,0 +1,53 @@
+Set (Interface) :
+================================================
+
+Collection (I) [1.2 V]  ==> 12 methods
+ |
+ |                              
+Set (I) [1.2 V]             
+ |______________________________                              
+ |                              |
+ |                           SortedSet(I) [1.2 V]
+ |                              |
+HashSet (C) [1.2 V]         NavigableSet (I) [1.6 V]
+ |                              |
+ |                            TreeSet (C) [1.2 V]
+LinkedHashSet (C) [1.4 V]
+
+
+Set (Interface):
+====================================
+	a. Set is the child interface of Collection.
+	b. If we want to represent a group of individual objects as a single entity where duplicates are NOT allowed and insertion order NOT preserved, then we should go for SET.
+	c. Set interface does not contain any new method and we have to use only Collection Interface methods.
+	
+
+
+
+====================================================================================================
+====================================================================================================|
+								Set implemented classes                         	 	            |
+====================================================================================================|
+ Property      |	HashSet				 | LinkedHashSet			 |	TreeSet                     |
+===============|=========================|===========================|==============================|
+ Underlying    |                         |                           |                              |
+ Data Structure|	Hash Table           | Linked List + Hash Table  |	Balanced Tree               |
+===============|=========================|===========================|==============================|
+ Duplicate     |	                     |                           |                              | 
+ Objects       |	Not Allowed          |	Not allowed              |	Not Allowed                 |
+===============|=========================|===========================|==============================|
+ Insertion     |	Not preserved		 |	Preserved				 |	Not preserved               |
+ order         |                         |                           |                              |
+===============|=========================|===========================|==============================|
+ Sorting order |	NA					 |	NA					     |	Applicable					|	
+===============|=========================|===========================|==============================|
+ Heterogeneous |	Allowed              |	Allowed					 |	Not Allowed					|
+ Objects       |                         |                           |                              |
+===============|=========================|===========================|==============================|
+ Null          |                         |                           |	For empty TreeSet as First  |
+ Acceptance    |	Allowed              |	Allowed                  |	element NULL is allowed     |
+_______________|_________________________|___________________________|______________________________|
+
+
+For empty TreeSet as the first element null is allowed. But this rule is applicable until 1.6 version only. From 1.7 version onwards, null is not allowed even as the first element.
+

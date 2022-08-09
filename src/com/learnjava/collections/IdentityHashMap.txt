@@ -1,0 +1,77 @@
+IdentityHashMap
+==============================================================
+
+
+Difference between == operator and .equals() method:
+===================================================
+In general "==" operator meant for reference comparison whereas .equals() method meant for content comparison.
+
+Integer i1 = new Integer(10);
+Integer i2 = new Integer(10);
+System.out.println(i1 == i2);	// false
+System.out.println(i1.equals(i2)); // true
+
+i1 ==> 10
+
+i2 ==> 20
+
+It is exactly same as HashMap (including methods and constructors) except the following differences:
+
+In the case of normal HashMap, JVM will use .equals() method to identify duplicate keys, which is meant for content comparison.
+But in the case of IdentityHashMap, JVM will use "==" operator to identify duplicate keys, which is meant for reference comparison (address comparison).
+
+
+
+	
+	
+	
+Example with HashMap: (uses .equals() method for comparison)
+============================================
+Program:
+=====================
+	package com.learnjava.collections;
+	import java.util.HashMap;
+	public class HashMapDemo2 {
+		public static void main(String[] args) {
+			HashMap m = new HashMap();
+			Integer i1 = new Integer(10);
+			Integer i2 = new Integer(10);
+			m.put(i1, "Pavan");
+			m.put(i2, "Kalyan");
+			System.out.println(m);
+		}
+	}
+
+O/P:
+======================
+	{10=Kalyan}		
+Explination:
+======================
+i1 and i2 are duplicate keys because i1.equals(i2) returns true.
+
+
+
+If we replace HashMap with IdentityHashMap, then i1 and i2 are not duplicate keys. Because i1 == i2 return false.
+In this case O/P is: 
+
+Example with IdentityHashMap: (uses "==" operator for comparison)
+============================================
+Program:
+=====================
+	package com.learnjava.collections;
+	import java.util.IdentityHashMap;
+	public class IdentityHashMapDemo {
+		public static void main(String[] args) {
+			IdentityHashMap m = new IdentityHashMap();
+			Integer i1 = new Integer(10);
+			Integer i2 = new Integer(10);
+			m.put(i1, "Pavan");
+			m.put(i2, "Kalyan");
+			System.out.println(m);
+		}
+	}
+
+O/P:
+======================
+	{10=Kalyan, 10=Pavan}		
+	

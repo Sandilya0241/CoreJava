@@ -1,0 +1,230 @@
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+															IS-A RELATIONSHIP <=> INHERITANCE
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+
+I.		It is also known as Inheritance.
+II.		The main advantage of "Is-A Relationship" is code re-usability.
+III.	By using extends keyword, we can implement "Is-A Relationship".
+
+/*Program*/
+
+package com.learnjava.oopsconcepts;
+
+public class OOPSConceptsLesson01 {
+	public static void main(String[] args) {
+		P p = new P();
+		p.m1();
+		//p.m2();	// Cannot find symbol. symbol : method m2(), location : class P
+		
+		C c = new C();
+		c.m1();
+		c.m2();
+		
+		P p1 = new C();
+		p1.m1();
+		//p1.m2();	// Cannot find symbol. symbol : method m2(), location : class P
+		
+		//C c1 = new P();	// Incompatible types. found : P, Required : C			
+	}
+}
+
+class P {
+	
+	public void m1() {
+		System.out.println("Parent m1 method");
+	}
+}
+
+class C extends P {
+	
+	public void m2() {
+		System.out.println("Child m2 method");
+	}
+}
+
+/*Conclusions*/
+
+I.		Whatever methods "Parent" has by default available to the "Child" and hence, on the "Child" reference we can call both "Parent" and "Child" class methods.
+II.  	Whatever methods "Child" has by default not available to the "Parent" and hence, on the "Parent" reference we cannot call "Child" specific methods.
+III.	"Parent" reference can be used to hold "Child" object but by using that reference, we can't call "Child" specific methods. But we can call methods present in "Parent" class.
+IV.		"Parent" reference can be used to hold "Child" object but "Child" reference cannot be used to hold "Parent" object.
+
+
+
+==============================================================================================================================================================================
+															WITHOUT INHERITANCE AND WITH INHERITANCE 
+==============================================================================================================================================================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Without Inheritance:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+class VLoan {
+	... 300 methods
+}
+
+class HLoan {
+	... 300 methods
+}
+
+class PLoan {
+	... 300 methods
+}
+
+In total 900 methods and 90 hours of development time
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Without Inheritance:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+class Loan {
+	... 250 common methods
+}
+
+class VLoan extends Loan {
+	... remaining 50 methods
+}
+
+class HLoan extends Loan {
+	... remaining 50 methods
+}
+
+class PLoan extends Loan{
+	... remaining 50 methods
+}
+
+In total 400 methods and 40 hours of development time
+
+Note: The most common methods which are applicable for any type of "Child", we have to define in "Parent" class. 
+		The specific methods which are applicable for a particular "Child", we have to define in "Child" class.
+		
+
+Total Java API, was implemented based on Inheritance concept. 
+The most common methods which are applicable for any Java object are defined in "Object" class and hence, every class in Java is the child class of "Object" either directly or indirectly, so, that object class methods by default available for every JAVA class without re-writing.
+Due to this "Object" class acts "ROOT" for Java classes.
+
+Throwable class defines the most common methods which are required for every exception and error classes. Hence, this class acts "ROOT" for Java Exception hierarchy.
+
+
+													Object (11 methods)
+															|
+                                          __________________|_____________
+										 |       |                        |
+									String		 |        ...         Throwable  
+									         StringBuffer  			      |
+									                               _______|_________
+									                              |                 |
+									                          Exception				Error
+									                     ________|________          |___________________ 
+									                    |           |    ...        |                   
+									               Runtime          |             OutofMemory Error   ...
+									               Exception	  IO Exceptions	
+									 ___________________|           ...
+									|           |    
+								Arithmetic   NullPointer ...
+								Exception    Exception
+								
+								
+Multiple Inheritance:
+==========================================================
+
+A java class can't extend more than one class at a time. Hence, Java won't provide support for multiple inheritance in classes.
+
+	class A extends B, C {
+	
+	}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Note:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+If our class doesn't extend any other class then only our class is direct child class of Object.
+
+	class MyClass {
+	
+	}
+	
+	Object
+	  A
+	  |
+	  |
+	MyClass
+	
+If our class extends any other class then our class is indirect child class of Object.
+
+	class Parent {
+	}
+	class Child extends Parent { 
+	
+	}
+	incorrect hierarchy           | correct hierarchy (Multilevel inheritance)
+	==============================|============================
+	                              |
+	Parent       Object           |  	Object
+		A         A               |       A
+		|         |               |       | 
+		|_________|               |     Parent
+              |                   |       A
+			Child                 |       |
+			                      |     Child
+			                      
+Note: Either directly or Indirectly, Java won't provide support for multiple inheritance with respect to classes but interface can extend any number of interfaces simultaneously.
+		Hence, Java provide support to multiple inheritance with respect to interfaces.
+
+There may be a chance of ambiguity problem. Hence, Java won't provide support for multiple inheritance
+
+		P1->m1()            P2->m1()
+		  A                    A
+		  |                    |
+		  |____________________|
+		            |
+		            C
+		        c.m1() ==> ambiguity problem.
+		        
+		        
+
+		Ex:
+			interface A {
+			}
+			interface B {
+			}
+			interface C extends A, B {
+			}
+			
+Q.) Why ambiguity problem won't be there in interfaces?
+A.) Even though multiple method declarations are available but implementation is unique. And hence, there is no chance of ambiguity problem in interfaces.		
+
+			PatentInterface1 -> m1()			PatentInterface2 -> m1() 
+					A                    				A
+		  			|                                   |
+		  			|___________________________________|
+		                              |
+		                           ChildInterface->m1()
+		                              |
+		                           Implementation Class 
+		                           			m1() {
+		                           				...
+		                           				}
+	Strictly speaking through Interfaces we won't get any inheritance.
+	
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Cyclic Inheritance
+
+Cyclic inheritance is not allowed in Java. OfCourse it is not required.
+	Ex:	
+	
+		class A extend A {				|	class A extends B {
+		                                |   }
+		}        _______                |   class B extends A {
+		        |       |               |   }
+		     ___|___    |               | 			
+		    |       |<--|               | 	    --->B---|
+		  	|	A   |                   |		|	    |
+		  	|_______|                   |       |       | 
+		  	                            |       |---A<--|    

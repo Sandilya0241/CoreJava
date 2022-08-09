@@ -1,0 +1,275 @@
+Introduction
+Runtime stack mechanism
+Default exception handling in Java
+Exception Hierarchy
+Customized exception handling by using try and catch
+Control flow in try catch
+Methods to print exception information
+try with multiple catch blocks
+finally block
+difference between final, finally and finalize
+control flow in try-catch-finally
+control flow in nested try-catch-finally
+various possible combinations of try-catch-finally
+throw keyword
+throws keyword
+Exception handling keywords summary
+Various possible compile time errors in exception handling
+Customized or user defined exceptions
+Top -10 exceptions
+1.7 version enhancements
+	1. 	try with resources
+	2.	multi-catch block
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+																		Introduction
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+An unexpected, unwanted event that disturbs normal flow of the program is called Exception.
+	Ex:	Typepuntured Exception, Sleeping exception, FileNotFound Exception.
+	
+It is highly recommended to Handle exceptions. The main objective of exception handling is graceful termination of the program.
+Exception handling doesn't mean repairing an exception. We have to provide alternative way to continue rest of the program normally is the concept of exception handling.
+For example, our programming requirement is to read data from remote file locating at London. At runtime, if London file is not available our program should not be terminated abnormally.
+We have to provide some local file to continue rest of the program normally. This way of defining alternative is nothing but Exception handling.
+
+try	{
+	Read data from remote file locating at London.
+} catch (FileNotFoundException ex) {
+	Use local file & continue rest of the program normally.
+}
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+																Runtime stack mechanism
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+For every thread JVM will create a Runtime stack. Each and every method call performed by that thread will be stored in the corresponding stack. Each entry in the stack is called Stack Frame/ Activation record.
+After completing every method call, the corresponding entry from the Stack will be removed. After completing all method calls, stack will become empty and that empty stack will be destroyed by JVM just before terminating the Thread.
+
+class Test{
+	public static void main(String[] args) {
+		doStuff();
+	}
+	public static void doStuff() {
+		doMoreStuff();
+	}
+	public static void doMoreStuff() {
+		System.out.println("Hello");
+	}
+}
+
+
+|         |     |         |     |         |     |           |     |         |     |         |     |         |
+|         |     |         |     |         |     |           |     |         |     |         |     |         |
+|         |     |         |     |         |     |           |     |         |     |         |     |         |
+|         |     |         |     |         |     |           |     |         |     |         |     |         |
+|         |     |         |     |         |     |doMoreStuff|     |         |     |         |     |         |       
+|         |     |         |     |         |     |___________|     |         |     |         |     |         |
+|         |     |         |     | doStuff |     | doStuff   |     | doStuff |     |         |     |         |
+|         |	==>	|_________| ==> |_________| ==> |___________| ==> |_________| ==> |_________| ==> |         |
+|         |     | -main() |     |  main() |     |  main()   |     |  main() |     |  main() |     |         |
+|_________|     |_|_______|     |_________|     |___________|     |_________|     |_________|     |_________|
+                  |                                                                                  |
+Runtime stack     |                                                                                  V     
+for main thread   Stack Frame/ Activation Record								This empty stack will be
+                                                                                destroyed by JVM
+                                                                                
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+																Default exception handling in Java
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class Test{
+	public static void main(String[] args) {
+		doStuff();
+	}
+	public static void doStuff() {
+		doMoreStuff();
+	}
+	public static void doMoreStuff() {
+		System.out.println("Hello");
+	}
+}
+
+
+Inside a method if any exception occurs, the method in which it is raised is responsible to create exception object by including the following information:
+	Name of Exception
+	Description of Exception.
+	Location at which exception occurs.(Stack trace).
+	
+After creating the exception object, method hand overs that object to JVM. JAM will check, whether method contains any exception handling code or not.
+If the method doesn't contain exception handling code, JVM terminates that method abnormally and removes the corresponding entry from the stack.
+Then JVM identifies caller method and checks whether caller method contains any handling code or not. If the caller code doesn't contain handling code,
+then JVM terminates that caller method also abnormally and removes the corresponding entry from the stack. This process will be continued until main method.
+And if the main method also deosn't contain the handling code, then JVM terminates main method also abnormally and remove corresponding entry from stack.
+Then JVM hand overs responsibility of exception handling to "Default Exception Handler", which is the part of JVM.
+
+"Default Exception Handler" prints the exception information in the following format and terminates program abnormally
+	 __________________________________________________________________________
+	|	                                                                       |
+	|	Exception in thread "thread name" Name of exception : Description      |
+	|					Stack Trace                                            | 
+	|__________________________________________________________________________| 
+	
+	
+
+class Test {
+	public static void main(String[] args) {
+		doStuff();
+	}
+	public static void doStuff() {
+		doMoreStuff();
+	}
+	public static void doMoreStuff() {
+		System.out.println(10/0);
+	}
+}
+
+|           |
+|           |
+|           |
+|           |
+|doMoreStuff|
+|___________|
+| doStuff   |
+|___________|
+|  main()   |
+|___________|
+
+Exception in thread "main" java.lang.ArthimeticException: Division by Zero
+at Test.doMoreStuff(line number)
+at Test.doStuff(line number)
+at Test.main(line number)
+
+
+Note:
+IN a program, if at least terminates abnormally, then the program termination is abnormal termination. If all methods terminated normally, then only program termination is normal termination.
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+																Exception Hierarchy
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Throwable class acts as Root for Java exception hierarchy.	Throwable class defines two Child classes:
+	1.	Exception
+	2.	Error
+	
+
+Exception:	
+
+Most of the times exceptions are caused by our programs these are recoverable. 
+For example, if our programming requirement is to read data from remote file locating at London. At runtime, if remote file is not available, then we will get run-time exception saying
+FILENOTFOUND. If FILENOTFOUND exception occurs, we can provide local file and continue rest of program normally.
+	try {
+		Read data from remote file locating at London
+	} catch(FILENOTFOUNDEXCEPTION e) {
+		Use local file and continue rest of program normally.
+	}
+
+	
+Error:
+
+Most of the times errors are not caused by our program and these are due to lack of system resources.
+Errors are non-recoverable. 
+For Example, if OutOfMemory error occurs, being a programmer we can't do anything and the program will be terminated abnormally.
+System admin or Server admin is responsible to increase heap memory.
+
+													Throwable
+				________________________________________|________________________________
+			   |                                                                         |
+			Exception                                                                   Error
+			   |                                                                          |
+    ___________|________________________ ___________ ...                      ____________|____________________________   
+   |                                    |                                    |                        |                |
+ RuntimeException                   IOException                             VMError                   Assertion error  ExceptionInInitializer error
+   |-- ArthimeticException			  |-- EOFException                       |-- StackOverFlow error  
+   |-- NullPointerException           |-- FileNotFoundException              |-- OutOfMemory error
+   |-- ClassCastException             |-- InterruptedException
+   |-- IndexOutOfBoundException       ...  
+   |    |-- ArrayOutOfBoundException 
+   |	|-- StringOutOfBoundException
+   |-- IllelalArgumentException
+		|-- NumberFormatException	
+		
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+																		Checked and Unchecked Exception
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+The exceptions which are checked by compiler for smooth execution of the program are called "Checked Exceptions".
+
+Ex:	
+	FileNotFoundException.
+	
+
+In our program, if there is a chance of raising chance of checked exception, then compulsory we should handle that checked exception (either by try-catch or throws key word).
+Otherwise we will get compile-time error.
+
+The exceptions which are not checked by compiler whether programmer handling or not. Such type of exceptions are called "Unchecked exceptions".
+Ex:
+	ArthimeticException.
+	
+	
+Note: Whether it is checked or unchecked, every exception occurs at run-time only. There is no chance of occurring exception at compile-time.
+RunTimeException and it's child classes, Error and it's child classes are unchecked. Except these remaining are checked exceptions.
+
+package com.learnjava.exceptionlessons;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+public class ExceptionClass101 {
+	public static void main(String[] args) throws FileNotFoundException{
+		PrintWriter pw = new PrintWriter("abc.txt");
+		pw.println("Hello");
+		System.out.println(10/0);
+	}
+}
+
+/*CE:
+ * unreported exception FileNotFoundException; must be caught or declared to be thrown
+ * PrintWriter pw = new PrintWriter("abc.txt");
+ * */
+
+Fully checked Vs Partially checked :
+==================================================================
+A checked exception is said to be fully checked, if and only if, all it's child classes are also checked. 
+	Ex:	
+		IOException.
+		InterruptedException.
+A checked exception is said to be partially checked, if and only if, some of it's child classes are unchecked.
+	Ex:
+		Exception.
+		Throwable.
+		
+Note: The only possible partially checked exceptions in Java are 
+	1) Exception.
+	2) Throwable.
+	
+
+	
+Q.)	Describe the behavior of following exceptions:
+	IOException
+	RuntimeException
+	InterruptedException
+	Error
+	Throwable
+	ArithmeticException
+	NullPointerException
+	Exception
+	FileNotFoundException
+A.)	
+
+	IOException	==> Fully checked
+	RuntimeException ==> Unchecked
+	InterruptedException ==> Fully checked
+	Error ==> Unchecked
+	Throwable ==> Partially checked
+	ArithmeticException ==> Unchecked
+	NullPointerException ==> Unchecked
+	Exception ==> PartiallyChecked
+	FileNotFoundException ==> Fully checked
+	

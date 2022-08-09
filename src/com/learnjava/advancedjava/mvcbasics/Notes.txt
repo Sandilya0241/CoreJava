@@ -1,0 +1,53 @@
+
+
+ __________              ____________           ______________________________________
+|View      |            | Controller |         |  Model                               |                           
+|          |            |            |         |                                      |
+|          |            |            |         |   _____________      _____________   |     _____       
+|          |----------->|(Read)      |---------+->|             |--->|             |--+--->|     |
+|          |            |            |         |  |             |    |             |  |    | DB  |
+|          |            |            |         |  | Business    |    | DAO         |  |    |_____|
+|          |            |            |         |  | operations  |    |             |  |
+|          |            |            |         |  |_____________|    |_____________|  |
+|          |            |            |         |   Business logic                     |
+|          |            |            |         |                                      |
+|__________|            |____________|         |______________________________________|
+
+
+
+
+
+
+
+
+Presentation                                       simple java code      JDBC
+Layer                                              Java transaction API  ORM tools
+(show some forms                                   Security              Hibernates
+UI)                                                                      JPA                
+_________________                                  Spring TXN 
+HTML,                   Servlets, JSPs             Spring SEC
+CSS,                    Filter components,         EJBS
+JS,                     Tag libraries.
+JSP,					Frameworks:
+Adobe Flex,             -------------------
+Tag Libraries.			Struts, JSF,
+						Spring MVC.
+
+
+
+
+The above architecture is called MVC-II architecture.
+
+JDBC => from J2SE
+Servlets => from J2EE
+
+J2SE
+==========================
+	Standalone applications. (Calculator)
+	Client-Server. (Socket and Server Socket application)
+	
+J2EE
+==========================
+	Web Application.
+	Enterprise and Distributed applications. (RedBus [Java] <==> IRCTC [Java])
+	Interoperable applications. (RedBus [Java] <===XML/JSON===> GoIbibo [.Net])

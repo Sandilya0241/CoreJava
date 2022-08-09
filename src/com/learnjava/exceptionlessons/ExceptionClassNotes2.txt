@@ -1,0 +1,447 @@
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+															Customized exception handling by using try and catch
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+It is highly recommended to handle exceptions.
+The code which may raise an exception is called "Risky code" and we have to define that code inside "try" block and corresponding handling code we have to define inside "catch" block.
+
+try {
+	Risky code
+} catch (Exception e) {
+	Handling code.
+}
+
+Example:
+	Without try-catch: (Abnormal termination)
+	================================
+		package com.learnjava.exceptionlessons;
+
+		public class ExceptionClass102 {
+			public static void main(String[] args) {
+			
+				System.out.println("Statement1");
+				System.out.println(10/0);
+				System.out.println("Statement3");
+			}
+		}
+	O/P:
+		Statement1
+		Exception in thread "main" java.lang.ArithmeticException: / by zero
+		        at com.learnjava.exceptionlessons.ExceptionClass102.main(ExceptionClass102.java:7)
+				
+	With try-catch: (Normal termination)
+	================================
+		package com.learnjava.exceptionlessons;
+
+		public class ExceptionClass102 {
+			public static void main(String[] args) {
+			
+				System.out.println("Statement1");
+				try {
+					System.out.println(10/0);
+				} catch (ArithmeticException e) {
+					System.out.println(10/2);
+				}
+				System.out.println("Statement3");
+			}
+		}
+					
+	O/P:
+		Statement1
+		5
+		Statement3
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+															Control flow in try catch
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+try {
+	statement1;
+	statement2;
+	statement3;
+} catch (Exception e) {
+	statement4;
+}
+statement5;
+
+
+Case 1: If there is no exception.
+		O/P: Normal termination
+		statement1;
+		statement2;
+		statement3;
+		statement5;
+				
+Case 2: If an exception raised at statement2 and corresponding catch block matched.
+		O/P: Normal termination
+		statement1;
+		statement4;
+		statement5;
+
+Case 3: If an exception raised at statement2 and corresponding catch block didn't match.
+		O/P: Abnormal termination
+		statement1;
+		
+Case 4: If an exception raised at statement4/ statement5 then it is always abnormal termination.
+		
+Note:
+	1.) Within the try block, if anywhere an exception raised, then rest of try block won't be executed even though we handled that exception.
+		Hence, within the try we have to take only risky code and length of try block should be as less as possible.
+	
+	2.) In addition of try block , there may be chance of raising exception inside catch and finally blocks. 
+	3.) If any statement which is not part try block raises an exception, then it is always abnormal termination.
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+															Methods to print exception information
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+================================================================================	
+Throwable class defines the following methods to print exception information:   |
+--------------------------------------------------------------------------------|
+Method            |	Printable format                                            |
+------------------|-------------------------------------------------------------|
+printStackTrace   | <Name of Exception> : <Description>                         |
+                  | <Stack trace>                                               |
+------------------|-------------------------------------------------------------|
+toString          | <Name of Exception> : <Description>                         |
+------------------|-------------------------------------------------------------|
+getMessage        | <Description>                                               |
+==================+=============================================================
+
+Example program:
+====================
+
+package com.learnjava.exceptionlessons;
+
+public class ExceptionClass103 {
+	public static void main(String[] args) {
+		try {
+			System.out.println(10/0);
+		} catch (ArithmeticException e) {
+			System.out.println("Method 1: ExceptionName + Description + Stacktrace");
+			System.out.println("---------------------------------------------------------");
+			e.printStackTrace();
+			System.out.println("---------------------------------------------------------");
+			System.out.println("Method 2: ExceptionName + Description");
+			System.out.println("---------------------------------------------------------");
+			System.out.println("Printing object (internally toString() method call)" + e);
+			System.out.println("Printing object (explicit toString() call)" + e.toString());
+			System.out.println("---------------------------------------------------------");
+			System.out.println("Method 3: Description");
+			System.out.println("---------------------------------------------------------");
+			System.out.println(e.getMessage());
+		}
+	}
+}
+
+O/P:
+Method 1: ExceptionName + Description + Stacktrace
+---------------------------------------------------------
+java.lang.ArithmeticException: / by zero
+	at com.learnjava.exceptionlessons.ExceptionClass103.main(ExceptionClass103.java:6)
+---------------------------------------------------------
+Method 2: ExceptionName + Description
+---------------------------------------------------------
+Printing object (internally toString() method call)java.lang.ArithmeticException: / by zero
+Printing object (explicit toString() call)java.lang.ArithmeticException: / by zero
+---------------------------------------------------------
+Method 3: Description
+---------------------------------------------------------
+/ by zero
+
+
+Note:
+Internally default exception handler will use printStackTrace() method to print exception information to the console.
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+															try with multiple catch blocks
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+The way of handling an exception is varied from exception to exception. Hence, for every exception type, it is highly recommended to take separate catch block.
+i.e., try with multiple catch blocks is always possible and recommended to use.
+
+Single Catch block
+---------------------------
+try {
+	risky code
+} catch(Exception e) {
+}
+
+multiple catch blocks
+--------------------------
+try {
+	risky code
+} catch(ArithmeticException ae) {
+	perform alternative arithmetic operations
+} catch(SQLException se) {
+	perform SQL exception
+} catch(FileNotFoundException fnfe) {
+	perform File not found exception
+} catch(Exception e) {
+	default exception
+}
+
+
+Note:
+	If try with multiple catch blocks present, then order of catch blocks is very important. We have to take Child first and then Parent.
+	Otherwise we will get compile-time error saying
+		"Exception XXX has already been caught"
+		
+	Ex:
+		
+		package com.learnjava.exceptionlessons;
+
+		public class ExceptionClass104 {
+			public static void main(String[] args) {
+				try {
+					System.out.println(10/0);
+				} catch (ArithmeticException e) {
+					
+				} catch (Exception e) {
+					
+				}
+				                               ___________
+				try {                                     |
+					System.out.println(10/0);             | ExceptionClass104.java:17: error: exception ArithmeticException has already been caught
+				} catch (Exception e) {                   |  } catch (ArithmeticException e) {					                                          
+				} catch (ArithmeticException e) {         | 
+				}                              ___________|
+			}
+		}
+		
+	We can't declare two catch blocks for the same exception. Otherwise, we will get compile-time error.
+	try {
+		Risky code
+	} catch(ArithmeticException e) {
+		
+	}catch(ArithmeticException e) {
+		
+	}
+	CE: error: exception ArithmeticException has already been caught
+
+	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+															difference between final, finally and finalize
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+final:
+	1.) Final is the modifier appplicable for classes, methods and variables. If a class declared as final, then we can't extend that class. 
+		i.e., we can't create child for that class. i.e., Inheritance is not possible for final classes.
+	
+	2.) If a method is final, then we can't override that method in the child class.
+	3.) If a variable declared as final, then we can't perform reassignment for that variable.
+	
+finally:
+	1.) finally is a block always associated with try-catch to maintain clean-up code.
+		try {
+			risky code
+		} catch(Exception e) {
+			handling code
+		} finally {
+			cleanup code
+		}
+	2.) The speciality of finally block is it will be executed always irrespective of whether exception is raised or not raised or whether handled or not handled.
+
+finalize:
+	1.) finalize is a method is always invoked by GC just before destroying an object to perform clean-up activities. 
+		Once finalize method completes, immediately GC destroys that object.
+		
+
+		
+Note:
+	finally block is responsible to perform clean-up activities related to try block. i.e., whatever resources we opened as part of try block will be closed inside finally block.
+	whereas finalize method is responsible to perform clean-up activities related to object. i.e., whatever resources associated with object will be deallocated before destroying an object by using finalize method.
+
+	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+															various possible combinations of try-catch-finally
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+1.)	In try-catch-finally, order is important. 
+2.)	Whenever we are writing try, compulsory we should write either catch or finally. Otherwise we will get compile-time error.
+	i.e., try without catch or finally is invalid.
+3.) Whenever we are writing catch block, compulsory try block must be required. 
+	i.e., catch without try is invalid.
+4.) Whenever we are writing finally block, compulsory we should write try block.
+	i.e., finally without try is invalid.
+5.) Inside try, catch & finally blocks, we can declare try, catch and finally blocks.
+	i.e., nesting of try-catch-finally is allowed.
+6.) For try, catch and finally blocks, curly braces are mandatory.
+
+====|====================================|==========================================|
+Sno | Format                             |   Valid/ Invalid                         |
+====|====================================|==========================================|
+1	|  try {                         	 |                                          |
+    |  } catch(Exception x) {       	 |    Valid                                 |
+    |  }                            	 |                                          |
+====|====================================|==========================================|
+2	|  try {                         	 |                                          |
+    |  } catch(ArithmeticException ae) { |    Valid                                 |
+    |  } catch(Exception e) {            |                                          |
+    |  }                                 |                                          |
+====|====================================|==========================================|
+3	|  try {                         	 |                                          |
+    |  } catch(ArithmeticException ae) { |    Invalid                               |
+    |  } catch(ArithmeticException ae) { |    CE : Exception ArithmeticException has|
+    |  }                                 |         already been caught              |
+	|                                    |                                          |
+====|====================================|==========================================|
+4	|  try {                         	 |                                          |
+    |  } catch(ArithmeticException ae) { |    Valid                                 |
+    |  } finally {                       |                                          |
+    |  }                                 |                                          |
+====|====================================|==========================================|
+5	|  try {                         	 |                                          |
+    |  } finally {                       |    Valid                                 |
+    |  }                                 |                                          |
+====|====================================|==========================================|
+6	|  try {                         	 |                                          |
+    |  } catch(ArithmeticException ae) { |    Valid                                 |
+    |  }                                 |                                          |
+	|  try {                             |                                          |
+    |  } catch(Exception ae) {           |                                          |
+    |  }                                 |                                          |
+====|====================================|==========================================|
+7	|  try {                         	 |                                          |
+    |  } catch(ArithmeticException ae) { |    Valid                                 |
+    |  }                                 |                                          |
+	|  try {                             |                                          |
+    |  } finally {                       |                                          |
+    |  }                                 |                                          |
+====|====================================|==========================================|
+8	|  try {                         	 |                                          |
+    |  }                                 |    Invalid                               |
+    |                                    |    CE : try without catch or finally     |
+    |                                    |                                          |
+====|====================================|==========================================|
+9	|                           	     |                                          |
+    |  catch(ArithmeticException ae) {   |    Invalid                               |
+    |  }                                 |    CE : catch without try                |
+	|                                    |                                          |
+====|====================================|==========================================|
+10	|  finally {                         |                                          |
+    |  }                                 |    Invalid                               |
+    |                                    |    CE : finally without try              |
+    |                                    |                                          |
+====|====================================|==========================================|
+11	|  try {                         	 |                                          |
+    |  } finally {                       |    Invalid                               |
+    |  } catch(ArithmeticException ae) { |    CE : catch without try                |
+    |  }                                 |                                          |
+	|                                    |                                          |
+====|====================================|==========================================|
+12	|  try {                         	 |                                          |
+    |  }                                 |    Invalid                               |
+    |  System.out.println("Hello");	     |    CE1: try without catch or finally     |
+	|  catch(ArithmeticException ae) {   |    CE2: catch without try                |
+    |  }                                 |                                          |
+    |                                    |                                          |
+	|                                    |                                          |
+====|====================================|==========================================|
+13	|  try {                         	 |                                          |
+    |  } catch(ArithmeticException ae) { |    Invalid                               |
+    |  }                          	     |    CE1: catch without try                |
+	|  System.out.println("Hello");      |                                          |
+    |  catch(Exception ex) {             |                                          |
+    |  }                                 |                                          |
+====|====================================|==========================================|
+14	|  try {                         	 |                                          |
+    |  } catch(ArithmeticException ae) { |    Invalid                               |
+    |  }                          	     |    CE1: finally without try              |
+	|  System.out.println("Hello");      |                                          |
+    |  finally {                         |                                          |
+    |  }                                 |                                          |
+====|====================================|==========================================|
+15	|  try {                         	 |                                          |
+    |  	try {                            |    Valid                                 |
+    |  	} catch(ArithmeticException ae) {|                                          |
+	|   }                                |                                          |
+    |  } catch(ArithmeticException ae) { |                                          |
+    |  }                                 |                                          |
+====|====================================|==========================================|
+16	|  try {                         	 |                                          |
+    |  	try {                            |    Invalid                               |
+    |  	}                          	     |    CE1: try without catch or finally     |
+    |  } catch(ArithmeticException ae) { |                                          |
+    |  }                                 |                                          |
+====|====================================|==========================================|
+17	|  try {                         	 |                                          |
+    |  	try {                            |    Valid                                 |
+    |  	} finally {                      |                                          |
+	|   }                                |                                          |
+    |  } catch(ArithmeticException ae) { |                                          |
+    |  }                                 |                                          |
+====|====================================|==========================================|
+18	|  try {                         	 |                                          |
+    |  } catch(ArithmeticException ae) { |    Valid                                 |
+    |  		try {                        |                                          |
+	|       } finally {                  |                                          |
+    |   	}							 |                                          |
+    |  }                                 |                                          |
+====|====================================|==========================================|
+19	|  try {                         	 |                                          |
+    |  } catch(ArithmeticException ae) { |    Invalid                               |
+    |  		finally {                    |    CE1: finally without try              |
+    |   	}							 |                                          |
+    |  }                                 |                                          |
+====|====================================|==========================================|
+20	|  try {                         	 |                                          |
+    |  } catch(ArithmeticException ae) { |    Valid                                 |
+    |  }                                 |                                          |
+    |  finally { 	                     |                                          |
+	|		try {                        |                                          |
+	|		}                            |                                          |
+	|		catch (Exception ex) {       |                                          |
+	|		}                            |                                          |
+    |  }                                 |                                          |
+====|====================================|==========================================|
+21	|  try {                         	 |                                          |
+    |  } catch(ArithmeticException ae) { |    Invalid                               |
+    |  }                                 |    CE1: finally without try              |
+    |  finally { 	                     |                                          |
+	|		finally {                    |                                          |
+	|       }                            |                                          |
+    |  }                                 |                                          |
+====|====================================|==========================================|
+22	|  try {                         	 |                                          |
+    |  } catch(ArithmeticException ae) { |    Invalid                               |
+    |  }                                 |    CE1: finally without try              |
+    |  finally { 	                     |                                          |
+	|  }		                         |                                          |
+	|  finally {                         |                                          |
+    |  }                                 |                                          |
+====|====================================|==========================================|
+23	|  try                         	     |                                          |
+    |  	System.out.println("Hello");     |    Invalid                               |
+    |  } catch(ArithmeticException ae) { |                                          |
+	|  }		                         |                                          |
+	|  finally {                         |                                          |
+    |  }                                 |                                          |
+====|====================================|==========================================|
+24	|  try {                             |                                          |
+    |  } catch(ArithmeticException ae)   |    Invalid                               |
+    |  	System.out.println("Hello");     |                                          |
+    |  finally {                         |                                          |
+	|  }                                 |                                          |
+====|====================================|==========================================|
+25	|  try {                         	 |                                          |
+    |  } catch(ArithmeticException ae) { |    Invalid                               |
+    |  }                                 |                                          |
+    |  finally                           |                                          | 
+	|  	System.out.println("Hello");     |                                          | 
+====|====================================|==========================================|

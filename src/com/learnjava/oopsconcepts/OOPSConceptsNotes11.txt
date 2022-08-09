@@ -1,0 +1,194 @@
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+																	OVERLOADED CONSTRUCTORS
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+
+Within a class we can declare multiple Constructor. And all these Constructors having same name but different type arguments. Hence, all these Constructors are considered as Overloaded constructors.
+Hence, Overloading concept applicable for Constructors.
+
+	class Test {
+	
+		Test() {
+			this(10);
+			System.out.println("No-arg method");
+		}	
+		
+		Test(int i) {
+			this(10.5);
+			System.out.println("Int-arg method");
+		}
+		
+		Test(double d) {
+			System.out.println("Double-arg method");
+		}
+		
+		public static void main(String[] args) {
+			Test t1 = new Test();
+			
+			Test t2 = new Test(10);
+			
+			Test t3 = new Test(10.5);
+			
+			Test t4 = new Test(10l);
+		}
+	}
+	
+	
+	O/P:
+		Double-arg
+		Int-arg
+		No-arg
+		Double-arg
+		Int-arg
+		Double-arg
+		Double-arg
+		
+
+For Constructors, Inheritance and Overriding concepts are not applicable but Overloading concept is applicable.
+
+Every class in Java including Abstract class can contain Constructor but interface cannot contain Construct.
+
+class Test {	|	abstract class Test {	|	interface Test{
+	Test() {    |		Test() {            |		Test() {
+	}           |		}                   |		}
+}               |	}                       |	}
+                |                           |
+                
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+																	IMPORTANT POINTS
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+
+Case I:		Recursive method call is a run-time exception saying "Stack Overflow error".
+			But in our program, if there is a chance of recursive constructor invocation, then the code won't compile and we will get compile-time error.
+
+			Ex:
+				class Test {
+					public static void m1() {
+						m2();
+					}
+					public static void m2() {
+						m1();
+					}
+					
+					public static void main(String[] args) {
+						m1();	//RE: StackOverflow error
+						System.out.println("Hello");
+					}
+				}
+				
+				
+				class Test {
+					Test() {
+						this(10);
+					}
+					Test(int i) {
+						this();
+					}
+					public static void main(String[] args) {
+						System.out.println("Hello");
+					}
+				}
+				O/P: CE: Recursive Constructor Invocation.
+				
+
+			
+Case II:	If Parent class contains any argument Constructor, then while writing Child classes we have to take special care with respect to Constructors.
+	****    When we are writing any argument constructor, it is highly recommended to write no-arg constructor also.	
+
+			Ex:
+				Valid:
+				=======================
+				class P {
+				}
+				
+				class C extends P {
+				
+				}
+				
+				Valid:
+				=======================
+				class P {
+					P() {
+						super(); 	==> Compiler added code
+					}	
+				}
+				class C extends P {
+								____
+					C() {			|       
+						super();    | ==> Compiler added code
+					}           ____|
+				}
+	
+				Invalid:	CE : Cannot find symbol; Symbol : Constructor P(); Location : class P
+				=======================
+				class P {
+					P(int i) {
+						super(); 	==> Compiler added code
+					}	
+				}
+				class C extends P {
+								____
+					C() {			|       
+						super();    | ==> Compiler added code
+					}           ____|
+				}	
+
+				
+Case III:	If parent class constructor throws any checked exception compulsory, Child class Constructor should throw the same check exception or it's Parent.
+			Otherwise the code won't compile.
+
+			EX:
+				class P {
+					P() throws IOException {
+					}
+				}
+				
+				class C extends P {
+					C() {	//CE: Unreported exception java.io.IOException in default Constructor.
+						super();
+					}
+				}
+				
+				
+				class P {
+					P() throws IOException {
+					}
+				}
+				class C extends P {
+					C() throws IOException/Exception/Throwable {
+						super();
+					}
+				}
+				
+				
+                
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+																	CONSTRUCTORS SUMMARY
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+Q.) Which of the following are Valid/ True?
+	1)	The main purpose of Constructor is to create an object => False
+	2)  The main purpose of Constructor is to perform initialization of an object => True.
+	3)	The name of the Constructor need not be same as class name => False.
+	4)  Return type concept applicable for Constructor but only void => False.
+	5) 	We can apply any modifier for Constructor => False.
+	6)	Default constructor generated by JVM => False.
+	7)  Compiler is responsible to generate default Constructor => True.
+	8)	Compiler will always generate default Constructor => False.
+	9)	If we are not writing no-arg Constructor, then compiler will generate default constructor => False.
+	10)	Every no-argument constructor is always default constructor => False.
+	11)	Default constructor is always no-arg constructor => True.
+	12)	The first line inside every constructor should be either super() or this(). If we are not writing anything, then compiler will generate this() => False.
+		because compiler will place super() not this().	
+	13)	For constructors both Overloading and Overriding concepts are applicable => False.
+	14) For constructors inheritance concept applicable but not Overriding => False.
+	15)	Only concrete classes can contain constructor but abstract classes cannot => False.
+	16) Interface can contain constructors => False.
+	17)	Recursive constructor Invocation is a run-time exception => False.
+	18) If Parent class constructor throws some checked exception compulsory Child constructor should throw the same checked exception or it's Child => False.

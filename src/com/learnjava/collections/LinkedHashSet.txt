@@ -1,0 +1,18 @@
+
+LinkedHashSet (Class):
+======================================
+
+	a. It is the child class of HashSet.
+	b. It is exactly same as HashSet (including constructors and methods) but the following differences:
+	
+	HashSet                                          | LinkedHashSet
+	=================================================|==================================================================
+	Underlying data structure is Hashtable           | Underlying data structure is a combination of Hashtable and LinkedList.
+	Insertion order is NOT preserved                 | Insertion order is preserved
+	Introduced in 1.2 V                              | Introduced in 1.4 V
+	
+	
+	In above example program, replace HashSet with LinkedHashSet then the insertion order is preserved.
+	
+	In general, we can use LinkedHashSet to develop Cache based applications where duplicates are NOT allowed and insertion order is preserved.
+	

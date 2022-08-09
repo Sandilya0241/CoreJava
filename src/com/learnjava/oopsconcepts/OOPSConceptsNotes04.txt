@@ -1,0 +1,261 @@
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+															OVER LOADING
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+
+
+Two methods are said to be Overloaded, if and only if, both methods having same name but different arguments types.
+
+IN C language, method Overloading concept is not available. Hence, we cannot declare multiple methods with same name but different argument type.
+If there is change in argument type, compulsory we should for new method name which increases, complexity of programming.
+
+	Ex:
+		abs(int i)	=> abs(10);
+		labs(long l) => labs(10l);
+		fabs(float f) => fabs(10.5f);
+		
+But in JAVA, we can declare multiple methods with same name but different argument types. Such type of methods are called Overloaded methods.
+	Ex:	
+		abs(int i)
+		abs(long l)
+		abs(float f)
+		
+Having Overloading concept in Java, reduces complexity of programming.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+package com.learnjava.oopsconcepts;
+
+public class OOPSConceptsLesson02 {
+	public static void main(String[] args) {
+		Test t = new Test();
+		t.m1();
+		t.m1(10);
+		t.m1(10.5);
+	}
+}
+
+class Test {
+	// Overloaded methods	
+	public void m1() {
+		System.out.println("No-args method");
+	}
+	
+	public void m1(int i) {
+		System.out.println("Int arg method");
+	}
+	
+	public void m1(double d) {
+		System.out.println("double arg method");
+	}
+}
+
+O/P:
+No-args method
+Int arg method
+double arg method
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Notes:
+In Overloading method resolution always taken care by Compiler based on Reference type.
+Hence, Overloading is also considered as Compile-time Polymorphism/ Static Polymorphism/ Early binding,
+
+ 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+CASE I: Automatic promotion in Overloading
+======================
+While resolving Overloaded methods, if exact matched method is not available, then we won't get any compile-time error immediately. 
+First it will promote argument to the next level and check whether any matched method is available or not. 
+If matched method is available, then it will be considered. If matched method is not available, then compiler promotes argument once again to the next level. 
+This process will be continued until all possible promotions. Still, if the matched method is not available. Then we will get compile-time error.
+The following are all possible promotions in Overloading:
+
+	Byte -- Short --+
+	                |--> int -- long -- float -- double
+    char -----------+
+    
+    Automatic Promotion in Overloading
+    
+    
+	class Test {
+  		public void m1(int i){
+  			System.out.println("Int args");
+  		}
+  		public void m1(float){
+  			System.out.println("Float args");
+  		}
+  	}
+  	class TestExec {
+  		public static void main(String[] args){
+  			Test t = new Test();
+  			t.m1(10);		//O/P: Int args
+  			t.m1(10.5f);	//O/P: Float args
+  			t.m1('a');		//O/P: Int args
+  			t.m1(10l);		//O/P: Float args
+  			t.m1(10.5);		//CE: Cannot find symbol. Symbol : m1(double)
+  		}
+  	}
+  	
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+CASE II: 
+==========================
+While resolving Overloaded methods, compiler will always give precedence for Child type argument when compared with Parent type argument.
+
+class Test {
+	public void m1(Object o) {
+		System.out.println("Object version");
+	}
+	
+	public void m1(String str) {
+		System.out.println("String version");
+	}
+}
+
+class TestExec {
+	public static void main(String[] args) {
+		Test t = new Test();
+		t.m1(new Object());	==> Object version
+		t.m1("durga");	==> String version
+		t.m1(null) ==> String Version
+	}
+}
+
+Object 
+  A
+  |
+  |
+String
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+CASE III: 
+==========================
+
+class Test {
+	public void m1(StringBuffer sb) {
+		System.out.println("StringBuffer version");
+	}
+	
+	public void m1(String str) {
+		System.out.println("String version");
+	}
+}
+
+class TestExec {
+	public static void main(String[] args) {
+		Test t = new Test();
+		t.m1(new StringBUffer("Sandy"));	==> StringBUffer version
+		t.m1("durga");	==> String version
+		t.m1(null) ==> CE: reference to m1() is ambiguous.
+	}
+}
+
+Object 
+  A
+  |___________________
+  |                   |  
+String             StringBuffer
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+CASE IV: 
+==========================
+
+class Test {
+	public void m1(int i, float f) {
+		System.out.println("Int-Float version");
+	}
+	
+	public void m1(float f, int i) {
+		System.out.println("Float-Int version");
+	}
+}
+
+class TestExec {
+	public static void main(String[] args) {
+		Test t = new Test();
+		t.m1(10,10.5f);	==> Int-Float version
+		t.m1(10.5f,10);	==> Float-Int version
+		t.m1(10,10) ==> CE: reference to m1() is ambiguous.
+		t.m1(10.5f,10.5f) ==> CE: Cannot find symbol. Symbol : Method m1(). Location: class Test
+	}
+}
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+In general, VAR-ARG method will get least priority i.e., there is no other method matched then only Var-ARg method will get the chance. It is exactly same as default case inside switch.
+
+CASE V: 
+==========================
+
+class Test {
+	public void m1(int x) {
+		System.out.println("General version");
+	}
+	
+	public void m1(int... x) {
+		System.out.println("Var-arg version");
+	}
+}
+
+class TestExec {
+	public static void main(String[] args) {
+		Test t = new Test();
+		t.m1();	==> Var-arg version
+		t.m1(10, 20);	==> Var-arg version
+		t.m1(10) ==> General version
+	}
+}
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+In Overloading, method resolution always takes care by compiler based on Reference type 
+In Overloading, runtime object won't play any role.
+         _________________________            ________________ 
+        |                         |          |                |
+		v                         |          |                v
+	ReferenceType			Animal a = new Animal();	Runtime Object
+	   ^					Animal a1 = new Monkey();         ^
+       |__________________________|          |________________|
+
+CASE VI: 
+==========================
+
+
+class Animal {
+}
+class Monkey extends Animal {
+}
+class Test {
+	public void m1(Animal a){
+		System.out.println("Animal Version);
+	}
+	public void m1(Monkey m){
+		System.out.println("Monkey Version);
+	}
+}
+
+class TestExec {
+	public static void main(String[] args){
+		Test t = new Test();
+		Animal a = new Animal();
+		t.m1(a);	==>	 Animal Version
+		Monkey m = new Monkey();
+		t.m1(m);	==>  Monkey Version
+		Animal a1 = new Monkey();
+		t.m1(a1);	==>  Animal Version
+	}
+}

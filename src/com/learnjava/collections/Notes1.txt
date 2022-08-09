@@ -1,0 +1,280 @@
+
+An array is an indexed collection of fixed number of Homogeneous data elements.
+
+The main advantage of arrays is we can represent multiple values by using single variable so that readability of the code will be improved.
+
+Limitations of Array:
+
+1. Arrays are fixed in size i.e., once we creates an array, there is no chance of increasing/ decreasing the size based on our requirement. Due to this to use arrays concept. we should be aware of size of array in advance, which may not be possible all the time.
+
+2. Array can hold only Homogeneous data type elements. 
+	Ex: Student[] s = new Student[10000];
+	    s[0] = new Student();
+	    s[1] = new Customer();
+	    
+	    Compile Time Error : incompatible types found : Customer required : Student.
+	    
+   We can solve this problem by using Object type arrays.
+   	Ex : 	Object[] s = new Object[10000];
+	    	s[0] = new Student();
+	    	s[1] = new Customer();
+	    	
+3. Arrays concept is not implemented based on standard data structure. Hence ready-made method support is not available. For every requirement, we have to write the code explicitly, which increases complexity of programming.
+
+
+
+Differences between Arrays and Collections:
+==================================================================================================================================================
+Arrays                                                 			   |Collections                                                                   |
+-------------------------------------------------------------------|------------------------------------------------------------------------------					
+1. Fixed in Size. 					                               |1. Growable in nature                                                         |
+2. With respect to memory, Arrays are not recommended.             |2. With respect to memory, Collections are recommended.                       |
+3. With respect to performance, Arrays are recommended.            |3. With respect to performance, Collections are not recommended.              |
+4. Can hold only Homogeneous objects.           		           |4. Can hold both Heterogeneous and Homogeneous objects.                       |
+5. No underlying data structures are available. Ready-made method  |5. Each and every collection is constructed based on some standard            |
+   support is not available and hence Complexity of coding is more.|   data structure. So, Complexity of coding is less.			              |
+6. Array can hold both primitive and objects.                      |6. Collections can hold only objects but not primitives.             		  |
+==================================================================================================================================================
+
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+Collection : If we want to represent a group of individual objects as a single entity, then we go with Collection.
+Collection Framework : It contains several classes and interfaces which can be used to represent a group of individual objects as a single entity.
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+
+
+Collection Vs Collections:
+
+Collection : It is an interface. If we want to represent a group of individual objects as a single entity, then we should go for Collection.
+
+Collections : It is an utility class present in java.util package to define several utility methods for collection objects (like sorting, searching et cetera). 
+
+																			9 Key interfaces of Collection Framework:
+																			-----------------------------------------
+	
+																			
+I.		Collection (Interface) :
+	
+			a. If we want to represent a group of individual objects as a single entity, then we should go for Collection.
+			b. Collection interface defines the most common methods which are applicable for any collection object.
+			c. In general, collection interface is considered as root interface of Collection Framework.
+			d. There is no concrete class which implements Collection interface directly. 
+
+
+II. 	List (Interface) :
+	
+			a. It is the child interface of Collection. 
+			b. If we want to represent a group of individual objects as a single entity where duplicates are allowed and insertion order must be preserved, then we should go for List.
+	
+	
+Collection (I) [1.2 V]
+ |	
+ |
+List (I) [1.2 V]
+ |
+ |___________________________________________________________
+ |                          |                                |                 
+ArrayList (C) [1.2 V]      LinkedList (C) [1.2 V]           Vector (C) [1.0 V] {Legacy classes}
+                                                             |                    
+                                                             Stack (C) [1.0 V]  {Legacy classes}	
+			
+			
+III.	Set (Interface) :
+	
+			a. It is the child interface of Collection. 
+			b. If we want to represent a group of individual objects as a single entity where duplicates are NOT allowed and insertion order is NOT required, then we should go for Set.
+			
+Collection (I) [1.2 V]
+ |	
+ |
+Set (I) [1.2 V]
+ |
+ |
+HashSet (C) [1.2 V]
+ |
+ |
+LinkedHashSet (C) [1.4 V]	             
+			
+			
+IV.		SortedSet (Interface) :
+	
+			a. It is the child interface of Set. 
+			b. If we want to represent a group of individual objects as a single entity where duplicates are NOT allowed and all objects should be inserted according to some sorting order, then we should go for SortedSet.
+			
+Collection (I) [1.2 V]
+ |	
+ |
+Set (I) [1.2 V]
+ |
+ |
+SortedSet (I) [1.2 V]	     
+			
+			
+V.		NavigableSet (Interface) :
+	
+			a. It is the child interface of SortedSet. 
+			b. It contains several methods for navigation purposes. 
+			
+Collection (I) [1.2 V]
+ |	
+ |
+Set (I) [1.2 V]
+ |
+ |
+SortedSet (I) [1.2 V]
+ |
+ |
+NavigableSet (I) [1.6 V]
+ |
+ |
+TreeSet (C) [1.2 V]
+			
+
+Differences between List and Set :
+=======================================================================================
+List									|Set                                           |
+---------------------------------------------------------------------------------------
+1. Duplicates are allowed               |1. Duplicates are NOT allowed                 |
+2. Insertion order preserved            |2. Insertion order NOT preserved              |
+=======================================================================================
+			
+			
+VI.		Queue (Interface) :
+	
+			a. It is the child interface of Collection. 
+			b. If we want to represent a group of individual objects as a single entity "PRIOR TO PROCESSING", then we should go for Queue.
+			c. Usually Queue follows "FIRST-IN FIRST-OUT" order. But based on our requirement, we can implement our own priority order also.
+			
+			Ex: Before sending mail, all mail ids are to be stored in some data structure. In which order we added mail ids, in the same order only mail should be delivered. For this requirement, Queue is best choice.
+			
+Collection (I) [1.2 V]
+ |	
+ |
+Queue (I) [1.5 V]
+ |______________________________________________________________________________
+ |                           |                                                  | 
+PriorityQueue (C) [1.5 V]   BlockingQueue (C) [1.5 V]                          ...  
+                             |
+                             |--- PriorityBlockingQueue (C) [1.5 V] 
+                             |--- LinkedBlockingQueue (C) [1.5 V]
+
+
+NOTE : All the above interfaces (Collection, List, Set, SortedSet, NavigableSet, Queue) meant for representing a group of individual objects. If we want to represent a group of objects as Key-Value pairs then, we should for Map
+
+                             
+VII.	Map (Interface) :
+	
+			a. Map is NOT the child interface of Collection. 
+			b. If we want to represent a group of objects as Key-Value pairs, then we should go for Map.
+			c. Both Key and Value are objects only.
+			d. Duplicate Keys are NOT allowed but Values can be duplicated.
+			
+			Ex: Student Roll No (Key)     --- Student Name (Value)
+			    101                           Durga
+			    102                           Shiva
+			    103                           Rama                    
+Map (I) [1.2 V]                                                                                  Dictionary (AC) [1.0 V] {Legacy classes}
+ |________________________________________________________________________________________________|
+ |                                   |                            |                               |
+HashMap (C) [1.2 V]                  |                            |                               |   
+ |                                  WeakHashMap (C) [1.2 V]      IdentityHashMap (C) [1.4 V]     Hashtable (C) [1.0 V] {Legacy classes}
+ |                                                                                                |  
+ |                                                                                                |
+LinkedHashMap (C) [1.4 V]                                                                        Properties (C) [1.0 V] {Legacy classes}
+
+
+VIII.	SortedMap (Interface) :
+	
+			a. It is the child interface of Map. 
+			b. If we want to represent a group of objects as Key-Value pairs according to some sorting order of Keys, then we should go for SortedMap.
+			c. In SortedMap, the sorting should be based on Key but not based on Value.
+			
+
+IX.		NavigableMap (Interface) :
+	
+			a. It is the child interface of SortedMap. 
+			b. If defines several methods for navigation purposes.
+			
+
+Map (I) [1.2 V]
+ |	
+ |
+SortedMap (I) [1.2 V]
+ |
+ |
+NavigableMap (I) [1.6 V]
+ |
+ |
+TreeMap (C) [1.2 V]
+
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&                      SUMMARY                   &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+
+Collection (I) [1.2 V]                                                                                                                                                                ||   Map (I) [1.2 V]                                                                                           Dictionary (AC) [1.0 V] {Legacy classes}                                                    
+ |_________________________________________________________________________________________________________________________                                                           ||    |__________________________________________________________________________________________________________	     |
+ |                                                                             |                                           |                                                          ||    |                         |                 |                     |                                        |     | 
+List (I) [1.2 V]                                                             Set (I) [1.2 V]                          Queue (I) [1.5 V]                                               ||   HashMap (C) [1.2 V]        |                 |              SortedMap (I) [1.2 V]                           |     |
+ |                                                                         ____|__________________                    _____|______________________________________________________    ||    |                   WeakHashMap (C) [1.2 V] |                     |                                   Hashtable (C) [1.0 V] {Legacy classes}     
+ |___________________________________________                              |                      |                   |                   |                                      |    ||    |                                           |              NavigableMap (I) [1.6 V]                        |
+ |                      |                    |                          HashSet (C) [1.2 V]       |    PriorityQueue (C) [1.5 V]   BlockingQueue (C) [1.5 V]                     ...  ||    |                                           |                     |                                        | 
+ArrayList (C) [1.2 V]   |         Vector (C) [1.0 V] {Legacy classes}      |                      |                                       |--- PriorityBlockingQueue (C) [1.5 V]      ||   LinkedHashMap (C) [1.4 V]             IdentityHashMap (C) [1.4 V]  |                                        |
+                        |                    |                         LinkedHashSet (C) [1.4 V]  |                                       |--- LinkedBlockingQueue (C) [1.5 V]        ||                                                                      |                                        |
+                    LinkedList (C) [1.2 V]   |                              	                  |                                                                                                                                                    TreeMap (C) [1.2 V]                       Properties (C) [1.0 V] {Legacy classes}                                                                                                                                      
+                          |                  |                                                 SortedSet (I) [1.2 V]              ____________________________
+                          |        Stack (C) [1.0 V]  {Legacy classes}                            |                                       |
+                          |                                                                    NavigableSet (I) [1.6 V]                   |
+                          |                                                                       |                                       |
+                          |                                                                    TreeSet (C) [1.2 V]                        |
+                          |                                                                                                               |
+                          |-------------------------------------From 1.5 version Linked List also implements Queue Interface--------------|
+
+
+
+
+ Sorting 
+ -------------------------
+ 
+ Comparable (I) == If we need default sorting order.
+ Comparator (I) == If we need customized sorting order.
+ 
+ 
+ Cursors
+ -------------------------
+ 
+ Enumeration (I) [1.0 V]
+ Iterator (I)
+ ListIterator (I)
+ 
+ Utility Classes
+ -------------------------
+ 
+ Collections
+ Arrays
+ 
+ Legacy concepts available in Java Collection framework are :
+ ============================================================
+ Vector (C)
+ Stack (C)
+ Dictionary (AC)
+ Hashtable (C)
+ Properties (C)
+ Enumeration (I)
+ 

@@ -1,0 +1,124 @@
+Three Cursors of Java : 
+=================================================
+
+If we want to get objects one-by-one from the Collection, then we should go for Cursor. There are three types of Cursors available in Java.
+
+I. Enumeration.
+II. Iterator.
+III. ListIterator.
+
+I. Enumeration :
+=================================================
+
+	a. We can use Enumeration to get objects one-by-one from Legacy Collection object.
+	b. We can create Enumeration object by using elements() method of Vector class.
+
+		Syntax: public Enumeration elements();
+		Ex: Enumeration e = v.elements(); ==> v is Vector object.
+	
+	Methods :
+	=============================================
+	
+	public boolean hasMoreElements();
+	public Object nextElement();
+	
+	Limitations of Enumeration :
+	=============================================
+	
+	a. We can apply Enumeration concept only for Legacy classes and it's not a universal cursor.
+	b. By using Enumeration, we can get only Read access and we can't perform remove operation.
+	
+	To overcome above limitations, we should go for Iterator.
+	
+II. Iterator:
+===================================================
+
+	a. We can apply Iterator concept for any Collection object. Hence, it is universal Cursor.
+	b. By using Iterator, we can perform both read and remove operations.
+	c. We can create Iterator object by using iterator() method of Collection Interface.
+	
+		public Iterator iterator();
+		Ex: Iterator itr = c.iterator(); ==> c is any Collection object.
+		
+	Methods :
+	================================================
+	
+	pubic boolean hasNext();
+	public Object next();
+	public void remove();
+	
+	Limitations of Iterator:
+	================================================
+	
+	a. By using Enumeration and Iterator, we can always move only towards forward direction and we can't move towards backward direction. These are single direction cursors but not bidirectional cursors.
+	b. By using Iterator, we can perform only read and remove operations and we can't perform replace and addition of new objects.
+	
+	
+	To overcome above limitations, we should go for ListIterator.
+	
+
+III. ListIterator :
+====================================================
+
+	a. By using ListIterator, we can move either to the forward direction or to the backward direction. And hence it is bidirectional cursor.
+	b. By using ListIterator, we can perform replacement and addition of new objects in addition to read and remove operations.
+	
+	We can create ListIterator by using listIterator() method of List Interface.
+	
+	Syntax: public ListIterator listIterator();
+	Ex: ListIterator ltr = l.listIterator(); ==> l is any List object.
+	
+	
+	Methods :
+	=================================================
+	
+	ListIterator is the child interface of Iterator and hence all methods present in Iterator by default available in ListIterator.
+	
+	Iterator (I)
+	|
+	|
+	ListIterator (I)
+	
+	
+	
+	Forward Movement  |	public boolean hasNext();
+	                  | public Object next();
+	                  | public int nextIndex();
+	                 
+	                 
+	Backward Movement | public boolean hasPrevious();
+	                  | public Object previous();
+	                  | public int previousIndex();
+
+
+	Extra Operations  | public void remove();
+	                  | public void add(Object o);
+	                  | public void set(Object o);
+	                  
+	                  
+	                  
+	Limitations:
+	=================================================
+	
+	The most powerful cursor is ListIterator. But its limitation is, it is applicable only for List objects.
+	
+	
+	Comparison table of Three cursors:
+	========================================================================================================
+_______________________________________________________________________________________________________________________________________________________________________________________________	
+Property               				| Enumeration                                 | Iterator                                     | ListIterator                                                |
+------------------------------------|---------------------------------------------|----------------------------------------------|-------------------------------------------------------------|
+                                    |                                             |                                              |                                                             |
+Where we can apply?                 | Only for Legacy classes                     | For any Collection object                    | Only for List objects                                       |
+------------------------------------|---------------------------------------------|----------------------------------------------|-------------------------------------------------------------|
+Is it Legacy ?                      | Yes. 1.0 Version.                           | No. 1.2 Version                              | No. 1.2 Version                                             |
+------------------------------------|---------------------------------------------|----------------------------------------------|-------------------------------------------------------------|
+Movement                            | Single direction (Only forward direction)   | Single direction (Only forward direction)    | Bidirectional                                               |
+------------------------------------|---------------------------------------------|----------------------------------------------|-------------------------------------------------------------|
+Allowed operations                  | Read.                                       | Read, Remove                                 | Read, Remove, Replace, Add                                  |
+------------------------------------|---------------------------------------------|----------------------------------------------|-------------------------------------------------------------|
+How we can get it?                  | By using elements() method of Vector class  | By using iterator() method of Collection     | By using listIterator() method of List interface            | 
+                                    |                                             | interface                                    |                                                             |
+------------------------------------|---------------------------------------------|----------------------------------------------|-------------------------------------------------------------|
+Methods                             | 2 (hasNextElements(), nextElement()         | 3 (hasNext(), next(), remove())              | 9 methods                                                   |
+____________________________________|_____________________________________________|______________________________________________|_____________________________________________________________|

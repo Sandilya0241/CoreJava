@@ -1,0 +1,65 @@
+HashSet (Class) :
+====================================
+
+	a. Underlying data structure is Hashtable.
+	b. Duplicate objects are not allowed.
+	c. Insertion order is not preserved and it is based on Hashcode of objects.
+	d. Null insertion is possible (only once).
+	e. Heterogeneous objects are allowed.
+	f. Implements Serializable and Cloneable but not RandomAccess Interface.
+	g. HashSet is best choice if our frequent operation is Search operation.
+	
+	NOTE: In HashSet, duplicates are not allowed. If we are trying to insert duplicates, then we won't get any compile time or runtime errors but add() method simply returns "false"
+	
+	HashSet h = new HashSet();
+	Sysout(h.add("A")); ==> true
+	Sysout(h.add("A")); ==> false
+	
+	
+	Constructors:
+	================================
+	
+	a. HashSet h = new HashSet();
+	
+		Creates an empty HashSet object with default initial capacity : 16 and default fill ratio 0.75.
+	
+	b. HashSet h = new HashSet(int initial_capacity);
+	
+		Creates an empty HashSet object with specified initial capacity and default fill ratio 0.75.
+		
+	c. HashSet h = new HashSet(int initial_capacity, float fill_ratio);
+	
+		Creates an empty HashSet object with specified initial capacity and with specified fill ratio.
+	
+	d. HashSet h = new HashSet(Collection c);
+	
+		Creates an equivalent HashSet object for a given Collection object. This constructor is meant for inter conversion between Collection objects.
+		
+		
+	Fill ratio Or Load Factor :
+	==================================
+	
+	After filling how much ratio a new HashSet object will be created, that ratio is called Fill Ratio or Load Factor. For example, Fill ratio means, after filling 75% ratio a new HashSet object will be created.
+	
+	Ex: 
+	package com.learnjava.collections;
+
+	import java.util.HashSet;
+	import java.util.Set;
+	
+	public class SetExamples {
+	
+		public static void main(String[] args) {
+			// TODO Auto-generated method stub
+			HashSet hs = new HashSet();
+			hs.add("B");
+			hs.add("C");
+			hs.add(10);
+			hs.add("D");
+			System.out.println(hs.add("Z"));
+			System.out.println(hs);
+			System.out.println(hs.add("Z"));
+			
+		}
+	
+	}

@@ -1,0 +1,11 @@
+VIEW							Controller                                           Model
+-------------				==> ----------------------                            ==>------------------------------------
+								REad data coming from VIEW (Presentation layer)      Business           DAO
+HTML, JS, CSS                   Servlets, JSP, Filters                               Springs/ EJB       HIbernates
+JSP, Flex (Adobe), TagLibs      TagLibs                                                                 JDBC
+                                Struts, JSP, Spring MVC                                                 JPA
+                                
+                                
+                                
+                                
+Servlets

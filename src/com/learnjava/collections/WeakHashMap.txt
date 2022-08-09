@@ -1,0 +1,72 @@
+WeakHashMap
+==============================================================
+
+It is exactly same as HashMap except the following difference:
+
+In the case of HashMap, even though object doesn't have any reference, it is not eligible for GC, if it is associated with HashMap.
+i.e., HaspMap dominates Garbage collector.
+
+But in the case of WeakHashMap, if object doesn't contain any references, it is eligible for GC, even though object associated with WeakHashMap.
+i.e., Garbage Collector dominates WeakHashMap.
+
+====================================================
+HashMap Example:
+====================================================
+
+		package com.learnjava.collections;
+		import java.util.HashMap;
+		public class WeakHashMapDemo {
+			public static void main(String[] args) throws InterruptedException {
+				HashMap m = new HashMap();
+				Test1 t = new Test1();
+				m.put(t, "Sandy");
+				System.out.println(m);
+				t = null;
+				System.gc();
+				Thread.sleep(5000);
+				System.out.println(m);
+			}
+		}
+		class Test1 {
+			public String toString() {
+				return "Test1";
+			}
+			public void finalize() {
+				System.out.println("Test finalize method got called");
+			}
+		}
+		
+		O/P:
+		{Test1=Sandy}
+		{Test1=Sandy}
+		
+In the above example Temp object is not eligible for GC, because it is associated with HashMap and Output is above.
+In the above program, if we replace HashMap with WeakHashMap, then Temp object eligible for GC. In this case output is below:
+
+		package com.learnjava.collections;
+		import java.util.WeakHashMap;
+		public class WeakHashMapDemo2 {
+			public static void main(String[] args) throws InterruptedException {
+				WeakHashMap m = new WeakHashMap();
+				Test t = new Test();
+				m.put(t, "Sandy");
+				System.out.println(m);
+				t = null;
+				System.gc();
+				Thread.sleep(5000);
+				System.out.println(m);
+			}
+		}
+		class Test {
+			public String toString() {
+				return "Test";
+			}
+			public void finalize() {
+				System.out.println("Test finalize method got called");
+			}
+		}
+		
+		O/P:
+		{Test=Sandy}
+		Test finalize method got called
+		{}

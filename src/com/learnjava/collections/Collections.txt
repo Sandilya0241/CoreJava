@@ -1,0 +1,298 @@
+===============================================================================================================================================================================================
+===============================================================================================================================================================================================
+														Collections Class:
+===============================================================================================================================================================================================
+===============================================================================================================================================================================================
+
+Collections class defines several utility methods for Collection objects like Sorting, Searching, Reversing etc.
+
+===============================================================================================================================================================================================
+														Sorting elements of List
+===============================================================================================================================================================================================
+Collections class defines the following two sort methods:
+	 _________________________________ 
+	|                                 | 
+	| public static void sort(List l);|
+	|_________________________________|
+	
+	to sort based on Default Natural sorting order.
+		=> In this case, list should compulsory contain Homogeneous and Comparable objects. Otherwise, we will get runtime exception saying:
+			ClassCastException.
+		=> List should not contain null, otherwise we will get NullPointerException.
+	 _______________________________________________
+	|                                               | 
+	| public static void sort(List l, Comparator c);|
+	|_______________________________________________|
+	
+	to sort based on Customized sorting order.
+	
+
+	
+Demo program for sorting elements of list according to Default Natural Sorting Order:
+		package com.learnjava.collections;
+		import java.util.ArrayList;
+		import java.util.Collections;
+		public class CollectionsSortDemo {
+			public static void main(String[] args) {
+				ArrayList l = new ArrayList();
+				l.add("Z");
+				l.add("A");
+				l.add("K");
+				l.add("N");
+				//l.add(new Integer(10));	// ClassCastException
+				//l.add(null);            // NullPointerException
+				System.out.println("Before sorting : " + l);
+				Collections.sort(l);
+				System.out.println("After sorting : " + l);
+			}
+		}
+		
+		/*
+		 * Output:
+		 * 	Before sorting : [Z, A, K, N]
+		 *	After sorting : [A, K, N, Z]
+		 * 
+		 * 
+		 */
+
+
+Demo program for sorting elements of list according to Customized Sorting Order:
+		package com.learnjava.collections;
+		import java.util.ArrayList;
+		import java.util.Collections;
+		import java.util.Comparator;
+		public class CollectionsSortDemo2 {
+			public static void main(String[] args) {
+				ArrayList l = new ArrayList();
+				l.add("Z");
+				l.add("A");
+				l.add("K");
+				l.add("L");
+				//l.add(new Integer(10));	// ClassCastException
+				//l.add(null);            // NullPointerException
+				System.out.println("Before sorting : " + l);
+				Collections.sort(l, new MyComparator20());
+				System.out.println("After sorting : " + l);
+			}
+		}
+		
+		class MyComparator20 implements Comparator {
+			public int compare(Object o1, Object o2) {
+				String s1 = o1.toString();
+				String s2 = o2.toString();
+				return s2.compareTo(s1);
+			}
+		}
+		/*
+		 * Output:
+		 * 	Before sorting : [Z, A, K, L]
+		 *  After sorting : [Z, L, K, A]
+		 * 
+		 * 
+		 */
+
+		 
+===============================================================================================================================================================================================
+														Searching elements of List
+===============================================================================================================================================================================================
+
+Collections class defines, the following binary search methods:
+		
+	 ___________________________________________________________ 
+	|                                                           | 
+	| public static int binarySearch(List l, Object target);    |
+	|___________________________________________________________|
+	
+If the list is Sorted according to Default Natural Sorting Order.
+	
+	
+	 _________________________________________________________________________ 
+	|                                                                         | 
+	| public static int binarySearch(List l, Object target, Comparator c);    |
+	|_________________________________________________________________________|
+	
+We have to use this method, if the list is sorted to according to Customized Sorting order.
+
+Conclusions:	
+I.		The above search methods internally will use "binarySearch" algorithm.
+II.		Successful search returns index.
+III.	Unsuccessful search returns insertion point.
+IV.		Insertion point is the location where we can place target element in SortedList.
+V.		Before calling binarySearch() method, compulsory list should be sorted. Otherwise, we will get unpredictable results.
+VI.		If the list is sorted according to comparator, then at the time search operation also we have to pass same Comparator object. Otherwise we will get unpredictable output.
+
+	Ex:
+		package com.learnjava.collections;
+		import java.util.ArrayList;
+		import java.util.Collections;
+		public class CollectionsSearchDemo {
+			public static void main(String[] args) {
+				ArrayList l = new ArrayList();
+				l.add("Z");
+				l.add("A");
+				l.add("M");
+				l.add("K");
+				l.add("a");
+				System.out.println(l);
+				Collections.sort(l);
+				System.out.println(l);
+				System.out.println(Collections.binarySearch(l, "Z"));
+				System.out.println(Collections.binarySearch(l, "J"));
+			}
+		}
+		
+		/*
+		 *	Output:
+		 *	[Z, A, M, K, a]
+			[A, K, M, Z, a]
+			3
+			-2 
+		 * 
+		 */
+		 
+		  _________________________
+		 |     |    |    |    |    |
+		 |	Z  | A  | M  | K  | a  | ==> Before sorting	
+		 |_____|____|____|____|____|
+		 
+		    
+		    -1   -2   -3   -4   -5 ===> Insertion point
+		  _________________________
+		 |     |    |    |    |    |
+		 |	Z  | A  | M  | K  | a  | ==> After sorting	
+		 |_____|____|____|____|____|
+		    0    1    2    3    4======> Index  
+		  
+		  
+		  
+		  
+		Ex:
+		  	package com.learnjava.collections;
+			import java.util.ArrayList;
+			import java.util.Collections;
+			import java.util.Comparator;
+			public class CollectionsSearchDemo2 {
+				public static void main(String[] args) {
+					ArrayList l = new ArrayList();
+					l.add(15);
+					l.add(0);
+					l.add(20);
+					l.add(10);
+					l.add(5);
+					System.out.println(l);
+					Collections.sort(l, new MyComparator21());
+					System.out.println(l);
+					System.out.println(Collections.binarySearch(l, 10, new MyComparator21()));
+					System.out.println(Collections.binarySearch(l, 13, new MyComparator21()));
+					System.out.println(Collections.binarySearch(l, 17));
+					System.out.println(Collections.binarySearch(l, 17, new MyComparator21()));
+				}
+			}
+			class MyComparator21 implements Comparator {
+				public int compare(Object o1, Object o2) {
+					Integer i1 = (Integer)o1;
+					Integer i2 = (Integer)o2;
+					return i2.compareTo(i1);
+				}
+			}
+			/* Output
+				[15, 0, 20, 10, 5]
+				[20, 15, 10, 5, 0]
+				2
+				-3
+				-6
+				-2
+			*/
+			
+		
+		  _________________________
+		 |     |    |    |    |    |
+		 | 15  | 0  | 20 | 10 | 5  | ==> Before sorting	
+		 |_____|____|____|____|____|
+		 
+		    
+		    -1   -2   -3   -4   -5   -6===> Insertion point
+		  _________________________
+		 |     |    |    |    |    |
+		 |	20 | 15 | 10 | 5  | 0  | ==> After sorting	
+		 |_____|____|____|____|____|
+		    0    1    2    3    4======> Index  
+		 
+		 
+Note:
+For the list of 'N' elements, in the case of binarySearch() method:
+	I.		Successful search result range	: 0 to n-1.
+	II.		Unsuccessful search result range	: -(n+1) to -1.
+	III.	Total result range	: -(n+1) to n-1.
+	
+
+Ex:
+	3 Elements list
+	
+			-1   -2   -3   -4
+		  _______________
+		 |     |    |    |
+		 |  A  | K  | Z  |	
+		 |_____|____|____|
+		   0     1    2
+		
+		
+	Successful search result range	: 0 to 2.
+	Unsuccessful search result range	: -4 to -1.
+	Total result range	: -4 to 2.
+	
+	
+
+===============================================================================================================================================================================================
+														Reversing elements of List
+===============================================================================================================================================================================================
+
+Collections class defines the following reverse method to reverse elements of List:
+	
+     _______________________________________ 
+	|                                       | 
+	| public static void reverse(List l);   |
+	|_______________________________________|
+
+
+	Ex:
+		package com.learnjava.collections;
+		import java.util.ArrayList;
+		import java.util.Collections;
+		public class CollectionsReverseDemo {
+			public static void main(String[] args) {
+				ArrayList l = new ArrayList();
+				l.add(15);
+				l.add(0);
+				l.add(20);
+				l.add(10);
+				l.add(5);
+				System.out.println(l);
+				Collections.reverse(l);
+				System.out.println(l);
+			}
+		}
+		/*
+		 * Output
+		 * 	[15, 0, 20, 10, 5]
+			[5, 10, 20, 0, 15]
+		 * 
+		 */				
+		 
+
+===============================================================================================================================================================================================
+														Reverse Vs ReverseOrder
+===============================================================================================================================================================================================
+
+We can use reverse() method to reverse order of elements of list whereas we can use ReverseOrder() method to get Reversed comparator.
+
+								     ___________________________________________________________ 
+									|                                                           | 
+									| Comparator c1 = Collections.reverseOrder(Comparator c);   |
+									|____________|_________________________________________|____|
+									             |                                         |
+											Descending Order                          Ascending Order
+
+         
+
+==

@@ -1,0 +1,64 @@
+Vector:
+============================
+
+1. Underlying data structure is Resizeable Array/ Growable Array.
+2. Insertion order is preserved.
+3. Duplicates are allowed.
+4. Heterogeneous objects are allowed.
+5. Null insertion is possible.
+6. It implements Serializable/ Cloneable/ RandomAccess Interfaces.
+7. Every method present in Vector is synchronized and hence Vector object is Thread-safe.
+
+Constructors:
+============================
+
+	1. Vector v = new Vector();
+	
+	Creates an empty Vector object with default initial capacity 10. Once Vector reaches its maximum capacity, a new Vector object will be created with below formula:
+	
+					New capacity = Current capacity * 2;
+	
+	2. Vector v = new Vector(int initial_capacity);
+	
+	Creates an empty vector object with specified initial capacity.
+	
+	3. Vector v = new Vector(int initial_capacity, int incremental_capacity);
+	
+	Creates an empty vector object with specified initial capacity and increments everytime it reaches its maximum by specified incremental capacity.
+	
+	4. Vector v = new Vector(Collection c);
+	
+	Creates an equivalent Vector object for given Collection object. This constructor is meant for inter conversion between Collection objects
+	
+	
+Vector Specific methods :
+==================================
+
+	To add objects:
+	======================
+		add(Object o) ==> Collection method
+		add(int index, Object o) ==> List interface method
+		addElement(Object o) ==> Vector method.
+		
+    To remove objects:
+    ======================
+    	remove(Object o) ==> Collection
+    	removeElement(Object o) ==> Vector
+    	remove(int index) ==> List
+    	removeElementAt(int index) ==> Vector
+    	clear() ==> Collection
+    	removeAllElements() ==> Vector
+    	
+    To get objects:
+    ======================
+    	Object get(int index) ==> List
+    	Object elementAt(int index) ==> Vector
+    	Object firstElement() ==> Vector
+    	Object lastElement() ==> Vector
+    	
+Other methods:
+==================================
+	
+	int size(); ==> Total number of elements
+	int capacity(); ==> Total number of elements Vector can hold.
+	Enumeration elements();

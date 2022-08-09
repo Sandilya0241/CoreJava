@@ -1,0 +1,512 @@
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+																			Exception handling keywords summary
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+try : To maintain "Risky code".
+catch : To maintain exception handling code.
+finally : To maintain cleanup code.
+throw : To hand-over our created exception object to the JVM manually.
+throws : To delegate responsibility of exception handling to the caller.
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+																	Various possible compile time errors in exception handling
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+1. unreported exception XXX; must be caught or declared to be thrown
+2. Exception XXX has already been caught
+3. Exception XXX is never thrown in body of corresponding try statement
+4. unreachable statement
+5. incompatible types
+	found : XXX
+	required : java.lang.Throwable
+6. try without catch or finally
+7. catch without try
+8. finally without try
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+																	Customized or user defined exceptions
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Sometimes to meet programming requirements, we can define our own exceptions. Such type of exceptions are called, "Customized" Or "User-defined" exceptions.
+
+Ex:	TooYoungException, TooOldException, InsufficientFundsException et cetera.
+
+Ex:
+	package com.learnjava.exceptionlessons;
+
+	public class UserDefinedExceptionsExamples01 {
+		public static void main(String[] args) {
+			try {
+				int age = Integer.parseInt(args[0]);
+				if (age > 60) {
+					throw new TooYoungException("Please wait for some more days... You'll get a best match.");
+				} else if (age < 18) {
+					throw new TooOldException("Your age has already crossed marriage age... No chance of getting married.");
+				} else {
+					System.out.println("You will get match details to your registered E-Mail.");
+				}
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	class TooYoungException extends RuntimeException {
+		TooYoungException(String message) {
+			super(message);
+		}
+	}
+	
+	class TooOldException extends RuntimeException {
+		TooOldException(String message) {
+			super(message);
+		}
+	}
+	Compiling and O/P:
+	================================================	
+	
+	> javac -d . UserDefinedExceptionsExamples01.java
+
+	> java com.learnjava.exceptionlessons.UserDefinedExceptionsExamples01 10
+		Exception in thread "main" com.learnjava.exceptionlessons.TooOldException: Your age has already crossed marriage age... No chance of getting married.
+	        at com.learnjava.exceptionlessons.UserDefinedExceptionsExamples01.main(UserDefinedExceptionsExamples01.java:10)
+	
+	> java com.learnjava.exceptionlessons.UserDefinedExceptionsExamples01 90
+		Exception in thread "main" com.learnjava.exceptionlessons.TooYoungException: Please wait for some more days... You'll get a best match.
+	        at com.learnjava.exceptionlessons.UserDefinedExceptionsExamples01.main(UserDefinedExceptionsExamples01.java:8)
+	
+	> java com.learnjava.exceptionlessons.UserDefinedExceptionsExamples01 a
+		java.lang.NumberFormatException: For input string: "a"
+		        at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:68)
+		        at java.base/java.lang.Integer.parseInt(Integer.java:652)
+		        at java.base/java.lang.Integer.parseInt(Integer.java:770)
+		        at com.learnjava.exceptionlessons.UserDefinedExceptionsExamples01.main(UserDefinedExceptionsExamples01.java:6)
+		
+	> java com.learnjava.exceptionlessons.UserDefinedExceptionsExamples01 20
+		You will get match details to your registered E-Mail.
+		
+
+		
+Note:
+	1.) throw keyword is best suitable for user-defined or customized exceptions but not for, predefined exceptions.
+	2.) It is highly recommended to defined customized exceptions as "Unchecked". i,e., we have to extends RuntimeException, but not Exception.
+	3.) To make description available to default exception handler, we are using "super(msg)" in User-defined exception constructor.
+	
+	
+	
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+																	Top -10 exceptions
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	
+Based on who is raising an exception, all exceptions are divided into two categories:
+	1.	JVM exceptions
+	2.	Programmatic exceptions.
+	
+JVM exceptions:
+	The exceptions which are raised automatically by JVM, whenever a particular event occurs are called JVM exceptions.
+	Ex:	ArithmeticException, NullPointerException etc.
+
+Programmatic exceptions:
+	The exceptions which are raised explicitly either by programmer or by API developer, to indicate that something goes wrong are called programmatic exceptions.
+	Ex: TooOldException, IllegalArgumentException etc
+	
+
+1.)	ArrayIndexOutOfException:
+===================================================================================================
+It is a child class of Runtime Exception and hence it is unchecked.
+Raised automatically by JVM whenever we are trying to access array element with out of range index.
+
+int[] x = new int[4];
+System.out.println(x[0]);
+System.out.println(x[10]);//RE: ArrayOutOfBoundException
+System.out.println(x[-10]);//RE: ArrayOutOfBoundException
+
+2.) NullPointerException:
+====================================================================================================
+It is a child class of Runtime Exception and hence it is unchecked.
+Raised automatically by JVM whenever we are trying to perform any operation on "null".
+
+String s = null;
+System.ut.println(s.length());	// RE: NullPointerException
+
+3.) ClassCastException:
+====================================================================================================
+It is a child class of RuntimeException and hence it is unchecked.
+Raised automatically by JVM whenever we are trying to typecast parent object to child type.
+
+
+// Valid scenario
+String s = new String("Sandy");
+Object o = (Object)s;
+
+// Invalid scenario
+Object o = new Object();
+String s = (String)o;		//RE: ClassCastException.
+
+//Valid scenario. Internally, it is String (Child). So, it's a valid scenario.
+Object o = new String("Sandy");
+String s = (String)o;
+
+4.)	StackOverflowError:
+=====================================================================================================
+It is a child class of Error and hence it is unchecked.
+Raised automatically by JVM whenever we are trying to perform recursive method call.
+
+class Test {
+	public static void m1() {
+		m2();
+	}
+	public static void m2() {
+		m1();
+	}
+	public static void main(String[] args) {
+		m1();
+	}
+}
+
+
+|   ...     |
+|-----------|
+|   m2()    |
+|-----------|
+|   m1()    |
+|-----------|
+|	m2()    |
+|-----------|
+|	m1()    |
+|-----------|
+|	main()  |
+|___________|
+
+//RE: StackOverflowError.
+
+5.) NoClassDefFoundError:
+====================================================================================================
+It is a child class of Error and hence it is unchecked.
+Raised automatically by JVM whenever JVM unable to find required .class file.
+
+
+If TestTest.class file is not available, then we will get runtime exception saying "ClassNotFoundException" 
+java TestTestTest
+Error: Could not find or load main class TestTest
+Caused by: java.lang.ClassNotFoundException: TestTest
+
+
+6.) ExceptionInInitializerError:
+=====================================================================================================
+It is a child class of Error and hence it is unchecked.
+Raised automatically by JVM if any exception occurs while executing "static" variable assignments and static blocks.
+
+class Test {
+	static int a = 10/0;
+}
+
+class Test {
+	static {
+		String s = null;
+		System.out.println(s.length());
+	}
+}
+	
+7.) IllegalArgumentException:
+=====================================================================================================
+It is a child class of RuntimeException and hence it is unchecked.
+Raised explicitly either by programmer or API developer, to indicate that a method has been invoked with IllegalArgument.
+
+Ex:	The valid range of thread priorities is 1-10.
+	If we are trying to set the priority with any other value, then we will get RuntimeException saying 
+		"IllegalArgumentException"
+
+	Thread t = new Thread();
+	t.setPriority(7);
+	t.setPriority(15);	//RE: IllegalArgumentException
+
+8.) NumberFormatException:
+=====================================================================================================
+It is a direct child class of IllegalArgumentException which is the child class of RuntimeException and hence it is unchecked.
+Raised explicitly either by programmer or API developer, to indicate that we are trying to convert String to Number and the String is not properly formated.
+
+package com.learnjava.exceptionlessons;
+public class ExceptionClass119 {
+	public static void main(String[] args) {
+		int i = Integer.parseInt("10");
+		int j = Integer.parseInt("Ten");
+		System.out.println(i);
+	}
+}
+
+RE:
+	Exception in thread "main" java.lang.NumberFormatException: For input string: "Ten"
+	at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:68)
+	at java.base/java.lang.Integer.parseInt(Integer.java:652)
+	at java.base/java.lang.Integer.parseInt(Integer.java:770)
+	at com.learnjava.exceptionlessons.ExceptionClass119.main(ExceptionClass119.java:5)
+
+9.)	IllegalStateException:
+=====================================================================================================
+It is a child class of RuntimeException and hence it is unchecked.
+Raised explicitly either by programmer or API developer, to indicate that a method has been invoked at wrong time.
+
+Ex:	After starting of a thread, we are not allowed to restart same thread once again. Otherwise, we will get runtime exception saying:
+	"IllegalThreadStateException".
+
+Thread t = new Thread();
+t.start();
+t.start(); // IllegalStateException
+
+10.) AssertionError:
+=====================================================================================================
+It is a child class of Error and hence it is unchecked.
+Raised explicitly either by programmer or by API developer, to indicate that assert statement fails.
+
+Ex: If x is not greater than 10, then we will get RuntimeException saying "AssertionError".
+	assert(x > 10);
+	
+
+==============================================================================================================\
+==============================================================================================================|
+											Summary                                                           |
+==============================================================================================================|
+==============================================================================================================|
+	Error/Exception								|			Raised By								          |  
+================================================|=============================================================|
+ArrayIndexOutOfBoundException                   |	Raised automatically by JVM and hence they are            |
+NullPointerException                            | 	JVM exceptions                                            |
+ClassCastException                              |                                                             |
+StackOverflowError                              |                                                             |
+NoClassDefFoundError/ ClassNotFoundException    |                                                             |
+ExceptionInInitializerError                     |                                                             |
+================================================|=============================================================|
+IllegalArgumentException                        |	Raised explicitly either by programmer or by              |
+NumberFormatException                           |	API developer and hence there are programatic exceptions  | 
+IllegalStateException                           |                                                             |
+AssertionError                                  |                                                             |
+================================================|=============================================================/
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+																	1.7 version enhancements
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+As a part of 1.7 version, in exception handling the following two concepts were introduced:
+	1.)	try with resources
+	2.) multi-catch block
+	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+																	try with resources
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+1.)	try with resources
+
+Until 1.6 version, it is highly recommended to write finally block to close resources which are opened as a part of corresponding try block.
+
+BufferedReader br = null;
+try {
+	br = new BufferedReader(new FileReader("abc.txt"));
+	// use br based on our business requirements
+} catch (java.io.IOException ioe) {
+	// Handling code
+} finally {
+	if(br != null) {
+		br.close();
+	}
+}
+
+The problems in this approach are:
+	1.	Compulsory programmer is required to close resources inside finally block. It increases complexity of programming.
+	2.	We have to write finally block compulsory and hence, it increases length of the code and reduces readability.
+		
+To overcome above problems, Sun microsystems people introduced try with resources in 1.7 version.
+
+The main advantage of try with resources is whatever resources we open as a part of try block, will be closed automatically once control reaches end of try block either normally or abnormally.
+And hence, we are not required to close explicitly, so that, complexity of programming will be reduced. 
+We are not required to write finally block, so that length of the code will be reduced and readability will be improved.
+
+
+try (BufferedReader br = new BufferedReader(new FileReader("abc.txt"));) {
+	// use br based on our business requirements
+	// br will be closed automatically once control reaches end of try block either normally or abnormally and we are not responsible to close explicitly.
+} catch (java.io.IOException ioe) {
+	// Handling code
+}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+														conclusions on try with resources
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+																	conclusion1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We can declare multiple resources but these resources should be separated with semicolon.
+
+		try (R1; R2; R3) {
+			...
+		}
+		catch (Exception e) {
+		}
+		
+		Ex:
+			try (FileWriter fw = new FileWriter("output.txt"); FileReader fr = new FileReader("input.txt");) {
+			}
+			catch(java.io.IOException ioe) {
+			}
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+																	conclusion2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		
+All resources used inside try with resources should be autocloseable resources.
+If a resource is said to be autocloseable, if and only if corresponding class implements java.lang.AutoCloseable interface.
+All IO related resources, Database related resources and Network related resources are already implemented AutoCloseable interface.
+Being a programmer, we are not required to do anything but should have an idea about this.
+AutoCloseable interface came in 1.7 version and it contains only one method close().
+		public void close()
+		
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+																	conclusion3
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+All resource reference variables are implicitly final and hence within the try block we can't perform reassignment. Otherwise we will get compile-time error.
+
+package com.learnjava.exceptionlessons;
+import java.io.*;
+public class TryWithResources {
+	public static void main(String[] args) throws IOException{
+		try (BufferedReader br = new BufferedReader(new FileReader("input.txt"))) {
+			br = new BufferedReader(new FileReader("output.txt"));
+		}
+	}
+}
+
+>javac -d . TryWithResources.java
+O/P:
+TryWithResources.java:6: error: auto-closeable resource br may not be assigned
+                        br = new BufferedReader(new FileReader("output.txt"));
+                        
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+																	conclusion4
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Until 1.6 version, try should be associated with either catch or finally. But from 1.7 version onwards, we can take only try with resource without catch or finally.
+
+//Valid
+try (R) {
+	...
+}
+
+
+The main advantage of try with resources is we are not required to write finally block explicitly. Because, we are not required to close resources explicitly.
+Hence, until 1.6 version finally block is just like hero but from 1.7 version onwards, it is dummy and becomes zero.
+
+	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+																	multi-catch block
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2.) multi-catch block
+
+Until 1.6 version, even though multiple different exceptions having same handling code for every exception type, we have to write a separate catch block. 
+It increases length of the code and reduces readability.
+
+try {
+	...
+} 
+catch (ArithmeticException ae) {
+	ae.printStackTrace();
+}
+catch (java.io.IOException ioe) {
+	ioe.printStackTrace();
+}
+catch (NullPointerException npe) {
+	System.out.println(npe.getMessage());
+}
+catch (InterruptedException ie) {
+	System.out.println(ie.getMessage());
+}
+
+To overcome this problem, Sun microsystems people introduced multi-catch block in 1.7 version.
+According to this, we can write a single catch block that can handle multiple different type of exceptions
+
+try {
+	...
+}
+catch (ArithmeticException|java.io.IOException e) {
+	e.printStackTrace();
+}
+catch (NullPointerException|InterruptedException e2) {
+	System.out.println(e2.getMessage());
+}
+
+The main advantage of this approach of this is length of the code will be reduced and readability will be improved.
+
+package com.learnjava.exceptionlessons;
+public class MultiCatchBlock01 {
+	public static void main(String[] args){
+		try {
+			//System.out.println(10/0);
+			String s = null;
+			System.out.println(s.length());
+		} catch (ArithmeticException|NullPointerException e) {
+			System.out.println(e);
+		}
+	}
+}
+In the above example, whether raised exception is either ArithmeticException or NullPointerException, the same catch block can listen.
+
+Note:
+In multi-catch block there should not be any relation between exception type (either Parent-Child, Child-Parent or Same type).
+Otherwise, we will get compile-time error.
+	
+Ex:
+	package com.learnjava.exceptionlessons;
+	public class MultiCatchBlock2 {
+		public static void main(String[] args){
+			try {
+				
+			} catch (ArithmeticException|Exception e) {
+				System.out.println(e);
+			}
+		}
+	}
+	
+	Compilation:
+		> javac -d . MultiCatchBlock2.java
+		MultiCatchBlock2.java:6: error: Alternatives in a multi-catch statement cannot be related by subclassing
+                	} catch (ArithmeticException|Exception e) {
+                                             ^
+  		Alternative ArithmeticException is a subclass of alternative Exception
+  		
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+																	Exception Propagation
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Inside a method, if an exception raised and if we are not handling that exception, then exception object will be propagated to caller. Then caller method is responsible to handle exception.
+This process is called "Exception Propagation".
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+																	re-throwing exception
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++																		
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+We can use this approach to convert one exception type to another exception type.
+
+try{
+	System.out.println(10/0);
+}
+catch(ArithmeticException ae) {
+	throw new NullPointerException();
+}

@@ -1,0 +1,467 @@
+File
+FileReader
+FileWriter
+BufferedReader
+BufferedWriter
+PrintWriter
+
+
+File:
+====================================
+
+File f = new File("abc_24_11_2020.txt");	
+	Above line of code won't create any physical file. First it will check, is there any physical file named with "abc_24_11_2020.txt" is available or not?
+	If it is available, then f simply refers that file.
+	If it is not available, then we are just creating JAVA FILE OBJECT to represent the name "abc_24_11_2020.txt".
+	
+
+	EX:
+		public class Lesson01 {
+
+			public static void main(String[] args) {
+				File f = new File("abc_24_11_2020.txt");
+				System.out.println("file exists? " + f.exists());
+				try {
+					f.createNewFile();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				System.out.println("file exists? " + f.exists());
+			}
+		}
+		
+	O/P:
+		1st run
+			false
+			true
+		
+		2nd run
+			true
+			true
+
+
+
+We can use "Java File Object" to represent directory also.
+
+	File f = new File("abc");
+	System.out.println("file exists? " + f.exists()); ==> false
+	f.mkdir();
+	System.out.println("file exists? " + f.exists()); ==> true
+	
+
+In Unix, everything is treated as a file. Java File IO concept is implemented based on Unix operating system. Hence, Java file object can be used to represent both files and directories.
+
+====================================================================================================
+====================================================================================================
+File CLASS CONSTRUCTORS
+====================================================================================================
+====================================================================================================
+
+1.	File f = new File(String name);
+
+==>	Creates a JAVA FILE OBJECT to represent a name of a File/ Directory inside current working directory.
+
+2.	Files f = new File(String subDirName, String Name);
+
+==>	Creates a JAVA FILE OBJECT to represent a name of the file/ directory present in specified Sub-directory.
+
+3.	File f = new File(File SubDir, String name);
+
+==>	Creates 
+
+
+Examples 1:
+Write code to create a file named with ABC.txt in current working directory.
+
+Solution:
+	File f = new File("abc.txt");
+	try {
+		f.createNewFile();
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+	
+Examples 2:
+Write code to create a directory named with ABC123 in current working directory, and create a file named "demo.txt" in that directory.
+
+Solution:
+	File f = new File("ABC123");
+	f.mkdir();
+	File f = new File("ABC123", "demo.txt");
+	try {
+		f.createNewFile();
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+
+
+
+Examples 3:
+Write code to create a directory file named with asdsf.txt in E:\xyz folder.
+
+Solution:
+	File f = new File("E:\xyz", "abc.txt");
+	try {
+		f.createNewFile();
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+
+Assume that "E:\xyz" folder is already available in our system.
+====================================================================================================
+====================================================================================================
+====================================================================================================
+====================================================================================================
+Important methods present in FILE class:
+====================================================================================================
+====================================================================================================
+====================================================================================================
+====================================================================================================
+
+boolean exists();
+	Returns true, if the specified file/ directory is available.
+
+boolean createNewFile();
+	First this method will check, whether the specified file is already available or not. If it is present, then this method returns false without creating any physical file.
+	If it is not present, then this method will create a new file and returns true.
+
+boolean mkdir();
+	First this method will check, whether the specified directory is already available or not. If it is present, then this method returns false without creating any physical directory.
+	If it is not present, then this method will create a new directory and returns true.
+	
+boolean isFile();
+	Returns true, if the specified file object pointing to Physical file.
+	
+boolean isDirectory();
+	Returns true, if the specified file object pointing to Physical directory.
+	
+String[] list();
+	This method returns all files and sub directories present in specified directory.
+
+long length();
+	Returns number of characters present in specified file.
+	
+boolean delete();
+	To delete specified File/ Directory.
+	
+	
+	Write a program to display all files and directories present in src
+
+	package com.learnjava.file.io;
+	
+	import java.io.File;
+	
+	public class Lesson02 {
+		public static void main(String[] args) {
+			File f = new File(".");
+			System.out.println(f.getAbsolutePath());
+			
+			System.out.println("--------------------------------Printing all files in above folder -----------------------");
+			
+			String[] files = f.list();
+			
+			for (String file : files) {
+				System.out.println(file);
+			}
+			
+			System.out.println("File(s) count : " + files.length);
+		}
+	}
+
+
+====================================================================================================
+====================================================================================================
+====================================================================================================
+FILEWRITER:
+====================================================================================================
+====================================================================================================
+====================================================================================================
+
+We can use FileWriter to write character data to the file.
+
+====================================================================================================
+	Constructors
+====================================================================================================
+
+1 ==> FileWriter fw = new FileWriter(String fileName);
+
+2 ==> FileWriter fw = new FileWriter(File fileObject);
+
+The above FileWriters meant for Over writing of existing data.
+Instead of Over writing, if we want append operation, then we have to create FileWriter by using the following constructors.
+
+3 ==> FileWriter fw = new FileWriter(String fileName, boolean append);
+
+4 ==> FileWriter fw = new FileWriter(File fileObject, boolean append);
+
+Note:
+-----------------------
+If the specified file is not available, then all the above constructors will create that file.
+
+
+====================================================================================================
+Important methods present in FileWriter class:
+====================================================================================================
+
+1.	write(int i);
+		To write a single character to a file.
+
+
+2.	write(char[] ch);
+		To write an array of characters.
+	
+3.	write(String s);
+		To write String to the file.
+	
+4. 	flush();
+		To give the garuntee that total data including last character will be written to the file.
+
+5.	close();
+		To close the writer.
+
+
+
+
+
+====================================================================================================
+====================================================================================================
+NOTE:
+====================================================================================================
+====================================================================================================
+
+The main problem with FileWriter is we have to insert line separator (\n) manually which is varied from Machine to Machine.
+It is a difficulty to problem.
+We can solve this problem by using BufferedWriter and PrintWriter classes.
+  
+  
+====================================================================================================
+====================================================================================================
+====================================================================================================
+FILEREADER:
+====================================================================================================
+====================================================================================================
+====================================================================================================
+We can use FileReader to read character data from the file.
+
+====================================================================================================
+	Constructors
+====================================================================================================
+
+1 ==> FileReader fr = new FileReader(String fileName);
+
+2 ==> FileReader fr = new FileReader(File fileObject);
+
+====================================================================================================
+Important methods present in FileReader class:
+====================================================================================================
+
+1 ==> int read();
+		It attempts to read next character from the file and returns it's Unicode value. If the next character is not available then this method returns -1.
+		As this method returns Unicode value (int value), at the time of printing we have to perform type casting.
+		
+2 ==> int read(char[] ch);
+		It attempts to read enough characters from the file into char array and returns number of characters copied from the file. 
+		
+3 ==> void close();
+
+
+====================================================================================================
+NOTE:
+====================================================================================================
+
+By using FileReader, we can read data character by character which is not convenient to the programmer.
+
+Usage of FileWriter and FileReader is not recommended because 
+	1.	While writing data by FileWriter we have to insert line separator (\n) manually which is varied from Machine to Machine. It is difficult to the programmer.
+	2.	By using FileReader, we can read data character by character, which is not convenient to the programmer.
+	
+To overcome above problems, we should go for BufferedWriter and BufferedReader.
+
+====================================================================================================
+====================================================================================================
+====================================================================================================
+BUFFEREDWRITER:
+====================================================================================================
+====================================================================================================
+====================================================================================================
+
+We can use BufferedWriter to write character data to the file.
+
+====================================================================================================
+	Constructors
+====================================================================================================
+
+1 ==> BufferedWriter bw = new BufferedWriter(Writer w);
+
+2 ==> BufferedWriter bw = new BufferedWriter(Writer w, int bufferSize);
+
+
+Note :
+----------------------------------------------------------------------------------------------------
+BufferedWriter can't communicate directly with the file. It can communicate via some writer object.
+
+Which of the following are valid?
+
+BufferedWriter bw = new BufferedWriter("abc.txt");												==> Invalid.
+BufferedWriter bw = new BufferedWriter(new File("abc.txt"));									==> Invalid.
+BufferedWriter bw = new BufferedWriter(new FileWritter("abc.txt"));								==> Valid.
+BufferedWriter bw = new BufferedWriter(new BufferedWriter(new FileWritter("abc.txt"))));		==> Valid.
+
+
+====================================================================================================
+Important methods present in BufferedWriter class:
+====================================================================================================
+
+1.	write(int ch);
+2.	write(char[] ch);
+3.	write(String s);
+4.	flush();
+5.	close();
+6.	newLine();
+
+When compared with FileWriter which of the following capabilities available extra in method from BufferedWriter?
+
+	1.	Writing data to file.
+	2.	Inserting a newLine character.
+	
+
+	Whenever we are closing BufferedWriter, automatically internally FileWriter will be closed. And we are not required to close explicitly.
+	
+
+====================================================================================================
+====================================================================================================
+====================================================================================================
+BUFFEREDREADER:
+====================================================================================================
+====================================================================================================
+====================================================================================================
+
+We can use BufferedReader to read character data from the file. The main advantage of BufferedReader when compared with FileReader is, we can read data line-by-line in addition to character-by-character.
+
+====================================================================================================
+	Constructors
+====================================================================================================
+
+1 ==> BufferedReader br = new BufferedReader(Reader r);
+
+2 ==> BufferedReader br = new BufferedReader(Reader r, int bufferSize);
+
+Note:
+----------------------------------------------------------------------------------------------------
+
+BufferedReader can't communicate directly with the file and it can communicate via some Reader object.
+
+====================================================================================================
+Important methods present in BufferedReader class:
+====================================================================================================
+
+1 ==> int read();
+		
+2 ==> int read(char[] ch);
+		
+3 ==> void close();
+
+4 ==> String readLine();
+		It attempts to read next line from the file and returns it. If the next line not available, then this method returns null.
+		
+Whenever we are closing BufferedReader automatically, underlying FileReader will be closed. And we are not required to close explicitly.
+
+
+The most enhanced reader to read character date from the file is BufferedReader.
+
+====================================================================================================
+====================================================================================================
+====================================================================================================
+PRINTWRITER:
+====================================================================================================
+====================================================================================================
+====================================================================================================
+
+It is the most enhanced writer to write character data to the file.
+The main advantage of PrintWriter over FileWriter/BufferedWriter is we can write any type of primitive data directly to the file.
+
+====================================================================================================
+	Constructors
+====================================================================================================
+
+
+1 ==> PrintWriter pw = new PrintWriter(String fileName);
+
+2 ==> PrintWriter pw = new PrintWriter(File fileObject);
+
+3 ==> PrintWriter pw = new PrintWriter(Writer w);
+
+PrintWriter can communicate directly with the file and can communicate via some Writer object also.
+
+====================================================================================================
+Important methods present in BufferedReader class:
+====================================================================================================
+
+write(int ch)
+write(char[] ch);
+write(String s);
+close();
+flush();
+=======================
+print(char ch);
+print(int i);
+print(String S);
+print(double d);
+print(boolean b);
+=======================
+println(char ch);
+println(int i);
+println(String S);
+println(double d);
+println(boolean b);
+
+
+
+What is the difference between write(100); and print(100);?
+A) 
+	In the case of write(100), the corresponding character 'd' will be added to the file.
+	But in the case of print(100), the int value 100 will be added to the file directly.
+	
+NOte:
+	The most enhanced writer to write character data to the file is PrintWriter. 
+	Whereas the most enhanced reader to read character data from the file is BufferedReader.
+	
+
+
+
+
+====================================================================================================
+NOTE:
+====================================================================================================
+
+
+In general, we can use Readers/ Writers to handle character data (text data), whereas we can use Streams to handle binary data(like images, pdf, video files etc).
+
+We can use OutputStream to write binary data to the file, InputStream to read binary data from the file.
+
+Object ----+
+           |
+           |-- Writer (AC)
+           |   |
+           |   |-- OutputStreamWriter
+           |   |   |
+           |   |   |-- FileWriter
+           |   |
+           |   |
+           |   |-- BufferedWriter
+           |   |
+           |   |-- PrintWriter
+           |
+           |
+           |-- Reader (AC)
+           |   |
+           |   |-- InputStreamReader
+           |   |   |
+           |   |   |-- FileReader
+               |   
+               |
+               |-- BufferedReader
+             
+				
+				
+Write a program to merge data from two files into a third file.

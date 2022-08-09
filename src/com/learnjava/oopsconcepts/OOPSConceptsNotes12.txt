@@ -1,0 +1,86 @@
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+																	SINGLETON CLASS
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+==============================================================================================================================================================================
+
+For any Java class, if we are allowed to create only one object, such type of class is called Singleton class.
+	Ex:	
+		Runtime, BusinessDelegate, ServiceLocator, etc.
+		
+
+Advantage of Singleton class:
+===================================================================================================
+If several people have same requirement, then its not recommended to create a separate object for every requirement. 
+We have to create only one object and we can re-use same object for every similar requirement so that performance and memory utilization will be improved.
+This is the central idea of Singleton classes.
+
+Ex:	
+
+	Runtime r1 = Runtime.getRuntime();
+	Runtime r2 = Runtime.getRuntime();
+	...
+	Runtime rn = Runtime.getRuntime();
+	
+	 ____
+	|    |<== r1
+	|    |<== r2
+	|    |...
+	|____|<== rn
+	
+	
+
+	
+How to create our own Singleton classes:
+===================================================================================================
+
+We can create our own singleton classes. For this we have to use 
+	1.	private constructor.
+	2.	private static variable.
+	3.  public static Factory method
+	
+Approach 1:
+==========================
+	package com.learnjava.oopsconcepts;
+	public class SingletonExample {
+		private static SingletonExample singletonInstance = new SingletonExample();
+		private SingletonExample() {
+		}
+		public static SingletonExample getInstance() {
+			return singletonInstance;
+		}
+	}
+
+Note: Runtime class is internally implemented by using this approach.
+
+Approach 2:
+===========================
+	package com.learnjava.oopsconcepts;
+	public class SingletonExample2 {
+		private static SingletonExample2 singletonInstance = null;
+		private SingletonExample2() {
+		}
+		public static SingletonExample2 getInstance() {
+			if(singletonInstance == null) {
+				singletonInstance = new SingletonExample2();
+			}
+			return singletonInstance;
+		}
+	}
+	
+Note:
+At any point of time for SingletonExample2/ SingletonExample class we can create only one object. Hence, SingletonExample2/ SingletonExample class is Singleton class.
+
+Q.)	Class is not final but we are not allowed to create Child classes. How it is possible?
+A.)	By declaring every Constructor as private, we can restrict Child class creation.
+
+	Ex:	
+		class P {
+			private P() {
+			
+			}
+		}
+		
+		for this class it is impossible to create a child class.

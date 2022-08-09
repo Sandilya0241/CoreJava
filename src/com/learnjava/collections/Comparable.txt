@@ -1,0 +1,39 @@
+Comparable (Interface)
+-===========================================================
+
+	a. present in java.lang package
+	b. It contains only one method, compareTo().
+
+		public int compareTo(Object obj);
+		
+		obj1.compareTo(obj2);
+		|
+		|-------------------------> returns -Ve if and only if obj1 has to come before obj2
+		|-------------------------> returns +Ve if and only if obj1 has to come after obj2
+		|-------------------------> returns 0 if and only if obj1 & obj2 are equal
+	
+	
+	
+	If we are depending on DEFAULT NATURAL SORTING ORDER, then while adding objects into the TreeSet, JVM will call compareTo() method.
+	
+	TreeSet k = new TreeSet();
+	k.add("K"); ==================> No comparison
+	k.add("Z"); ========(+VE)=====> "Z".compareTo("K"); Inserted at right side node
+	k.add("A"); ========(-VE)=====> "A".compareTo("K"); Inserted at left side node
+	
+	k.add("A"); ========(-VE)=====> "A".compareTo("K"); 
+	             |=======(0)======> "A".compareTo("A");	Not inserted.											
+	
+		K
+	   / \
+	  /   \
+	 A     Z          ___________________   
+	                |                  | 
+	obj1.compareTo(obj2);              V
+	 |                             The object which is already inserted
+	 V
+	The object which is to be inserted
+	
+	
+	
+If DEFAULT NATURAL SORTING ORDER is not available or not meeting our requirements, then we can go for Customized sorting by using Comparator

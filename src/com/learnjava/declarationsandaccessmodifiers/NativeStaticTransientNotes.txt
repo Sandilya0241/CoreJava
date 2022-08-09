@@ -1,0 +1,182 @@
+===============================================================
+===============================================================
+===============================================================
+++++++++++++++++++++NATIVE MODIFIER++++++++++++++++++++++++++++
+===============================================================
+===============================================================
+===============================================================
+
+Native is the modifier applicable only for methods and we can't apply anywhere else. 
+The methods which are implemented in Non-Java (mostly C, C++) are called Native/ Foreign methods.
+
+The main objectives of Native keyword are:
+
+	I. 	 To improve performance of the system.
+	II.	 To achieve mission/ memory level communication.
+	III. To use already existing legacy Non-Java code.
+
+===============================================================
+===============================================================
+===============================================================
+Pseudo code to use native keyword in Java : 
+===============================================================
+===============================================================
+===============================================================
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$	NativeProvider.java		$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+class NativeProvider {
+
+	static {
+		System.loadLibrary(<libname>);	==> STEP 1 : Load native libraries.
+	}
+	public native void m1();		==> STEP 2 : Declare a native method.
+}
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$	NativeClient.java		$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+class NativeClient {
+	public static void main(String[] args)
+	{
+		NativeProvider n = new NativeProvider();
+		n.m1();			==> STEP 3 : Invoke a native method.
+	}
+}
+
+For native methods, implementation is already available in old languages like C/ C++. And we are not responsible to provide implementation.
+Hence, native method declaration should end with ';'.
+
+public native void m1();	==> Valid
+public native void m1() {}	==> CE : Native methods cannot have a body.
+
+
+Note:
+For native methods implementation is already available in old languages, but for abstract methods, implementation should not be available.
+Hence we can't declare native method as abstract. i.e., "native abstract" combination is illegal combination for methods.
+
+Note:
+We can't declare native method as strictfp, because there is no guarantee that old languages follow IEEE 754 standard. Hence "native strictfp" combination is illegal combination for methods.
+
+The main advantage of native keyword is "Performance" will be improved.
+The main disadvantage of native keyword is it breaks, platform independent nature of Java.
+
+
+===============================================================
+===============================================================
+===============================================================
+++++++++++++++++++++TRANSIENT KEYWORD++++++++++++++++++++++++++
+===============================================================
+===============================================================
+===============================================================
+
+I.	Transient is the modifier applicable only for variables.
+II. We can use transient keyword in "Serialization" context.
+
+At the time of serialization, if we don't want to save the value of a particular variable to meet security constraint, then we should declare that variable as "transient".
+At the time of serialization, JVM ignores orginal value of variable and save default value to the file. Hence, "transient" means "not to serialize".
+
+
+[Username : abc]	serialization	|
+[pwd : abc]				====>		|
+									|	File.scr
+									|	username: abc
+									|	pwd : null
+									|
+[Username : abc]	de-serialization|
+[pwd : null]			<==
+
+
+
+
+===============================================================
+===============================================================
+===============================================================
+++++++++++++++++++++VOLATILE MODIFIER++++++++++++++++++++++++++
+===============================================================
+===============================================================
+===============================================================
+
+
+I.		Volatile is the modifier applicable only for variables and we can't apply anywhere else.
+II.		If the value of a variable keep on changing by multiple threads, then there may be a chance of "Data inconsistency problem".
+		We can solve this problem by using "volatile" modifier.
+III.	If a variable declared as volatile, then for every thread JVM will create a separate copy. Every modification performed by the thread, will takes place in local copy, so that there is no effect on remaining threads.
+IV. 	The main advantage of "volatile" keyword is we can overcome "Data inconsistency problem".
+V.		The main disadvantage of "volatile" keyword is, creating and maintaining a separate copy for every thread increases complexity of programming and creates performance problems.
+		Hence, if there is no specific requirement, then it is never recommended to use "volatile" keyword and it is almost depricated keyword.
+		
+Final variable means the value never changes whereas volatile variable means, the value keep on changing. Hence, "volatile final" is illegal combination for variables.
+
+
+
+===============================================================
+===============================================================
+===============================================================
++++++++++++++++++++++++++++SUMMARY+++++++++++++++++++++++++++++
+===============================================================
+===============================================================
+===============================================================
+
+____________________________________________________________________________________________________
+Modifier	|  classes    |       	|           |       | interfaces  |   Enum      |              |
+            |______|______|Methods  |Variables	|blocks	|_____________|_____________|              |
+            |Outer |Inner |         |           |       |Outer |Inner |Outer |Inner | constructors |
+____________|______|______|_________|___________|_______|______|______|______|______|______________|
+Public      |  Y   |  Y   |    Y    |    Y      |       |  Y   |  Y   |  Y   |  Y   |      Y       |     
+____________|______|______|_________|___________|_______|______|______|______|______|______________|
+Private     |  N   |  Y   |    Y    |    Y      |       |      |  Y   |      |  Y   |      Y       |
+____________|______|______|_________|___________|_______|______|______|______|______|______________|
+Protected   |      |  Y   |    Y    |    Y      |       |      |  Y   |      |  Y   |      Y       |  
+____________|______|______|_________|___________|_______|______|______|______|______|______________|
+<default>   |  Y   |  Y   |    Y    |    Y      |       |  Y   |  Y   |  Y   |  Y   |      Y       |  
+____________|______|______|_________|___________|_______|______|______|______|______|______________|
+final       |  Y   |  Y   |    Y    |    Y      |       |      |      |      |      |              |
+____________|______|______|_________|___________|_______|______|______|______|______|______________|
+abstract    |  Y   |  Y   |    Y    |           |       |  Y   |  Y   |      |      |              |  
+____________|______|______|_________|___________|_______|______|______|______|______|______________|
+static      |      |  Y   |    Y    |    Y      |  Y    |      |  Y   |      |  Y   |              |
+____________|______|______|_________|___________|_______|______|______|______|______|______________|
+synchronized|      |      |    Y    |           |  Y    |      |      |      |      |              |    
+____________|______|______|_________|___________|_______|______|______|______|______|______________|
+Native      |      |      |    Y    |           |       |      |      |      |      |              |
+____________|______|______|_________|___________|_______|______|______|______|______|______________|
+strictfp    |  Y   |  Y   |    Y    |           |       |  Y   |  Y   |  Y   |  Y   |              | 
+____________|______|______|_________|___________|_______|______|______|______|______|______________|
+transient   |      |      |         |    Y      |       |      |      |      |      |              |
+____________|______|______|_________|___________|_______|______|______|______|______|______________|
+volatile    |      |      |         |    Y      |       |      |      |      |      |              |
+____________|______|______|_________|___________|_______|______|______|______|______|______________|
+
+
+
+The only applicable modifier for local variable is "final".
+The modifiers which are applicable for constructors are public, private, protected and <default>.
+The only applicable modifier for only for methods "native".
+The modifiers which are applicable only for variables are "transient", "volatile".
+The modifiers which are applicable only for classes but not for interfaces are "final"
+The modifiers which are applicable only for classes but not for enum are "final" and "abstract".
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

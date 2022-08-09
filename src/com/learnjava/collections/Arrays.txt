@@ -1,0 +1,208 @@
+===============================================================================================================================================================================================================
+===============================================================================================================================================================================================================
+																			Arrays class
+===============================================================================================================================================================================================================
+===============================================================================================================================================================================================================
+
+Arrays class is an utility class to define several utility methods for Array objects. 
+
+
+===============================================================================================================================================================================================================
+																			Sorting elements of Array
+===============================================================================================================================================================================================================
+
+Arrays class defines the following sort methods to sort elements of primitive and object type arrays
+
+ ________________________________________ 
+|                                        | => To sort primitive data type (int, string, float etc.,) according to Default Natural Sorting Order 
+| public static void sort(primitive[] p);|	
+|________________________________________|
+	
+ ______________________________________
+|                                      |  =>  To sort Objects according to Default Natural Sorting Order
+| public static void sort(Object[] o); |
+|______________________________________|
+	
+ ___________________________________________________
+|                                                   | =>  To sort Objects according to Customized Sorting Order
+| public static void sort(Object[] o, Comparator c);|
+|___________________________________________________|
+
+
+Ex:
+		package com.learnjava.collections;
+		import java.util.Arrays;
+		import java.util.Comparator;
+		public class ArraysSortDemo {
+			public static void main(String[] args) {
+				int[] a = {10, 5, 20, 11, 6};
+				System.out.println("Primitive array before sorting:");
+				for (int a1 : a) {
+					System.out.println(a1);
+				}
+				Arrays.sort(a);
+				System.out.println("Primitive array after sorting:");
+				for (int a1 : a) {
+					System.out.println(a1);
+				}
+				
+				String[] s = {"A", "Z", "B"};
+				System.out.println("Object array before sorting:");
+				for (String sItem : s) {
+					System.out.println(sItem);
+				}
+				Arrays.sort(s);
+				System.out.println("Object array after sorting:");
+				for (String sItem : s) {
+					System.out.println(sItem);
+				}
+				
+				Arrays.sort(s, new MyComparator22());
+				System.out.println("Object array after sorting with Comparator:");
+				for (String sItem : s) {
+					System.out.println(sItem);
+				}
+			}
+		}
+		class MyComparator22 implements Comparator {
+			public int compare(Object o1, Object o2) {
+				String s1 = o1.toString();
+				String s2 = o2.toString();
+				return s2.compareTo(s1);
+			}
+		}
+		
+		O/P:
+		Primitive array before sorting:
+		10
+		5
+		20
+		11
+		6
+		Primitive array after sorting:
+		5
+		6
+		10
+		11
+		20
+		Object array before sorting:
+		A
+		Z
+		B
+		Object array after sorting:
+		A
+		B
+		Z
+		Object array after sorting with Comparator:
+		Z
+		B
+		A
+					
+Note:
+	We can sort primitive arrays only based on Default Natural Sorting Order whereas we can sort Object arrays either based on Default Natural Sorting Order or based on Customized sorting order.
+	
+===============================================================================================================================================================================================================
+																			Searching elements of Array
+===============================================================================================================================================================================================================
+
+Arrays class defines the following binarySearch() methods:
+
+ _________________________________________________________________ 
+|                                                                 |  
+| public static int binarySearch(primitive[] p, primitive target);|	
+|_________________________________________________________________|
+	
+ ____________________________________________________________
+|                                                            |  
+| public static int binarySearch(Object[] o, Object target); |
+|____________________________________________________________|
+	
+ _________________________________________________________________________
+|                                                                         | 
+| public static int binarySearch(Object[] o, Object target, Comparator c);|
+|_________________________________________________________________________|
+
+All rules of Arrays's class binarySearch() method are exactly same as Collection's class binarySearch() methods.
+
+
+===============================================================================================================================================================================================================
+																			Conversion of Array to List
+===============================================================================================================================================================================================================
+
+ _____________________________________
+|                                     | 
+| public static List asList(Object a);|
+|_____________________________________|
+
+I.		Strictly speaking this method won't create an independent list object. For the existing array we are getting list view.
+
+String[] s = {"A", "Z", "B"}
+List l = Arrays.asList(s);
+	 	 ___________
+s ----->|   |   |   |
+		| A | Z | B |
+l ----->|___|___|___|
+ 
+II.		By using Array reference if we perform any change automatically that change will be reflected to the List.
+		Similarly by using list reference if we perform any change automatically that change will be reflected to the Array.
+
+III.	By using List reference we can't perform any operation which varies the size. Otherwise, we will get runtime exception saying "UnsupportedOperationException"
+		Ex:
+			l.add("M");  |-->  UnsupportedOperationException
+			l.remove(1); |
+			l.set(1,"M"); ==> Valid
+IV.		By using List reference, we are not allowed to replace with heterogeneous objects. Otherwise, we will get runtime exception saying "ArrayStoreException"
+		Ex:
+			l.set(1, new Integer(10));
+
+
+
+		Example Program:
+		================================================
+			
+		package com.learnjava.collections;
+		
+		import java.util.Arrays;
+		import java.util.List;
+		
+		public class AsListDemo {
+		
+			public static void main(String[] args) {
+				String[] s = {"A", "Z", "B"};
+				List l = Arrays.asList(s);
+				System.out.println(l);
+				s[0] = "N";
+				System.out.println(l);
+				l.set(1, "S");
+				for (String s1 : s)
+					System.out.println(s1);
+				/*
+				 * Exception in thread "main" java.lang.UnsupportedOperationException
+		        at java.base/java.util.AbstractList.add(AbstractList.java:153)
+		        at java.base/java.util.AbstractList.add(AbstractList.java:111)
+		        at com.learnjava.collections.AsListDemo.main(AsListDemo.java:15)
+				 */
+				//l.add("M"); //UnsupportedOperationException
+				/*
+				 * Exception in thread "main" java.lang.UnsupportedOperationException
+		        at java.base/java.util.AbstractList.remove(AbstractList.java:167)
+		        at com.learnjava.collections.AsListDemo.main(AsListDemo.java:22)
+				 */
+				//l.remove(2);	//UnsupportedOperationException
+				/*
+				 * Exception in thread "main" java.lang.ArrayStoreException: java.lang.Integer
+		        at java.base/java.util.Arrays$ArrayList.set(Arrays.java:4170)
+		        at com.learnjava.collections.AsListDemo.main(AsListDemo.java:28)
+				 */
+				//l.set(1, new Integer(10));//ArrayStoreException
+			}
+		}
+		
+		/*
+		 * Output
+		 * [A, Z, B]
+			[N, Z, B]
+			N
+			S
+			B
+		 */

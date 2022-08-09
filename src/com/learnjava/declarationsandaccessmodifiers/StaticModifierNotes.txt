@@ -1,0 +1,195 @@
+===============================================================
+===============================================================
+===============================================================
+STATIC MODIFIER
+===============================================================
+===============================================================
+===============================================================
+
+Static is a modifier applicable for methods and variables but not for classes.
+We cannot declare top level class with static modifier, but we can declare inner class as static (such type of inner classes are called static nested classes).
+
+In the case of instance variables, for every object a separate copy will be created. But in the case of static variables, a single copy will be created and shared by every object of that class.
+
+
+public class StaticModifierExample01 {
+	static int x = 10;
+	int y = 20;
+	public static void main(String[] args) {
+		StaticModifierExample01 o1 = new StaticModifierExample01();
+		o1.x = 888;
+		o1.y = 999;
+		StaticModifierExample01 o2 = new StaticModifierExample01();
+		System.out.println(o2.x + "..." + o2.y);
+	}
+}
+
+We can't access instance members directly from static area. But we can access from instance area directly.
+We can access static member from both instance and static area directly.
+
+*********************************************************************
+*********************************************************************
+*********************************************************************
+
+Consider the following declaration:
+I. int x = 10;
+II. static int x = 10;
+III. public void m1() {
+		System.out.println(x);
+	}
+IV. public static void m1() {
+		System.out.println(x);
+	}
+within the same class,  which are the above declarations we can take simultaneously?
+
+A) I and III
+B) I and IV
+C) II and III
+D) II and IV
+E) I and II
+F) III and IV
+
+A, C, D are correct
+B => CE: Non-static variable x cannot be reference from a static context.
+E ==> variable x is already defined in Test
+F ==> m1() is already defined in Test
+
+*********************************************************************
+*********************************************************************
+*********************************************************************
+
+Case 1:
+
+Overloading concept applicable for static methods including main method. But JVM can always call String array argument main method only.
+Other overloaded method, we have to call just like a normal method call.
+
+public class StaticModifierExample02 {
+
+	public static void main(String[] args) {
+		System.out.println("String[] args");
+	}
+	public static void main(int[] args) {
+		System.out.println("int[] args");
+	}
+}
+
+*********************************************************************
+*********************************************************************
+*********************************************************************
+
+Case 2:
+
+Inheritance concept applicable for static methods including main method. Hence, while executing child class, if child doesn't contain then parent class main method will be executed.
+
+package com.learnjava.declarationsandaccessmodifiers;
+class StaticModifierExample03 {
+
+	public static void main(String[] args) {
+		System.out.println("Parent class");
+	}
+
+}
+
+class StaticModifierExample03Child extends StaticModifierExample03{
+	
+}
+
+javac -d . StaticModifierExample03
+java com.learnjava.declarationsandaccessmodifiers.StaticModifierExample03
+O/P : Parent class
+
+java com.learnjava.declarationsandaccessmodifiers.StaticModifierExample03Child
+O/P : Parent class
+*********************************************************************
+*********************************************************************
+*********************************************************************
+
+Case 3:
+
+
+package com.learnjava.declarationsandaccessmodifiers;
+
+class StaticModifierExample04 {
+
+	public static void main(String[] args) {
+		System.out.println("Parent main");
+	}
+
+}
+
+class StaticModifierExample04Child extends StaticModifierExample04{
+
+	public static void main(String[] args) {
+		System.out.println("Child main");
+	}
+
+}
+
+javac -d . StaticModifierExample04
+java com.learnjava.declarationsandaccessmodifiers.StaticModifierExample04
+O/P : Parent class
+
+java com.learnjava.declarationsandaccessmodifiers.StaticModifierExample04Child
+O/P : Child class
+
+It seems overriding concepts applicable for static methods but it is not "overriding" and it is "method hiding".
+Note:
+For static methods, overloading and inheritance concepts are applicable. But overriding concepts are not applicable. Instead of overriding, method hiding concept is applicable.
+
+*********************************************************************
+*********************************************************************
+*********************************************************************
+
+Inside method implementation, if we are using at least one instance variable, then that method talks about a particular object. Hence, we should declare method as instance method.
+Inside method implementation, if we are not using any instance variable, then this method no way related to a particular object. 
+Hence, we have to declare such type of method as static method irrespective of whether we are using static variables or not.
+Ex: 
+
+class Student {
+	String name;
+	int rollNum;
+	int marks;
+	static String cName;
+	
+	public String getStudentInfo() {	// Instance method
+		return name + "..." + marks;
+	}
+	
+	public static String getColleageInfo() {	// Static method
+		return name + "..." + marks;
+	}
+	
+	public static float getAverage(int x, int y) {	// Instance method
+		return (x + y) / 2;
+	}
+	
+	public String getCompleteInfo() {	// Instance method
+		return name + "..." + rollNum + "..." + marks + "..." + cName;
+	}
+}
+
+*********************************************************************
+*********************************************************************
+*********************************************************************
+For static methods, implementation should be available whereas for abstract methods, implementation is not available. Hence, "abstract static" combination is illegal for methods.
+
+
+
+*********************************************************************
+*********************************************************************
+*********************************************************************
+********************SYNCHRONIZED MODIFIER****************************
+*********************************************************************
+*********************************************************************
+*********************************************************************
+
+Synchronized is the modifier applicable for methods and blocks but not for classes and variables. 
+If multiple threads trying to operate simultaneously on the same java object, then there may be a chance of "Data inconsistency problem". This is called "Race condition".
+We can overcome this problem by using "synchronized" keyword. 
+If a method/ block declared as synchronized, then at a time, only one thread is allowed to execute that method/ block on the given object so that "Data inconsistency problem" will be resolved.
+But the main disadvantage of "synchronized" keyword is, it increases waiting time of threads and creates performance problems.
+Hence, if there is no specific requirement, then it is not recommended to use "synchronized" keyword.
+
+Synchronized method should compulsory contain implementation whereas abstract method doesn't contain any implementation. Hence, "abstract synchronized" is illegal combination of modifiers for methods.
+
+

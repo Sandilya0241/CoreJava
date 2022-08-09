@@ -1,0 +1,75 @@
+Package:
+
+It is an encapsulation mechanism to group related classes and interfaces into a single unit, which is nothing but package.
+Ex: java.sql, java.io
+All classes and Interfaces that are required for database operations are grouped into a single package, which is nothing but java.sql package.
+
+Advantages of packages:
+
+1. To resolve naming conflicts. Unique identification of our components.
+2. It improves modularity of the application.
+3. It improves the maintainability of the application.
+4. It provides security for our components.
+
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+There is one universally accepted naming convention for packages, i.e., that is to use Internet domain name in reverse.
+
+EX: com.icicibank.loan.housing.Account;
+
+com.icicibank : clients domanin name in reverse.
+loan : module name
+housing : sub module name
+Account : class name
+
+Ex:
+
+Package com.durgasoft.scjp;
+public class Test {
+	public void static main(String[] args) {
+		System.out.println("Package demo");
+		
+	}
+}
+
+1. javac Test.java
+
+	Generated .class file will be placed in current working directory in that Test.class.
+	
+2. javac -d . Test.java
+
+	-d => destination to place generated .class files
+	. => CWD
+	
+	Generated .class file will be placed in corresponding package structure.
+	
+	
+	
+If the specified directory is not available, then we will get compile time error.
+
+javac -d Z: Test.java
+
+If Z: not available, then will get compile error = "Directory file is not found"
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+The following is valid java source file structure:
+
+below order is important
+
+package statements ==> Atmost one
+import statements ==> Any number
+class/ interface/ enum declaration ==> Any number
+
+Note:
+An empty source file is a valid java program. Hence, the following are valid java source files
+
+Please find projects for Validsourcefiles1 till Validsourcefiles5

@@ -1,0 +1,311 @@
+**************************************************************************************************************************************
+**************************************************************************************************************************************
+**************************************************************************************************************************************
+*********************************************************INTERFACES*******************************************************************
+**************************************************************************************************************************************
+**************************************************************************************************************************************
+**************************************************************************************************************************************
+
+
+Definition 1: Any service requirement specification (S.R.S) is considered as an Interface.
+			Ex 1: JDBC API acts as requirement specification to develop database driver.
+			    Database vendor is responsible to implement JDBC API.
+			    
+			    SUN
+			     |
+			     |
+			   JDBC API
+			 ____|___________________________
+			|            |                   |
+		Oracle driver    |               DB2 driver
+						My SQL driver
+						
+						
+		   
+		   
+		   Ex 2: Servlet API acts as requirement specification to develop Web server.
+			    Web server vendor is responsible to implement Servlet API.
+			    
+			    SUN
+			     |
+			     |
+			   Servlet API
+			 ____|___________________________
+			|            |                   |
+		Apache Tomcat    |               IBM Websphere
+		server		    Oracle Weblogic  server
+			            server
+
+==========================================================================================================================================
+==========================================================================================================================================
+
+Definition 2 : 	From client point of view an interface defines, the set of services what he is expecting.
+			   	From service provider point of view an interface defines the set of services what he is offering. Hence, any contract between client and service provider is considered as Interface.
+			   	
+
+			
+==========================================================================================================================================
+==========================================================================================================================================
+Through Bank ATM GIU screen bank people are highlighting the set of what they are offering. At the same, the same GUI screen represents the set of services what customer is expecting.
+Hence GUI screen acts as contract between customer and bank people
+==========================================================================================================================================
+==========================================================================================================================================
+
+
+Inside interface every method is always abstract, whether are declaring or not. Hence, interface is considered as 100% pure abstract class.
+==========================================================================================================================================
+==========================================================================================================================================
+
+Summary definition
+
+Any service requirement specification / any contract between client or service provider / 100% pure abstract class is nothing but interface.
+
+
+==========================================================================================================================================
+==========================================================================================================================================
+==========================================================================================================================================
+==========================================================================================================================================
+==========================================================================================================================================
+==========================================================================================================================================
+==========================================================================================================================================
+==========================================================================================================================================
+
+
+I.		Whenever we are implementing an interface for each and every method of that interface we have to provide implementation. Otherwise we have to declare class as abstract.
+		Then next level child class is responsible to provide implementation.
+II.		Every interface method is always "public and abstract" whether we are declaring or not. Hence, whenever we are implementing an interface method compulsory we should declare as public.
+		Otherwise we will get compile-time error.
+	
+
+		Ex:	
+		interface Interf {
+			void m1();
+			void m2();
+		}
+
+		"abstract" class ServiceProvider implements Interf{
+			"public" void m1(){
+			}
+		}
+		
+		class SubServiceProvider extends ServiceProvider {
+			"public" void m2() {
+			
+			}
+		}
+		
+		
+		
+==========================================================================================================================================
+==========================================================================================================================================
+Extends Vs Implements
+==========================================================================================================================================
+==========================================================================================================================================
+I.)		A class can extend only one class at a time.
+II.) 	An Interface can extend any number of interfaces simultaneously.
+		interface A {
+		}
+		interface B {
+		}
+		interface C extends A, B{
+		}
+III.)	A class can implement any number of interfaces simultaneously.
+IV.)	A class can extend another class and can implement any number of interfaces simultaneously.
+
+		class A extends B implements C, D, E {
+		}
+V.)		Which of the following is true and which is false?
+		1. A class can extend any number of classes at a time ==> false.
+		2. A class can implement only one interface at a time ==> false.
+		3. An Interface can extend only one Interface at a time ==> false.
+		4. An Interface can implement any number of Interfaces simultaneously ==> false.
+		5. A class can extend another class or can implement an interface but not both simultaneously ==> false.
+		6. None of the above ==> true.
+
+==========================================================================================================================================
+
+Consider the following expressions 
+
+"X extends Y", for which of the following possibilities of X and Y, the above expression is valid"
+
+A. Both X and Y should be classes.	==> false
+B. Both X and Y should be interfaces.	==> false
+C. Both X and Y can either be classes or interfaces.	==> true
+D. No restrictions.	==> false
+
+==========================================================================================================================================
+X extends Y, Z
+
+X, Y and Z should be interfaces.
+==========================================================================================================================================
+
+X implements Y, Z
+
+X should be Class
+Y and Z should be Interfaces.
+==========================================================================================================================================
+
+X extends Y implements Z
+
+X and Y should be Classes
+Z should be Interface
+==========================================================================================================================================
+X implements Y extends Z
+
+Compile-time Error : because we have to take extends first followed by interface.
+
+
+
+
+==========================================================================================================================================
+==========================================================================================================================================
+==========================================================================================================================================
+											INTERFACE METHODS
+==========================================================================================================================================
+==========================================================================================================================================
+==========================================================================================================================================
+
+Every method present inside Interface are always "public and abstract", whether we are explicitly declaring or not.
+
+interface Interf {
+	void m1();
+}
+
+	Why public ?
+		This is because to make methods inside of Interface available to every implementation class.
+	Why abstract ?
+		This is because implementation class is responsible to provide implementation.
+		
+Hence, inside Interface, the following method declaration are equal.
+	void m1();
+	public void m1();
+	abstract void m1();
+	public abstract void m1();
+==========================================================================================================================================
+
+As every interface method is always "public and abstract", we can't declare interface method with the following modifiers:
+
+public 		=======		private
+				|==  	protected
+abstract 	=======		static
+				|==		strictfp		
+				|==		sychronized
+				|==		native
+				|==		final
+
+==========================================================================================================================================
+
+Which of the following method declarations are allowed inside Interface?
+	I. 		public void m1(){}					==> Invalid
+	II.		private void m1();					==> Invalid
+	III.	protected void m1();				==> Invalid
+	IV.		static void m1();					==> Invalid
+	V.		public abstract native void m1();	==> Invalid
+	VI.		abstract public void m1();			==> Valid
+	
+	
+	
+==========================================================================================================================================
+==========================================================================================================================================
+==========================================================================================================================================
+											INTERFACE VARIABLES
+==========================================================================================================================================
+==========================================================================================================================================
+==========================================================================================================================================
+An interface can contain variables. The main purpose of Interface variable is to define requirement level constants.
+Every interface variable is "public static final", whether we are declaring explicitly or not.
+
+interface Interf {
+	int x = 10;
+}
+
+	Why public ?
+		This is because to make variable inside of Interface available to every implementation class.
+	Why static ?
+		This is because, even without existing object also, implementation class has to access this variable.
+	Why final ?
+		This is because, if one implementation class changes the value then remaining implementation classes will be effected. To restrict thisevery interface variable is always final.
+		
+
+Hence within the Interface, the following varaible declarations are equal:
+int x = 10;
+public int x = 10;
+static int x = 10;
+final int = 10;
+public static int x = 10;
+public final int x = 10;
+static final int x = 10;
+public static final int x = 10;
+
+
+==========================================================================================================================================
+
+As every interface variable is always "public static final". We can't declare with the following modifiers:
+
+
+public 		=======		private
+				|==  	protected
+static 		=======		transient
+final 		=======		volatile		
+				
+
+For interface variables, compulsory we should perform initialization, otherwise we will get compile-time error.
+
+Ex:	
+	interface Interf {
+		int x ;
+	}
+	CE : = expected.
+	
+	
+
+
+
+==========================================================================================================================================
+==========================================================================================================================================
+
+Inside interface, which of the following variable declarations are allowed :
+
+int x;						--> Invalid
+private int x = 10;			--> Invalid
+protected int x = 10;		--> Invalid
+volatile int x = 10;		--> Invalid
+transient int x = 10;		--> Invalid
+public static int x = 10;	--> Valid
+
+EX: 
+
+	interface Interf {
+		int x  10;
+	}
+	
+	class Test implements Interf {
+		public static void main(String[] args) {
+			x = 777;
+			System.out.println(x);
+		}
+	}
+	
+	CE : Cannot assign a value to final variable x.
+
+
+	interface Interf {
+		int x  10;
+	}
+	
+	class Test implements Interf {
+		public static void main(String[] args) {
+			int x = 777;
+			System.out.println(x);
+		}
+	}
+	
+	O/P : 777
+
+
+==========================================================================================================================================
+==========================================================================================================================================
+
+
+
+

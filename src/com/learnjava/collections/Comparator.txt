@@ -1,0 +1,23 @@
+Comparator:
+=====================================
+
+	a. Comparator present in java.util package and it defines two methods:
+		i.	compare ()
+		ii.	equals ()
+		
+		public int compare(Object obj1, Object obj2) ;
+		|
+		|----------------------------- returns -Ve if and only if obj1 has to come before obj2
+		|----------------------------- returns +Ve if and only if obj1 has to come after obj2
+		|----------------------------- returns 0 if and only if obj1 & obj2 are equal
+		
+	         ______________________________________
+	        |                                      |
+			| 	public boolean equals(Object obj); |
+	        |______________________________________| 
+	
+	b.	Whenever we are implementing "Comparator Interface", compulsory we should provide implementation only for compare() method and we are not required to provide implementation for equals() method.
+		Because it is already available to our class from "Object" class through Inheritance.
+		
+
+
